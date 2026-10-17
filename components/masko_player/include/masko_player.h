@@ -1,0 +1,73 @@
+/**
+ * @file masko_player.h
+ * @brief Packed-clip playback with decode and panel push overlapped.
+ *
+ * Decode runs on core 1 and pushes run on core 0. They contend for very
+ * different resources -- one is CPU-bound in esp_jpeg, the other is a SPI DMA
+ * transfer -- so overlapping them costs far less than running them in series.
+ * Measured at 466x466 serial decode+push was 17.9 fps; overlapped it clears the
+ * 41.7 ms budget needed for 24 fps.
+ */
+#ifndef MASKO_PLAYER_H
+#define MASKO_PLAYER_H
+
+#include <stdint.h>
+#include <stdbool.h>
+#include "esp_err.h"
+#include "masko_pack.h"
+#include "masko_display.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct masko_player_t masko_player_t;
+
+typedef enum {
+    MASKO_EV_CLIP_START,
+    MASKO_EV_CLIP_END,
+    MASKO_EV_UNDERRUN,
+    MASKO_EV_ERROR,
+} masko_event_t;
+
+typedef void (*masko_event_cb_t)(masko_event_t ev, void *user);
+
+typedef struct {
+    const uint8_t     *pack_data;
+    size_t             pack_size;
+    masko_display_t   *display;
+    uint8_t            max_fps;       /* cap; 0 = use the pack's own fps */
+    int8_t             decode_core;   /* 0, 1, or -1 for any */
+    bool               stats_enabled;
+    masko_event_cb_t   on_event;
+    void              *user;
+} masko_player_cfg_t;
+
+typedef struct {
+    uint32_t frames_shown;
+    uint32_t frames_dropped;
+    uint32_t underruns;
+    int64_t  decode_us_avg;
+    int64_t  decode_us_max;
+    int64_t  push_us_avg;
+    int64_t  push_us_max;
+    double   achieved_fps;
+    double   ceiling_fps;   /* 1e6 / (decode + push) as measured */
+} masko_stats_t;
+
+esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **out);
+
+/** @brief Start looping. Returns once both tasks are running. */
+esp_err_t masko_player_play(masko_player_t *p);
+
+/** @brief Stop and join. */
+void masko_player_stop(masko_player_t *p);
+
+void masko_player_destroy(masko_player_t *p);
+
+masko_stats_t masko_player_stats(const masko_player_t *p);
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* MASKO_PLAYER_H */
