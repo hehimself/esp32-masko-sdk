@@ -332,6 +332,12 @@ def build(args) -> int:
 
     if size <= 0:
         size = max(cw, ch)
+    # Bbox dimensions must be MCU multiples or 4:2:0 chroma straddles a crop
+    # edge. An opaque clip has no measured bbox, so the canvas *is* the bbox:
+    # snap the canvas down to a multiple of MCU rather than emitting a pack that
+    # fails its own verify. 466 -> 464, leaving a 1px border.
+    size = max(MCU, (size // MCU) * MCU)
+
     crop = None
     if args.crop and alpha:
         bx, by, bw, bh, nf = measure_bbox(src, size, size, args.fps, bg_rgb, alpha)
@@ -539,7 +545,8 @@ def main() -> int:
     b.add_argument("--fps", type=int, default=24)
     b.add_argument("--quality", type=int, default=9, help="ffmpeg -q:v, 1=best .. 31=worst")
     b.add_argument("--bg", default="000000", help="background colour for alpha sources")
-    b.add_argument("--size", type=int, default=466, help="0 = use source resolution")
+    b.add_argument("--size", type=int, default=466,
+                   help="canvas size; rounded down to a multiple of the 16px MCU")
     b.add_argument("--crop", action="store_true", help="crop to the union bbox")
     b.add_argument("--loop", action="store_true", default=True)
     b.set_defaults(fn=build)

@@ -31,10 +31,11 @@ jobs:
       matrix:
         idf: ["v5.5.5"]
         # 6.0.x is allowed to fail while the API drifts
-        # idf: ["v6.0.2"]
+        # idf: ["v6.0.3"]
     steps:
       - uses: actions/checkout@v4
-      - uses: espressif/idf@v5
+      # espressif/idf was retired; install-esp-idf-action is the current one.
+      - uses: espressif/install-esp-idf-action@v1
         with:
           version: ${{ matrix.idf }}
       - name: Build the example
