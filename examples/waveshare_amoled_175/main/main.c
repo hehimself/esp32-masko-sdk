@@ -23,6 +23,7 @@
 #include "masko_calib.h"
 #include "masko_display.h"
 #include "masko_player.h"
+#include "masko_store.h"
 
 static const char *TAG = "masko_demo";
 
@@ -81,30 +82,27 @@ void app_main(void)
              (unsigned)MASKO_PUSH_BAND_BYTES);
 
     /* ---- pack ----------------------------------------------------------- */
-    const esp_partition_t *part = esp_partition_find_first(
-        ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_ANY, PARTITION_LABEL);
-    if (part == NULL) {
-        ESP_LOGE(TAG, "no '%s' partition; flash one with tools/flash_pack.sh",
-                 PARTITION_LABEL);
+    /* masko_store hides the backend. Swap masko_src_flash() for masko_src_sd()
+     * later and nothing below changes; the player only ever sees a blob. */
+    masko_source_t *src = NULL;
+    esp_err_t err = masko_src_flash(PARTITION_LABEL, &src);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "no usable '%s' partition; flash one with "
+                      "tools/flash_pack.sh", PARTITION_LABEL);
         while (1) { vTaskDelay(pdMS_TO_TICKS(1000)); }
     }
 
-    /* IDF 5.5 takes `const void **out_ptr`, not `void **`. */
-    const void *base = NULL;
-    esp_partition_mmap_handle_t mh;
-    esp_err_t err = esp_partition_mmap(part, 0, part->size, ESP_PARTITION_MMAP_DATA,
-                                       &base, &mh);
+    masko_blob_t blob;
+    err = masko_source_open(src, "mango_loop.mkpk", &blob);
     if (err != ESP_OK) {
-        ESP_LOGE(TAG, "mmap failed: %s", esp_err_to_name(err));
+        ESP_LOGE(TAG, "open failed: %s", esp_err_to_name(err));
         while (1) { vTaskDelay(pdMS_TO_TICKS(1000)); }
     }
-    ESP_LOGI(TAG, "mapped '%s': %u bytes", PARTITION_LABEL, (unsigned)part->size);
 
     masko_pack_t probe;
-    const int rc = masko_pack_open(base, part->size, &probe);
+    const int rc = masko_pack_open(blob.data, blob.len, &probe);
     if (rc != MASKO_OK) {
-        ESP_LOGE(TAG, "pack rejected: %s (offset %u)", masko_strerror(rc),
-                 (unsigned)part->address);
+        ESP_LOGE(TAG, "pack rejected: %s", masko_strerror(rc));
         while (1) { vTaskDelay(pdMS_TO_TICKS(1000)); }
     }
     ESP_LOGI(TAG, "pack: %u frames, bbox %ux%u+%u+%u, %.1f fps",
@@ -132,8 +130,8 @@ void app_main(void)
     masko_display_fill(disp, 0, 0, BSP_LCD_H_RES, BSP_LCD_V_RES, bg);
 
     const masko_player_cfg_t pcfg = {
-        .pack_data     = (const uint8_t *)base,
-        .pack_size     = part->size,
+        .pack_data     = blob.data,
+        .pack_size     = blob.len,
         .display       = disp,
         .max_fps       = CONFIG_MASKO_PACK_MAX_FPS,
         .decode_core   = 1,

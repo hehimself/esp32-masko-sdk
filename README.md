@@ -1,5 +1,31 @@
 # esp32-masko-sdk
 
+> # ⚠️ THIS REPO IS UNDER DEVELOPMENT ⚠️
+>
+> **There is no stable release. There is no API freeze. There is no compatibility guarantee.**
+>
+> Expect breaking changes, half-finished components and rough edges. The public API, the
+> `.mkpk` format and the component set can all change without notice, and several components
+> are still being written or have never been run on real hardware.
+>
+> Use it to look at, learn from, or experiment with the approach. **Do not depend on it in
+> anything you need to keep working.** Pin a commit if you must, and re-read the source before
+> you trust it.
+>
+> Current state — verified vs. unverified:
+>
+> | Area | Status |
+> |---|---|
+> | `.mkpk` packer, format, `verify` | Tested against real clips |
+> | `masko_core` pack reader | 21/21 host tests pass |
+> | `masko_graph` state machine | Host tests only; JSON loader not yet built on device |
+> | `masko_store` (flash/PSRAM/SD) | **Never run on hardware** |
+> | `masko_player` decode/push overlap | Built and linked; **overlap path never flashed or measured** |
+> | Example firmware | Builds and links; playback never verified end to end |
+> | Everything below "Tests" | Unverified |
+
+---
+
 Play Masko mascot animations on the **Waveshare ESP32-S3-Touch-AMOLED-1.75** (466×466 round
 QSPI AMOLED) with ESP-IDF.
 
@@ -100,15 +126,19 @@ overlap. `masko-pack --crop` does this automatically.
 
 ```
 components/
-  masko_core/     .mkpk reader + measured calibration. No ESP-IDG headers,
+  masko_core/     .mkpk reader + measured calibration. No ESP-IDF headers,
                   so it builds and tests on a desktop.
   masko_codec/    esp_new_jpeg wrapper, RGB565_BE out
   masko_display/  banded panel push, injected esp_lcd handle
   masko_player/   two-task playback, decode and push overlapped across cores
+  masko_store/    one read interface over flash / PSRAM / SD
+  masko_graph/    canvas state machine + cJSON loader for MaskoAnimationConfig
 tools/
   masko_pack.py   build / inspect / verify / preview a pack
   flash_pack.sh   write a pack into the 'masko' flash partition
-  test_masko_core.sh  host tests, no hardware needed
+  test_all.sh     every host test, no hardware needed
+  test_masko_core.sh
+  test_masko_graph.sh
 docs/
   FORMAT.md       .mkpk v1 wire format
   CALIBRATION.md  every measured number and how it was obtained
@@ -145,6 +175,56 @@ masko_player_play(player);
 `masko_display` takes an injected `esp_lcd_panel_handle_t`, so it never links the Waveshare
 BSP and can be pointed at any panel.
 
+### Where the pack lives
+
+`masko_store` gives the player one interface over three places a pack can be, so moving a
+pack between them changes one line and nothing else:
+
+```c
+masko_source_t *src;
+masko_src_flash("masko", &src);            /* mmapped partition, costs no RAM */
+/* masko_src_sd("/sdcard/idle.mkpk", 0, &src);   read into PSRAM        */
+/* masko_src_memory(buf, len, &src);             already resident        */
+
+masko_blob_t blob;
+masko_source_open(src, "idle.mkpk", &blob); /* -> {data, len}, hand to the player */
+```
+
+A pack is read whole, so on SD it must fit in PSRAM — a cache smaller than the file is
+refused rather than silently truncated. Never write the flash partition while a pack from
+it is playing; flash writes stall execution and visibly hitch the animation.
+
+### The canvas graph
+
+`masko_graph` runs an exported Masko canvas: nodes, edges, inputs and conditions. The
+state machine has no ESP-IDF and no JSON dependency; `masko_graph_json.c` is the only
+part that needs cJSON.
+
+```c
+masko_graph_json_t pj;
+masko_graph_json_parse(json_text, len, &pj);   /* validates the whole canvas */
+masko_graph_t g;
+masko_graph_json_bind(&pj, &g);                /* -> const view for the runtime */
+
+masko_graph_rt_t rt;
+masko_graph_init(&rt, &g, NULL, NULL, 0);
+masko_graph_set_bool(&rt, "happy", true);
+
+masko_step_t step;
+while (masko_graph_next(&rt, &step) == MASKO_GRAPH_OK) {
+    /* step.edge->clip is the .mkpk to play; step.is_transition is a one-shot */
+}
+```
+
+At each loop boundary the outgoing non-loop edges are tried in declaration order and the
+first whose conditions all hold is taken; a transition plays once and the machine then
+lands in the target node. If nothing matches, the loop repeats.
+
+The parser refuses a canvas it cannot run faithfully rather than guessing: an edge naming
+an undeclared node, a condition on an undeclared input, an operator other than `==`, or a
+node with no loop edge. A condition that silently never fires is the hardest kind of
+authoring bug to notice on a mascot that just sits there.
+
 ### Tuning
 
 | Constant | Where | Default |
@@ -159,12 +239,18 @@ BSP and can be pointed at any panel.
 ## Tests
 
 ```bash
-tools/test_masko_core.sh path/to/pack.mkpk    # 21 checks, no hardware
-tools/masko_pack.py verify path/to/pack.mkpk  # structural validation
+tools/test_all.sh                              # everything (74 checks, no hardware)
+tools/test_all.sh path/to/pack.mkpk            # ...against a specific pack
+tools/masko_pack.py verify path/to/pack.mkpk   # structural validation
 ```
 
-The host tests cover the pack reader against real packs, header/CRC corruption, truncated
-files, geometry violations, and the concatenated-JPEG marker walker.
+The pack tests read a real `.mkpk` and cover header/CRC corruption, truncated files,
+geometry violations and the concatenated-JPEG marker walker. The graph tests cover the
+state machine and the JSON loader, including the arena bounds that the two-pass parser
+depends on. `test_all.sh` builds against the cJSON source inside ESP-IDF rather than
+vendoring a copy, so set `IDF_PATH` if your checkout is not in the usual place.
+
+Nothing here needs a board.
 
 ---
 

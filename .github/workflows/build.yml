@@ -21,8 +21,8 @@ jobs:
           tools/masko_pack.py build /tmp/clip.mp4 --crop --size 466 \
                  -o /tmp/clip.mkpk
           tools/masko_pack.py verify /tmp/clip.mkpk
-      - name: Run masko_core host tests
-        run: tools/test_masko_core.sh /tmp/clip.mkpk
+      - name: Run every host test
+        run: tools/test_all.sh /tmp/clip.mkpk
 
   esp-idf:
     runs-on: ubuntu-latest
