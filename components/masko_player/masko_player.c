@@ -420,7 +420,8 @@ esp_err_t masko_player_play(masko_player_t *p)
                                             p, PUSH_TASK_PRIO, &p->push_task, 0);
     if (ok != pdPASS) {
         p->swap.running = false;
-        xQueueSend(p->swap.ready, &(frame_t){ .buf = 0, .x = 0, .y = 0 }, 0);
+        frame_t wake_frame = { .buf = 0, .x = 0, .y = 0 };
+        xQueueSend(p->swap.ready, &wake_frame, 0);
         xSemaphoreTake(p->swap.tasks_done, portMAX_DELAY);
         p->push_task = NULL;
         return ESP_ERR_NO_MEM;

@@ -19,13 +19,13 @@
 > | `.mkpk` packer, format, `verify` | Tested against real clips and a synthetic one |
 > | `masko_core` pack reader | Host tests pass (21 checks) |
 > | `masko_graph` state machine + JSON loader | Host tests pass (53 checks); builds for the target |
-> | `masko_store` (flash/PSRAM/SD) | Builds for the target; **never run on hardware** |
-> | `masko_player` decode/push overlap | Builds and links; **overlap path never flashed or measured** |
-> | Example firmware | Builds and links; **playback never verified end to end** |
-> | `docs/CALIBRATION.md` numbers | Measured on real hardware; the overlap figure is a projection |
+> | `masko_store` (flash/PSRAM/SD) | Flash playback verified; SD backend builds but is not yet exercised on hardware |
+> | `masko_player` decode/push overlap | Flashed and measured at 24 fps on the Waveshare panel |
+> | Waveshare example | Playback and touch-driven clip switching verified on hardware |
+> | `docs/CALIBRATION.md` numbers | Measured on real hardware |
 >
-> In short: the code compiles and the logic is tested, but **nothing has been watched
-> playing on a panel since the components were added.**
+> The Waveshare playback path is verified on hardware. Other boards and the SD backend still
+> need their own hardware validation.
 
 ---
 
@@ -40,6 +40,15 @@ tools/masko_pack.py build mascot.mov --fps 24 --quality 9 --bg 000000 --crop -o 
 tools/masko_pack.py verify loop.mkpk
 tools/flash_pack.sh loop.mkpk                 # writes the 'masko' flash partition
 idf.py -p /dev/cu.usbmodem101 flash            # in examples/waveshare_amoled_175
+```
+
+The Waveshare demo also switches between two same-size clips when you tap the screen. Bundle
+the clips and flash the bundle to the `masko` partition:
+
+```bash
+python tools/masko_bundle.py two_clips.bin waving.mkpk moonwalk.mkpk
+python "$IDF_PATH/components/partition_table/parttool.py" \
+  --port /dev/cu.usbmodem101 write_partition --partition-name masko --input two_clips.bin
 ```
 
 ---
