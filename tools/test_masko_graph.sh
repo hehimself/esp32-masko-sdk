@@ -14,18 +14,27 @@ ROOT="$(dirname "$SCRIPT_DIR")"
 
 IDF_PATH="${IDF_PATH:-$HOME/esp/esp-idf}"
 CJSON_DIR="$IDF_PATH/components/json/cJSON"
-[ -f "$CJSON_DIR/cJSON.c" ] || {
-    echo "error: cJSON not found at $CJSON_DIR" >&2
-    echo "       set IDF_PATH to your ESP-IDF checkout" >&2
+if [ -f "$CJSON_DIR/cJSON.c" ]; then
+    CJSON_CFLAGS=(-I "$CJSON_DIR")
+    CJSON_SOURCE="$CJSON_DIR/cJSON.c"
+    CJSON_LIBS=""
+elif [ -f /usr/include/cjson/cJSON.h ]; then
+    # CI and host-only users can use the system cJSON development package.
+    CJSON_CFLAGS=(-I /usr/include/cjson)
+    CJSON_SOURCE=""
+    CJSON_LIBS="-lcjson"
+else
+    echo "error: cJSON not found in ESP-IDF ($CJSON_DIR) or /usr/include/cjson" >&2
+    echo "       set IDF_PATH or install the cJSON development package" >&2
     exit 2
-}
+fi
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 CFLAGS=(-std=c11 -Wall -Wextra -Werror
         -I "$ROOT/components/masko_graph/include"
-        -I "$CJSON_DIR")
+        "${CJSON_CFLAGS[@]}")
 
 echo "== graph state machine =="
 cc "${CFLAGS[@]}" \
@@ -40,7 +49,8 @@ cc "${CFLAGS[@]}" \
    "$ROOT/test/test_masko_graph_json.c" \
    "$ROOT/components/masko_graph/masko_graph.c" \
    "$ROOT/components/masko_graph/masko_graph_json.c" \
-   "$CJSON_DIR/cJSON.c" \
+   $CJSON_SOURCE \
    -lm \
+   $CJSON_LIBS \
    -o "$TMP/test_graph_json"
 "$TMP/test_graph_json"
