@@ -16,13 +16,16 @@
 >
 > | Area | Status |
 > |---|---|
-> | `.mkpk` packer, format, `verify` | Tested against real clips |
-> | `masko_core` pack reader | 21/21 host tests pass |
-> | `masko_graph` state machine | Host tests only; JSON loader not yet built on device |
-> | `masko_store` (flash/PSRAM/SD) | **Never run on hardware** |
-> | `masko_player` decode/push overlap | Built and linked; **overlap path never flashed or measured** |
-> | Example firmware | Builds and links; playback never verified end to end |
-> | Everything below "Tests" | Unverified |
+> | `.mkpk` packer, format, `verify` | Tested against real clips and a synthetic one |
+> | `masko_core` pack reader | Host tests pass (21 checks) |
+> | `masko_graph` state machine + JSON loader | Host tests pass (53 checks); builds for the target |
+> | `masko_store` (flash/PSRAM/SD) | Builds for the target; **never run on hardware** |
+> | `masko_player` decode/push overlap | Builds and links; **overlap path never flashed or measured** |
+> | Example firmware | Builds and links; **playback never verified end to end** |
+> | `docs/CALIBRATION.md` numbers | Measured on real hardware; the overlap figure is a projection |
+>
+> In short: the code compiles and the logic is tested, but **nothing has been watched
+> playing on a panel since the components were added.**
 
 ---
 

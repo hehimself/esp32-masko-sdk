@@ -16,7 +16,8 @@ static const char *TAG = "masko_display";
 
 esp_err_t masko_display_new(const masko_display_cfg_t *cfg, masko_display_t **out)
 {
-    if (cfg == NULL || out == NULL || cfg->panel == NULL) {
+    if (cfg == NULL || out == NULL || cfg->panel == NULL ||
+        cfg->canvas_w <= 0 || cfg->canvas_h <= 0) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -29,13 +30,13 @@ esp_err_t masko_display_new(const masko_display_cfg_t *cfg, masko_display_t **ou
         d->cfg.band_rows = MASKO_PUSH_BAND_ROWS;
     }
 
-    const int band_bytes = cfg->canvas_w * d->cfg.band_rows * 2;
+    const int64_t band_bytes = (int64_t)cfg->canvas_w * d->cfg.band_rows * 2;
     ESP_LOGI(TAG, "%dx%d, %d-row bands = %d B per transfer (internal DMA budget %u)",
-             cfg->canvas_w, cfg->canvas_h, d->cfg.band_rows, band_bytes,
+             cfg->canvas_w, cfg->canvas_h, d->cfg.band_rows, (int)band_bytes,
              (unsigned)MASKO_INTERNAL_DMA_BUDGET);
     if (band_bytes > (int)MASKO_INTERNAL_DMA_BUDGET) {
         ESP_LOGE(TAG, "band of %d B exceeds the internal DMA budget; lower band_rows",
-                 band_bytes);
+                 (int)band_bytes);
         free(d);
         return ESP_ERR_INVALID_SIZE;
     }
@@ -50,7 +51,8 @@ esp_err_t masko_display_blit(masko_display_t *d, int x, int y, int w, int h,
     if (d == NULL || rgb565 == NULL || w <= 0 || h <= 0) {
         return ESP_ERR_INVALID_ARG;
     }
-    if (x + w > d->cfg.canvas_w || y + h > d->cfg.canvas_h) {
+    if (x < 0 || y < 0 || x > d->cfg.canvas_w || y > d->cfg.canvas_h ||
+        w > d->cfg.canvas_w - x || h > d->cfg.canvas_h - y) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -83,7 +85,9 @@ esp_err_t masko_display_blit(masko_display_t *d, int x, int y, int w, int h,
 esp_err_t masko_display_fill(masko_display_t *d, int x, int y, int w, int h,
                               uint16_t rgb565)
 {
-    if (d == NULL || w <= 0 || h <= 0) {
+    if (d == NULL || w <= 0 || h <= 0 || x < 0 || y < 0 ||
+        x > d->cfg.canvas_w || y > d->cfg.canvas_h ||
+        w > d->cfg.canvas_w - x || h > d->cfg.canvas_h - y) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -91,13 +95,14 @@ esp_err_t masko_display_fill(masko_display_t *d, int x, int y, int w, int h,
      * and short-lived, and it must not be PSRAM because the SPI DMA source for a
      * fill is cheaper to keep contiguous. */
     const int rows = d->cfg.band_rows < h ? d->cfg.band_rows : h;
-    uint16_t *strip = heap_caps_malloc((size_t)w * rows * sizeof(uint16_t),
-                                       MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
+    uint8_t *strip = heap_caps_malloc((size_t)w * rows * sizeof(uint16_t),
+                                      MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
     if (strip == NULL) {
         return ESP_ERR_NO_MEM;
     }
     for (int i = 0; i < w * rows; i++) {
-        strip[i] = rgb565;
+        strip[2 * i] = (uint8_t)(rgb565 >> 8);
+        strip[2 * i + 1] = (uint8_t)rgb565;
     }
 
     esp_err_t err = ESP_OK;

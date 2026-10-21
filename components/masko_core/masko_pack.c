@@ -101,7 +101,7 @@ int masko_pack_open(const void *base, size_t size, masko_pack_t *out)
     if (masko_crc32(b, 52, 0) != out->hdr.header_crc32) {
         return MASKO_ERR_HEADER_CRC;
     }
-    if (out->hdr.file_size > size) {
+    if (out->hdr.file_size > size || out->hdr.file_size < MASKO_HEADER_SIZE) {
         return MASKO_ERR_TRUNCATED;
     }
     if (out->hdr.codec != MASKO_CODEC_JPEG_BASELINE) {
@@ -119,8 +119,13 @@ int masko_pack_open(const void *base, size_t size, masko_pack_t *out)
         return MASKO_ERR_GEOMETRY;
     }
 
-    if (out->hdr.index_offset < MASKO_HEADER_SIZE ||
-        (size_t)out->hdr.index_offset + (size_t)out->hdr.frame_count * 8u > size) {
+    if (out->hdr.frame_count == 0 || out->hdr.fps_num == 0 || out->hdr.fps_den == 0 ||
+        out->hdr.index_offset < MASKO_HEADER_SIZE ||
+        out->hdr.index_offset > out->hdr.file_size ||
+        out->hdr.data_offset < out->hdr.index_offset ||
+        out->hdr.data_offset > out->hdr.file_size ||
+        (uint64_t)out->hdr.frame_count * 8u >
+            (uint64_t)out->hdr.data_offset - out->hdr.index_offset) {
         return MASKO_ERR_TRUNCATED;
     }
 
@@ -147,7 +152,8 @@ int masko_pack_frame(const masko_pack_t *pack, uint32_t i,
     if (off % MASKO_PAYLOAD_ALIGN != 0u) {
         return MASKO_ERR_GEOMETRY;
     }
-    if ((size_t)off + n > pack->hdr.file_size) {
+    if (n == 0 || off < pack->hdr.data_offset || off > pack->hdr.file_size ||
+        n > pack->hdr.file_size - off) {
         return MASKO_ERR_TRUNCATED;
     }
 

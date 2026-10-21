@@ -57,6 +57,30 @@ typedef struct {
 
 esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **out);
 
+/**
+ * @brief Queue a different pack to play, switching at the next frame boundary.
+ *
+ * This is what makes a multi-state mascot possible: one player, many clips.
+ * The candidate's first frame is decoded before it becomes active. If decoding
+ * fails, playback stays on the current pack and MASKO_EV_ERROR is reported.
+ * Already decoded outgoing frames are presented in order before the candidate.
+ *
+ * The new pack must have the SAME bbox dimensions as the one the player was
+ * created with. The decode buffers and the panel update rectangle are sized
+ * from that geometry, so a differently-sized clip would overrun them; this
+ * returns ESP_ERR_INVALID_SIZE instead. Bundle your clips with a shared bbox
+ * (the host packer does this automatically) and the constraint holds.
+ *
+ * @param data  Pack bytes. Must stay valid and unmoved for as long as this pack
+ *              can be played. After MASKO_EV_CLIP_START, the previous pack's
+ *              storage can be released if no other owner needs it.
+ * @param size  Length of the pack.
+ */
+esp_err_t masko_player_set_pack(masko_player_t *p, const uint8_t *data, size_t size);
+
+/** @brief True while a queued pack is still waiting to take over. */
+bool masko_player_has_pending_pack(const masko_player_t *p);
+
 /** @brief Start looping. Returns once both tasks are running. */
 esp_err_t masko_player_play(masko_player_t *p);
 

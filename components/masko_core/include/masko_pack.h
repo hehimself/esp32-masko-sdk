@@ -82,7 +82,8 @@ typedef struct {
     const uint8_t          *index;  /*< index_offset, for cheap frame lookup */
 } masko_pack_t;
 
-/** @brief Validate magic, version and both CRCs, then decode the header. */
+/** @brief Validate the header CRC and pack structure, then decode the header.
+ * The payload CRC is available in the header for optional validation by callers. */
 int masko_pack_open(const void *base, size_t size, masko_pack_t *out);
 
 /**
