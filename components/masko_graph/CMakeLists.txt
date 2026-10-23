@@ -6,4 +6,4 @@
 # ESP-IDF, so both files stay covered without hardware.
 idf_component_register(SRCS "masko_graph.c" "masko_graph_json.c"
                        INCLUDE_DIRS "include"
-                       PRIV_REQUIRES json)
+                       PRIV_REQUIRES cjson)

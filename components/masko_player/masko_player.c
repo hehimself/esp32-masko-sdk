@@ -29,7 +29,7 @@ static const char *TAG = "masko_player";
 typedef struct { int buf; uint16_t x, y; } frame_t;
 
 typedef struct {
-    uint8_t         *buf[2];      /* PSRAM, 16-byte aligned */
+    uint8_t         *buf[3];      /* PSRAM; third buffer holds a prepared clip */
     uint16_t         w, h;
 
     QueueHandle_t    ready;       /* completed frame descriptors */
@@ -54,8 +54,14 @@ struct masko_player_t {
     SemaphoreHandle_t pack_lock;      /* guards the fields below */
     masko_pack_t      next_pack;
     bool              has_next;
+    bool              next_reverse;
+    bool              next_immediate;
+    volatile bool     reverse;
+    volatile bool     prepared_busy;  /* reserved until its frame is presented */
+    masko_decoder_t  *prepare_decoder; /* independent decoder for clip preflight */
 
     volatile uint32_t frame_idx;      /* shared with the decode task */
+    volatile bool     clip_ended;     /* non-looping pack holds its last frame */
     volatile int64_t  period_us;      /* frame period of the active pack */
     volatile uint16_t bbox_x;         /* origin of the active pack's bbox */
     volatile uint16_t bbox_y;
@@ -112,20 +118,32 @@ static void decode_task(void *arg)
         /* Snapshot a candidate, but keep the active pack until its first frame
          * decodes successfully. This preserves the old picture on bad media. */
         masko_pack_t frame_pack = p->pack;
+        bool frame_reverse = p->reverse;
         bool switching = false;
+        const bool boundary = p->clip_ended || p->frame_idx == 0;
         if (xSemaphoreTake(p->pack_lock, pdMS_TO_TICKS(0)) == pdTRUE) {
-            if (p->has_next) {
+            if (p->has_next && (boundary || p->next_immediate)) {
                 frame_pack = p->next_pack;
+                frame_reverse = p->next_reverse;
                 p->has_next = false;
+                p->next_immediate = false;
                 switching = true;
             }
             xSemaphoreGive(p->pack_lock);
         }
 
+        /* A one-shot clip leaves its final frame visible until the controller
+         * queues the next clip. This avoids wrapping to frame zero while an
+         * authored transition or target loop is being prepared. */
+        if (p->clip_ended && !switching) {
+            vTaskDelay(pdMS_TO_TICKS(2));
+            continue;
+        }
+
         const uint8_t *jpg = NULL;
         uint32_t jlen = 0;
         const uint32_t frame_idx = switching ? 0 : p->frame_idx;
-        if (masko_pack_frame(&frame_pack, frame_idx, &jpg, &jlen) != MASKO_OK) {
+        if (!switching && masko_pack_frame(&frame_pack, frame_idx, &jpg, &jlen) != MASKO_OK) {
             p->frames_dropped++;
             if (!switching)
                 p->frame_idx = (p->frame_idx + 1) % p->pack.hdr.frame_count;
@@ -136,8 +154,8 @@ static void decode_task(void *arg)
 
         /* Acquire a specific free buffer. A generic semaphore can release the
          * wrong buffer and let decode overwrite pixels still being pushed. */
-        int buf = -1;
-        if (xQueueReceive(sw->free_bufs, &buf, pdMS_TO_TICKS(500)) != pdTRUE) {
+        int buf = switching ? 2 : -1;
+        if (!switching && xQueueReceive(sw->free_bufs, &buf, pdMS_TO_TICKS(500)) != pdTRUE) {
             if (!sw->running) break;
             continue;
         }
@@ -146,8 +164,9 @@ static void decode_task(void *arg)
         const int64_t t0 = esp_timer_get_time();
         const uint8_t *out = NULL;
         uint16_t w = 0, h = 0;
-        const esp_err_t err = masko_decoder_decode(sw->decoder, jpg, jlen,
-                                                    sw->buf[buf], need, &out, &w, &h);
+        const esp_err_t err = switching ? ESP_OK :
+            masko_decoder_decode(sw->decoder, jpg, jlen, sw->buf[buf], need,
+                                 &out, &w, &h);
         const int64_t dt = esp_timer_get_time() - t0;
 
         if (err != ESP_OK) {
@@ -156,8 +175,11 @@ static void decode_task(void *arg)
             if (sw->running) xQueueSend(sw->free_bufs, &buf, 0);
         } else {
             if (switching) {
+                out = sw->buf[buf]; /* already decoded and validated by set_pack */
                 p->pack = frame_pack;
-                p->frame_idx = 0;
+                p->reverse = frame_reverse;
+                p->frame_idx = frame_reverse ? frame_pack.hdr.frame_count - 1 : 0;
+                p->clip_ended = false;
                 p->bbox_x = frame_pack.hdr.bbox_x;
                 p->bbox_y = frame_pack.hdr.bbox_y;
                 const float fps = masko_pack_fps(&frame_pack);
@@ -182,8 +204,20 @@ static void decode_task(void *arg)
             }
         }
 
-        if (err == ESP_OK || !switching)
-            p->frame_idx = (p->frame_idx + 1) % p->pack.hdr.frame_count;
+        if (err == ESP_OK || !switching) {
+            const bool at_end = p->reverse ? p->frame_idx == 0 :
+                                p->frame_idx + 1 >= p->pack.hdr.frame_count;
+            if (at_end) {
+                if (p->pack.hdr.flags & MASKO_FLAG_LOOP) {
+                    p->frame_idx = p->reverse ? p->pack.hdr.frame_count - 1 : 0;
+                } else {
+                    p->clip_ended = true;
+                }
+                if (p->on_event) p->on_event(MASKO_EV_CLIP_END, p->user);
+            } else {
+                p->frame_idx = p->reverse ? p->frame_idx - 1 : p->frame_idx + 1;
+            }
+        }
 
         /* Pace against an absolute schedule so rounding cannot accumulate drift. */
         next_due += p->period_us;
@@ -237,7 +271,10 @@ static void push_task(void *arg)
             if (p->on_event) p->on_event(MASKO_EV_ERROR, p->user);
         }
 
-        if (sw->running) xQueueSend(sw->free_bufs, &frame.buf, 0);
+        if (sw->running) {
+            xQueueSend(sw->free_bufs, &frame.buf, 0);
+            if (frame.buf == 2) p->prepared_busy = false;
+        }
     }
 
     sw->running = false;
@@ -284,7 +321,7 @@ esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **ou
     sw->decode_core = cfg->decode_core;
 
     const size_t need = masko_frame_bytes(sw->w, sw->h);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         sw->buf[i] = heap_caps_aligned_alloc(MASKO_DECODE_BUF_ALIGN, need,
                                              MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
         if (sw->buf[i] == NULL) {
@@ -297,14 +334,21 @@ esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **ou
 
     esp_err_t err = masko_decoder_new(sw->w, sw->h, &sw->decoder);
     if (err != ESP_OK) {
-        heap_caps_free(sw->buf[0]);
-        heap_caps_free(sw->buf[1]);
+        for (int i = 0; i < 3; i++) heap_caps_free(sw->buf[i]);
+        free(p);
+        return err;
+    }
+
+    err = masko_decoder_new(sw->w, sw->h, &p->prepare_decoder);
+    if (err != ESP_OK) {
+        masko_decoder_free(sw->decoder);
+        for (int i = 0; i < 3; i++) heap_caps_free(sw->buf[i]);
         free(p);
         return err;
     }
 
     sw->ready = xQueueCreate(2, sizeof(frame_t));
-    sw->free_bufs = xQueueCreate(2, sizeof(int));
+    sw->free_bufs = xQueueCreate(3, sizeof(int));
     sw->tasks_done = xSemaphoreCreateCounting(2, 0);
     p->pack_lock = xSemaphoreCreateMutex();
     if (sw->ready == NULL || sw->free_bufs == NULL || sw->tasks_done == NULL ||
@@ -314,9 +358,9 @@ esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **ou
         if (sw->free_bufs) vQueueDelete(sw->free_bufs);
         if (sw->tasks_done) vSemaphoreDelete(sw->tasks_done);
         if (p->pack_lock) vSemaphoreDelete(p->pack_lock);
+        masko_decoder_free(p->prepare_decoder);
         masko_decoder_free(sw->decoder);
-        heap_caps_free(sw->buf[0]);
-        heap_caps_free(sw->buf[1]);
+        for (int i = 0; i < 3; i++) heap_caps_free(sw->buf[i]);
         free(p);
         return ESP_ERR_NO_MEM;
     }
@@ -333,6 +377,7 @@ esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **ou
     if (p->max_fps && p->period_us < 1000000LL / p->max_fps)
         p->period_us = 1000000LL / p->max_fps;
     p->frame_idx = 0;
+    p->clip_ended = false;
     p->bbox_x    = p->pack.hdr.bbox_x;
     p->bbox_y    = p->pack.hdr.bbox_y;
     p->has_next  = false;
@@ -347,7 +392,8 @@ esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **ou
     return ESP_OK;
 }
 
-esp_err_t masko_player_set_pack(masko_player_t *p, const uint8_t *data, size_t size)
+static esp_err_t set_pack_direction(masko_player_t *p, const uint8_t *data,
+                                    size_t size, bool reverse, bool immediate)
 {
     if (p == NULL || data == NULL || size == 0) {
         return ESP_ERR_INVALID_ARG;
@@ -379,13 +425,56 @@ esp_err_t masko_player_set_pack(masko_player_t *p, const uint8_t *data, size_t s
     }
 
     xSemaphoreTake(p->pack_lock, portMAX_DELAY);
+    if (p->has_next || p->prepared_busy) {
+        xSemaphoreGive(p->pack_lock);
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    /* Pre-decode the candidate's first frame into its reserved PSRAM buffer.
+     * The active decoder and visible clip keep running while this independent
+     * decoder verifies that the handoff frame is actually usable. */
+    const uint8_t *jpg = NULL;
+    uint32_t jlen = 0;
+    const uint32_t first = reverse ? np.hdr.frame_count - 1 : 0;
+    const int frc = masko_pack_frame(&np, first, &jpg, &jlen);
+    const size_t need = masko_frame_bytes(p->swap.w, p->swap.h);
+    const esp_err_t prep_err = frc == MASKO_OK ?
+        masko_decoder_decode(p->prepare_decoder, jpg, jlen, p->swap.buf[2],
+                             need, NULL, NULL, NULL) : ESP_FAIL;
+    if (prep_err != ESP_OK) {
+        xSemaphoreGive(p->pack_lock);
+        if (p->on_event) p->on_event(MASKO_EV_ERROR, p->user);
+        return prep_err;
+    }
     p->next_pack = np;
+    p->next_reverse = reverse;
+    p->next_immediate = immediate;
     p->has_next  = true;
+    p->prepared_busy = true;
     xSemaphoreGive(p->pack_lock);
 
-    ESP_LOGI(TAG, "clip queued: %u frames, %.1f fps", np.hdr.frame_count,
-             (double)masko_pack_fps(&np));
+    ESP_LOGI(TAG, "clip queued%s: %u frames, %.1f fps",
+             immediate ? " for immediate handoff" : "",
+             np.hdr.frame_count, (double)masko_pack_fps(&np));
     return ESP_OK;
+}
+
+esp_err_t masko_player_set_pack_direction(masko_player_t *p, const uint8_t *data,
+                                          size_t size, bool reverse)
+{
+    return set_pack_direction(p, data, size, reverse, false);
+}
+
+esp_err_t masko_player_set_pack_direction_immediate(masko_player_t *p,
+                                                    const uint8_t *data,
+                                                    size_t size, bool reverse)
+{
+    return set_pack_direction(p, data, size, reverse, true);
+}
+
+esp_err_t masko_player_set_pack(masko_player_t *p, const uint8_t *data, size_t size)
+{
+    return masko_player_set_pack_direction(p, data, size, false);
 }
 
 bool masko_player_has_pending_pack(const masko_player_t *p)
@@ -471,9 +560,10 @@ void masko_player_destroy(masko_player_t *p)
     if (p->swap.free_bufs) vQueueDelete(p->swap.free_bufs);
     if (p->swap.tasks_done) vSemaphoreDelete(p->swap.tasks_done);
     if (p->pack_lock)   vSemaphoreDelete(p->pack_lock);
+    if (p->prepare_decoder) masko_decoder_free(p->prepare_decoder);
     if (p->swap.decoder) masko_decoder_free(p->swap.decoder);
-    if (p->swap.buf[0]) heap_caps_free(p->swap.buf[0]);
-    if (p->swap.buf[1]) heap_caps_free(p->swap.buf[1]);
+    for (int i = 0; i < 3; i++)
+        if (p->swap.buf[i]) heap_caps_free(p->swap.buf[i]);
     free(p);
 }
 

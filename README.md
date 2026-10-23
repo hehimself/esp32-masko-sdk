@@ -69,18 +69,25 @@ cd examples/waveshare_amoled_175
 idf.py -p PORT flash monitor
 ```
 
-For two clips in the Waveshare touch-switching demo, create a bundle and write it to the
-same partition:
+The Waveshare transition demo bundles five packs in this exact order. Touch or press the
+onboard BOOT button to react: from Waving, the demo alternates between Thinking and
+Typing (the laptop animation); either reaction returns to Waving. Return transitions
+reuse their forward transition packs in reverse on-device:
 
 ```bash
-python tools/masko_bundle.py two_clips.bin waving.mkpk moonwalk.mkpk
+python tools/masko_bundle.py mascot_bundle.bin \
+  assets/waving.loop.mkpk assets/typing.loop.mkpk assets/thinking.loop.mkpk \
+  assets/waving_to_typing.mkpk assets/waving_to_thinking.mkpk \
+  --once assets/waving_to_typing.mkpk --once assets/waving_to_thinking.mkpk
 python "$IDF_PATH/components/partition_table/parttool.py" \
-  --port PORT write_partition --partition-name masko --input two_clips.bin
+  --port PORT write_partition --partition-name masko --input mascot_bundle.bin
 ```
 
-The clips must use the same canvas dimensions. Tap the display to switch between them.
-The example's bundle layout and selection code are reference implementation details;
-other applications can choose clips through the player or graph APIs.
+All five packs must use the same decoded bounding-box dimensions. The Masko exports use
+464×464 frames centered on the 466×466 display. Waving, Typing, and Thinking remain
+continuous loops. Transition packs are one-shot; after a transition completes, playback
+continues with the destination loop. Touch and the onboard BOOT button on GPIO0 use the
+same reaction handler. Listening is not part of this demo bundle.
 
 ## Use the components in an ESP-IDF project
 
@@ -159,9 +166,29 @@ execution and visibly interrupt playback.
 
 The player uses banded panel transfers to limit internal DMA memory. Avoid allocating a
 full RGB565 frame in internal DRAM: a 466 × 466 frame is about 434 KB, while the display
-driver's DMA buffer must come from a much smaller internal-memory pool. Keep large
+driver’s DMA buffer must come from a much smaller internal-memory pool. Keep large
 animation data in mapped flash or PSRAM and tune band size against your panel and memory
 budget.
+
+### Authored transition playback
+
+Use a Masko transition asset between loop clips instead of crossfading transparent
+frames. `masko_player_set_pack()` validates the new pack and decodes its first frame into
+a dedicated PSRAM handoff buffer before returning. The current clip keeps playing until
+its loop boundary; a non-looping pack holds its final frame and emits
+`MASKO_EV_CLIP_END` once. The controller can then queue the next pack from that event.
+The prepared frame is presented after already queued outgoing frames, and the player
+continues with the new clip without clearing the display.
+
+In the `MASKO_EV_CLIP_END` callback, ask the graph/controller for the next edge and
+call `masko_player_set_pack()` with that edge's pack. Queue the transition after its
+source loop ends; queue the target loop when the one-shot transition ends.
+
+The player requires all clips in a sequence to share the same decoded bounding-box
+dimensions and display placement. The preflight buffer adds one RGB565 frame in PSRAM
+and uses a separate decoder for candidate validation; the two playback buffers and
+banded display transfer remain unchanged. A failed candidate keeps the current picture
+and reports `MASKO_EV_ERROR`.
 
 ## Masko canvas graphs
 
@@ -204,7 +231,7 @@ and nodes without loop edges are rejected during parsing.
 | Path | Purpose |
 |---|---|
 | `tools/masko_pack.py` | Build, inspect, preview, and verify `.mkpk` files |
-| `tools/masko_bundle.py` | Bundle two compatible packs for the reference demo |
+| `tools/masko_bundle.py` | Bundle two or more compatible packs for the reference demo |
 | `tools/flash_pack.sh` | Write a pack to the example's flash partition |
 | `tools/test_all.sh` | Run host-side tests without a board |
 | [`docs/FORMAT.md`](docs/FORMAT.md) | `.mkpk` v1 file format |

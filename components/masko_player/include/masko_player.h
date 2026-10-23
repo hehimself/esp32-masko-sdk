@@ -58,7 +58,7 @@ typedef struct {
 esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **out);
 
 /**
- * @brief Queue a different pack to play, switching at the next frame boundary.
+ * @brief Prepare a pack and switch at the active clip boundary.
  *
  * This is what makes a multi-state mascot possible: one player, many clips.
  * The candidate's first frame is decoded before it becomes active. If decoding
@@ -71,12 +71,40 @@ esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **ou
  * returns ESP_ERR_INVALID_SIZE instead. Bundle your clips with a shared bbox
  * (the host packer does this automatically) and the constraint holds.
  *
- * @param data  Pack bytes. Must stay valid and unmoved for as long as this pack
- *              can be played. After MASKO_EV_CLIP_START, the previous pack's
- *              storage can be released if no other owner needs it.
+ * The candidate's first frame is decoded into a dedicated PSRAM buffer before
+ * this call returns. The active clip remains visible until its loop boundary,
+ * or until a non-looping clip ends. The prepared frame is presented after all
+ * outgoing frames. A non-looping clip holds its final frame and emits
+ * MASKO_EV_CLIP_END once, waiting for the controller to queue another pack.
+ * If preparation fails, playback stays on the current pack and emits
+ * MASKO_EV_ERROR.
+ *
+ * @param data  Pack bytes. Must stay valid and unmoved while this pack can be
+ *              played. Keep the old pack alive until it is no longer active.
  * @param size  Length of the pack.
  */
 esp_err_t masko_player_set_pack(masko_player_t *p, const uint8_t *data, size_t size);
+
+/**
+ * @brief Prepare a pack and play it forwards or backwards at the clip boundary.
+ *
+ * Reverse playback uses the same validated pack and starts at its final frame;
+ * it does not allocate a reversed copy. This is useful for free authored
+ * reverse transitions that reuse the forward animation.
+ */
+esp_err_t masko_player_set_pack_direction(masko_player_t *p, const uint8_t *data,
+                                          size_t size, bool reverse);
+
+/**
+ * @brief Prepare a pack and switch to it on the next decoded frame.
+ *
+ * Use this for responsive reactions where waiting for a long loop boundary
+ * would be undesirable. The first frame is validated and decoded before the
+ * active clip is replaced, so the display never clears while preparing.
+ */
+esp_err_t masko_player_set_pack_direction_immediate(masko_player_t *p,
+                                                    const uint8_t *data,
+                                                    size_t size, bool reverse);
 
 /** @brief True while a queued pack is still waiting to take over. */
 bool masko_player_has_pending_pack(const masko_player_t *p);
