@@ -20,7 +20,8 @@ panel.
   banded display transfer limits.
 - Flash, memory, and SD pack sources through `masko_store` (SD hardware validation is
   pending).
-- Reference Waveshare example with two-pack bundling and touch-to-switch playback.
+- Reference Waveshare example with multi-pack bundles, authored transitions, touch, and
+  BOOT-button playback.
 
 ## Quick start: Waveshare reference board
 
@@ -69,25 +70,27 @@ cd examples/waveshare_amoled_175
 idf.py -p PORT flash monitor
 ```
 
-The Waveshare transition demo bundles five packs in this exact order. Touch or press the
-onboard BOOT button to react: from Waving, the demo alternates between Thinking and
-Typing (the laptop animation); either reaction returns to Waving. Return transitions
-reuse their forward transition packs in reverse on-device:
+The Waveshare transition demo bundles seven packs in this exact order. Touch or press the
+onboard BOOT button to react: from Waving, the demo cycles through Thinking, Typing (the
+laptop animation), and Moonwalk. Press again in any reaction to return to Waving. Return
+transitions reuse their forward transition packs in reverse on-device:
 
 ```bash
 python tools/masko_bundle.py mascot_bundle.bin \
   assets/waving.loop.mkpk assets/typing.loop.mkpk assets/thinking.loop.mkpk \
-  assets/waving_to_typing.mkpk assets/waving_to_thinking.mkpk \
-  --once assets/waving_to_typing.mkpk --once assets/waving_to_thinking.mkpk
+  assets/moonwalk.loop.mkpk assets/waving_to_typing.mkpk \
+  assets/waving_to_thinking.mkpk assets/waving_to_moonwalk.mkpk \
+  --once assets/waving_to_typing.mkpk --once assets/waving_to_thinking.mkpk \
+  --once assets/waving_to_moonwalk.mkpk
 python "$IDF_PATH/components/partition_table/parttool.py" \
   --port PORT write_partition --partition-name masko --input mascot_bundle.bin
 ```
 
-All five packs must use the same decoded bounding-box dimensions. The Masko exports use
-464×464 frames centered on the 466×466 display. Waving, Typing, and Thinking remain
-continuous loops. Transition packs are one-shot; after a transition completes, playback
-continues with the destination loop. Touch and the onboard BOOT button on GPIO0 use the
-same reaction handler. Listening is not part of this demo bundle.
+All seven packs must use the same decoded bounding-box dimensions. The Masko exports use
+464×464 frames centered on the 466×466 display. Waving, Typing, Thinking, and Moonwalk
+remain continuous loops. Transition packs are one-shot; after a transition completes,
+playback continues with the destination loop. Touch and the onboard BOOT button on GPIO0
+use the same reaction handler. Listening is not part of this demo bundle.
 
 ## Use the components in an ESP-IDF project
 
