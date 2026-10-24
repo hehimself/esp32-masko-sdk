@@ -70,27 +70,56 @@ cd examples/waveshare_amoled_175
 idf.py -p PORT flash monitor
 ```
 
-The Waveshare transition demo bundles seven packs in this exact order. Touch or press the
-onboard BOOT button to react: from Waving, the demo cycles through Thinking, Typing (the
-laptop animation), and Moonwalk. Press again in any reaction to return to Waving. Return
-transitions reuse their forward transition packs in reverse on-device:
+### Kylo offline three-state experiment
+
+The `codex/kylo-offline-3-state` branch uses one Kylo mascot and five locally stored
+packs: Rest (`jar-gazing`), Working (`specimen-notes`), Attention (`excited-wave`), and
+the two Rest-to-state transitions. All clips are 384×384 at 24 fps on the 466×466
+canvas. Touch or the onboard BOOT button cycles Rest → Working → Attention → Rest.
+Return transitions reuse the forward clips in reverse. Switching between Working and
+Attention routes through Rest because the supplied graph has no direct edge between them.
+
+The kit's complete Kylo graph has 25 packs totaling 46.7 MB, so it cannot fit in the
+example's 10 MiB `masko` partition. This experiment uses only five packs. The preparation
+script downloads the five public packs, verifies their headers, clears the loop flag on
+the two one-shot transitions, creates the aligned bundle, and rejects bundles over 9.5
+MiB. The packs are not checked into Git; rerun the script to recreate them.
 
 ```bash
-python tools/masko_bundle.py mascot_bundle.bin \
-  assets/waving.loop.mkpk assets/typing.loop.mkpk assets/thinking.loop.mkpk \
-  assets/moonwalk.loop.mkpk assets/waving_to_typing.mkpk \
-  assets/waving_to_thinking.mkpk assets/waving_to_moonwalk.mkpk \
-  --once assets/waving_to_typing.mkpk --once assets/waving_to_thinking.mkpk \
-  --once assets/waving_to_moonwalk.mkpk
-python "$IDF_PATH/components/partition_table/parttool.py" \
-  --port PORT write_partition --partition-name masko --input mascot_bundle.bin
+tools/prepare_kylo_offline.sh
+cd examples/waveshare_amoled_175
+idf.py build
+idf.py -p PORT flash monitor
 ```
 
-All seven packs must use the same decoded bounding-box dimensions. The Masko exports use
-464×464 frames centered on the 466×466 display. Waving, Typing, Thinking, and Moonwalk
-remain continuous loops. Transition packs are one-shot; after a transition completes,
-playback continues with the destination loop. Touch and the onboard BOOT button on GPIO0
-use the same reaction handler. Listening is not part of this demo bundle.
+Flash the animation bundle once, separately from the application image:
+
+```bash
+tools/flash_pack.sh examples/waveshare_amoled_175/assets/mascot_bundle.mkpk PORT
+```
+
+For the FPS experiment, leave each state running for at least 30 seconds. The serial log
+reports shown frames, dropped frames, underruns, achieved FPS, and average/maximum decode
+and panel-push time every 30 seconds. The target is 24 fps with no drops or underruns.
+Use `tools/prepare_kylo_offline.sh` to reproduce the bundle; it is generated locally and
+is intentionally excluded from Git along with the exported source packs.
+
+### Single-pack and quality comparison
+
+For a single `.mkpk` experiment, run `idf.py menuconfig`, enable **Run a single-pack
+benchmark instead of the Kylo state graph** under **Masko demo**, then rebuild and flash
+the firmware. Touch/BOOT state switching is disabled in this mode. Flash one pack at a
+time; the display plays it continuously and reports metrics every 30 seconds:
+
+```bash
+tools/flash_pack.sh examples/waveshare_amoled_175/assets/kylo-round-q75-24fps.mkpk PORT
+```
+
+The flash helper defaults to 115200 baud for a reliable USB transfer. Set
+`MASKO_FLASH_BAUD` to override it. To show two compatible packs sequentially as one loop,
+use `tools/masko_sequence.py OUTPUT FIRST SECOND`; for example, put the kit's Q90 pack
+before its Q75 pack, verify the resulting pack, then flash it. The generated sequence
+contains each input once, in order, before repeating.
 
 ## Use the components in an ESP-IDF project
 

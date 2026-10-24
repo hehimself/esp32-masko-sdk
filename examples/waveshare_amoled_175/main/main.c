@@ -1,6 +1,6 @@
 /**
  * @file main.c
- * @brief Play loop and authored transition packs on the Waveshare AMOLED 1.75.
+ * @brief Play a compact three-state Kylo graph on the Waveshare AMOLED 1.75.
  *
  * Panel init comes from the Waveshare BSP. Everything after that is masko_*.
  *
@@ -34,57 +34,63 @@
 static const char *TAG = "masko_demo";
 
 static const char *PARTITION_LABEL = "masko";
+#if !CONFIG_MASKO_SINGLE_PACK_BENCHMARK
 static const size_t PACK_ALIGNMENT = 512;
 /* The onboard BOOT button is active-low on GPIO0. */
 static const gpio_num_t REACTION_BUTTON_GPIO = GPIO_NUM_0;
+#endif
 
-enum { PACK_COUNT = 7, CLIP_COUNT = 10 };
+enum { PACK_COUNT = 5, CLIP_COUNT = 7 };
+#if !CONFIG_MASKO_SINGLE_PACK_BENCHMARK
 static const char *PACK_NAMES[PACK_COUNT] = {
-    "waving.loop.mkpk", "typing.loop.mkpk", "thinking.loop.mkpk", "moonwalk.loop.mkpk",
-    "waving_to_typing.once.mkpk", "waving_to_thinking.once.mkpk",
-    "waving_to_moonwalk.once.mkpk",
+    "kylo-jar-gazing.loop.mkpk", "kylo-specimen-notes.loop.mkpk",
+    "kylo-excited-wave.loop.mkpk", "kylo-jar-gazing_to_specimen-notes.once.mkpk",
+    "kylo-jar-gazing_to_excited-wave.once.mkpk",
 };
-static const unsigned PACK_CLIP_INDEX[PACK_COUNT] = {0, 1, 2, 3, 4, 6, 8};
+static const unsigned PACK_CLIP_INDEX[PACK_COUNT] = {0, 1, 2, 3, 5};
 static const char *CLIP_NAMES[CLIP_COUNT] = {
-    "waving.loop.mkpk", "typing.loop.mkpk", "thinking.loop.mkpk", "moonwalk.loop.mkpk",
-    "waving_to_typing.mkpk", "typing_to_waving.mkpk",
-    "waving_to_thinking.mkpk", "thinking_to_waving.mkpk",
-    "waving_to_moonwalk.mkpk", "moonwalk_to_waving.mkpk",
+    "kylo-jar-gazing.loop.mkpk", "kylo-specimen-notes.loop.mkpk",
+    "kylo-excited-wave.loop.mkpk", "kylo-jar-gazing_to_specimen-notes.once.mkpk",
+    "kylo-specimen-notes_to_jar-gazing.reverse.mkpk",
+    "kylo-jar-gazing_to_excited-wave.once.mkpk",
+    "kylo-excited-wave_to_jar-gazing.reverse.mkpk",
 };
 
 static bool clip_plays_reverse(unsigned clip)
 {
-    return clip == 5 || clip == 7 || clip == 9;
+    return clip == 4 || clip == 6;
 }
 
 static const masko_node_t GRAPH_NODES[] = {
-    {"waving"}, {"typing"}, {"thinking"}, {"moonwalk"},
+    {"jar-gazing"}, {"specimen-notes"}, {"excited-wave"},
 };
 static const masko_input_t GRAPH_INPUTS[] = {
-    {"want_waving", false, true, 0.0},
-    {"want_typing", false, false, 0.0},
-    {"want_thinking", false, false, 0.0},
-    {"want_moonwalk", false, false, 0.0},
+    {"want_rest", false, true, 0.0},
+    {"want_working", false, false, 0.0},
+    {"want_attention", false, false, 0.0},
 };
-static const masko_cond_t C_WAVING[] = {{"want_waving", MASKO_OP_EQ, false, true, 0.0}};
-static const masko_cond_t C_TYPING[] = {{"want_typing", MASKO_OP_EQ, false, true, 0.0}};
-static const masko_cond_t C_THINKING[] = {{"want_thinking", MASKO_OP_EQ, false, true, 0.0}};
-static const masko_cond_t C_MOONWALK[] = {{"want_moonwalk", MASKO_OP_EQ, false, true, 0.0}};
+static const masko_cond_t C_REST[] = {{"want_rest", MASKO_OP_EQ, false, true, 0.0}};
+static const masko_cond_t C_WORKING[] = {{"want_working", MASKO_OP_EQ, false, true, 0.0}};
+static const masko_cond_t C_ATTENTION[] = {{"want_attention", MASKO_OP_EQ, false, true, 0.0}};
 static const masko_edge_t GRAPH_EDGES[] = {
-    {"waving", "waving", true, "waving.loop.mkpk", 0, NULL, 0},
-    {"waving", "typing", false, "waving_to_typing.mkpk", 2000, C_TYPING, 1},
-    {"waving", "thinking", false, "waving_to_thinking.mkpk", 2000, C_THINKING, 1},
-    {"waving", "moonwalk", false, "waving_to_moonwalk.mkpk", 2000, C_MOONWALK, 1},
-    {"typing", "typing", true, "typing.loop.mkpk", 0, NULL, 0},
-    {"typing", "waving", false, "typing_to_waving.mkpk", 2000, C_WAVING, 1},
-    {"thinking", "thinking", true, "thinking.loop.mkpk", 0, NULL, 0},
-    {"thinking", "waving", false, "thinking_to_waving.mkpk", 2000, C_WAVING, 1},
-    {"moonwalk", "moonwalk", true, "moonwalk.loop.mkpk", 0, NULL, 0},
-    {"moonwalk", "waving", false, "moonwalk_to_waving.mkpk", 2000, C_WAVING, 1},
+    {"jar-gazing", "jar-gazing", true, "kylo-jar-gazing.loop.mkpk", 0, NULL, 0},
+    {"jar-gazing", "specimen-notes", false,
+        "kylo-jar-gazing_to_specimen-notes.once.mkpk", 2000, C_WORKING, 1},
+    {"jar-gazing", "excited-wave", false,
+        "kylo-jar-gazing_to_excited-wave.once.mkpk", 2000, C_ATTENTION, 1},
+    {"specimen-notes", "specimen-notes", true,
+        "kylo-specimen-notes.loop.mkpk", 0, NULL, 0},
+    {"specimen-notes", "jar-gazing", false,
+        "kylo-specimen-notes_to_jar-gazing.reverse.mkpk", 2000, C_REST, 1},
+    {"excited-wave", "excited-wave", true,
+        "kylo-excited-wave.loop.mkpk", 0, NULL, 0},
+    {"excited-wave", "jar-gazing", false,
+        "kylo-excited-wave_to_jar-gazing.reverse.mkpk", 2000, C_REST, 1},
 };
 static const masko_graph_t DEMO_GRAPH = {
-    GRAPH_NODES, 4, GRAPH_EDGES, 10, GRAPH_INPUTS, 4, "waving", true,
+    GRAPH_NODES, 3, GRAPH_EDGES, 7, GRAPH_INPUTS, 3, "jar-gazing", true,
 };
+#endif
 
 typedef struct {
     masko_player_t *player;
@@ -95,11 +101,20 @@ typedef struct {
     unsigned active_clip;
     unsigned pending_clip;
     bool has_pending_clip;
-    unsigned desired_state;
-    unsigned next_wave_target;
+    unsigned next_target;
+    unsigned route_target;
+    bool has_route_target;
 } demo_state_t;
 
 static demo_state_t demo;
+
+#if !CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+static void set_graph_target(masko_graph_rt_t *rt, unsigned target)
+{
+    masko_graph_set_bool(rt, "want_rest", target == 0);
+    masko_graph_set_bool(rt, "want_working", target == 1);
+    masko_graph_set_bool(rt, "want_attention", target == 2);
+}
 
 static int clip_index(const char *name)
 {
@@ -107,6 +122,7 @@ static int clip_index(const char *name)
         if (strcmp(name, CLIP_NAMES[i]) == 0) return i;
     return -1;
 }
+#endif
 
 static void report_stats(masko_player_t *p, int64_t since, uint32_t frames_before)
 {
@@ -126,6 +142,7 @@ static void report_stats(masko_player_t *p, int64_t since, uint32_t frames_befor
              s.ceiling_fps);
 }
 
+#if !CONFIG_MASKO_SINGLE_PACK_BENCHMARK
 static void on_event(masko_event_t ev, void *user)
 {
     demo_state_t *state = (demo_state_t *)user;
@@ -145,12 +162,20 @@ static void on_event(masko_event_t ev, void *user)
         masko_step_t step = {0};
         xSemaphoreTake(state->graph_lock, portMAX_DELAY);
         const unsigned active = state->active_clip;
+        /* Working and Attention have authored edges only to Rest. If the
+         * requested destination is the other state, take that edge as soon
+         * as the reverse transition lands at Rest. */
+        if (state->has_route_target && (active == 4 || active == 6) &&
+            state->graph_rt.current == 0) {
+            set_graph_target(&state->graph_rt, state->route_target);
+            state->has_route_target = false;
+        }
         int rc = masko_graph_next(&state->graph_rt, &step);
         /* If the requested state changed while a transition was playing,
          * don't force a complete loop of the transition's landing state.
          * Immediately take the newly requested authored transition instead. */
         if (rc == MASKO_GRAPH_OK && step.edge && step.edge->is_loop &&
-            active >= 4 && masko_graph_match(&state->graph_rt,
+            active >= 3 && masko_graph_match(&state->graph_rt,
                                               state->graph_rt.current) != NULL) {
             rc = masko_graph_next(&state->graph_rt, &step);
         }
@@ -187,6 +212,7 @@ static void on_event(masko_event_t ev, void *user)
     case MASKO_EV_ERROR:      ESP_LOGE(TAG, "playback error"); break;
     }
 }
+#endif
 
 void app_main(void)
 {
@@ -214,7 +240,11 @@ void app_main(void)
     const bsp_display_cfg_t touch_cfg = {0};
     esp_lcd_touch_handle_t touch = NULL;
     ESP_ERROR_CHECK(bsp_touch_new(&touch_cfg, &touch));
-    ESP_LOGI(TAG, "touch and BOOT button ready; Waving cycles through Thinking, Typing, Moonwalk");
+#if CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+    ESP_LOGI(TAG, "single-pack benchmark mode: touch and BOOT state switching disabled");
+#else
+    ESP_LOGI(TAG, "touch and BOOT ready; Kylo cycles Rest -> Working -> Attention");
+#endif
 
     /* ---- pack ----------------------------------------------------------- */
     /* masko_store hides the backend. Swap masko_src_flash() for masko_src_sd()
@@ -240,6 +270,21 @@ void app_main(void)
         ESP_LOGE(TAG, "pack rejected: %s", masko_strerror(rc));
         while (1) { vTaskDelay(pdMS_TO_TICKS(1000)); }
     }
+    if (probe.hdr.canvas_w != BSP_LCD_H_RES ||
+        probe.hdr.canvas_h != BSP_LCD_V_RES ||
+        (probe.hdr.flags & MASKO_FLAG_LOOP) == 0
+#if !CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+        || probe.hdr.bbox_w != 384 || probe.hdr.bbox_h != 384 ||
+           probe.hdr.bbox_x != 40 || probe.hdr.bbox_y != 40
+#endif
+        ) {
+#if CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+        ESP_LOGE(TAG, "benchmark pack must be a loop matching the display canvas");
+#else
+        ESP_LOGE(TAG, "first Kylo pack must be a 384x384 loop centered on the 466 canvas");
+#endif
+        while (1) { vTaskDelay(pdMS_TO_TICKS(1000)); }
+    }
     ESP_LOGI(TAG, "pack: %u frames, bbox %ux%u+%u+%u, %.1f fps",
              probe.hdr.frame_count, probe.hdr.bbox_w, probe.hdr.bbox_h,
              probe.hdr.bbox_x, probe.hdr.bbox_y, (double)masko_pack_fps(&probe));
@@ -247,14 +292,20 @@ void app_main(void)
     /* Bundle order is CLIP_NAMES above; every offset is aligned for mmap reads. */
     demo.clip_data[0] = blob.data;
     demo.clip_size[0] = probe.hdr.file_size;
+#if !CONFIG_MASKO_SINGLE_PACK_BENCHMARK
     size_t offset = (probe.hdr.file_size + PACK_ALIGNMENT - 1) & ~(PACK_ALIGNMENT - 1);
     bool bundle_ok = true;
     for (unsigned i = 1; i < PACK_COUNT; i++) {
         masko_pack_t clip;
         if (offset >= blob.len ||
             masko_pack_open(blob.data + offset, blob.len - offset, &clip) != MASKO_OK ||
+            clip.hdr.canvas_w != probe.hdr.canvas_w ||
+            clip.hdr.canvas_h != probe.hdr.canvas_h ||
+            clip.hdr.bbox_x != probe.hdr.bbox_x ||
+            clip.hdr.bbox_y != probe.hdr.bbox_y ||
             clip.hdr.bbox_w != probe.hdr.bbox_w ||
-            clip.hdr.bbox_h != probe.hdr.bbox_h) {
+            clip.hdr.bbox_h != probe.hdr.bbox_h ||
+            (((clip.hdr.flags & MASKO_FLAG_LOOP) != 0) != (i < 3))) {
             ESP_LOGE(TAG, "bundle missing or incompatible clip: %s", PACK_NAMES[i]);
             bundle_ok = false;
             break;
@@ -266,16 +317,15 @@ void app_main(void)
         offset += (clip.hdr.file_size + PACK_ALIGNMENT - 1) & ~(PACK_ALIGNMENT - 1);
     }
     if (!bundle_ok) {
-        ESP_LOGE(TAG, "flash all seven packs in the documented bundle order");
+        ESP_LOGE(TAG, "flash the five Kylo packs in the documented bundle order");
         while (1) vTaskDelay(pdMS_TO_TICKS(1000));
     }
-    /* Return transitions reuse each forward transition pack in reverse. */
-    demo.clip_data[5] = demo.clip_data[4];
-    demo.clip_size[5] = demo.clip_size[4];
-    demo.clip_data[7] = demo.clip_data[6];
-    demo.clip_size[7] = demo.clip_size[6];
-    demo.clip_data[9] = demo.clip_data[8];
-    demo.clip_size[9] = demo.clip_size[8];
+    /* Return edges reuse the two forward assets in reverse. */
+    demo.clip_data[4] = demo.clip_data[3];
+    demo.clip_size[4] = demo.clip_size[3];
+    demo.clip_data[6] = demo.clip_data[5];
+    demo.clip_size[6] = demo.clip_size[5];
+#endif
 
     /* ---- player --------------------------------------------------------- */
     masko_display_cfg_t dcfg = {
@@ -304,7 +354,11 @@ void app_main(void)
         .max_fps       = CONFIG_MASKO_PACK_MAX_FPS,
         .decode_core   = 1,
         .stats_enabled = true,
+#if CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+        .on_event      = NULL,
+#else
         .on_event      = on_event,
+#endif
         .user          = &demo,
     };
     masko_player_t *player = NULL;
@@ -315,14 +369,18 @@ void app_main(void)
     }
     demo.player = player;
     demo.graph_lock = xSemaphoreCreateMutex();
+#if CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+    demo.graph_lock = NULL;
+#else
     if (demo.graph_lock == NULL ||
         masko_graph_init(&demo.graph_rt, &DEMO_GRAPH, NULL, NULL, 0) != MASKO_GRAPH_OK) {
         ESP_LOGE(TAG, "graph runtime initialization failed");
         while (1) vTaskDelay(pdMS_TO_TICKS(1000));
     }
     demo.active_clip = 0;
-    demo.desired_state = 0;
-    demo.next_wave_target = 2;
+    demo.next_target = 1;
+    demo.has_route_target = false;
+#endif
 
     err = masko_player_play(player);
     if (err != ESP_OK) {
@@ -330,6 +388,20 @@ void app_main(void)
         while (1) { vTaskDelay(pdMS_TO_TICKS(1000)); }
     }
     ESP_LOGI(TAG, "playing");
+
+#if CONFIG_MASKO_SINGLE_PACK_BENCHMARK
+    ESP_LOGI(TAG, "single-pack benchmark active; leave this pack running for 30-second samples");
+    int64_t since = esp_timer_get_time();
+    uint32_t frames_before = 0;
+    while (1) {
+        if (esp_timer_get_time() - since >= 30000000) {
+            report_stats(player, since, frames_before);
+            since = esp_timer_get_time();
+            frames_before = masko_player_stats(player).frames_shown;
+        }
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+#else
 
     const gpio_config_t button_cfg = {
         .pin_bit_mask = 1ULL << REACTION_BUTTON_GPIO,
@@ -356,7 +428,7 @@ void app_main(void)
         if (input_down && !input_was_down) {
             const char *input_name = touch_down ? "touch" : "BOOT button";
             xSemaphoreTake(demo.graph_lock, portMAX_DELAY);
-            if (demo.has_pending_clip || demo.active_clip >= 4 || demo.graph_rt.landed) {
+            if (demo.has_pending_clip || demo.active_clip >= 3 || demo.graph_rt.landed) {
                 ESP_LOGI(TAG, "%s ignored while a transition is playing", input_name);
                 xSemaphoreGive(demo.graph_lock);
                 input_was_down = input_down;
@@ -364,21 +436,17 @@ void app_main(void)
                 continue;
             }
 
-            const unsigned old_state = demo.desired_state;
-            const unsigned old_next_target = demo.next_wave_target;
+            const unsigned old_next_target = demo.next_target;
+            const unsigned old_route_target = demo.route_target;
+            const bool old_has_route_target = demo.has_route_target;
             const int old_node = demo.graph_rt.current;
             const bool old_landed = demo.graph_rt.landed;
-            if (demo.graph_rt.current == 0) {
-                demo.desired_state = demo.next_wave_target;
-                demo.next_wave_target = demo.next_wave_target >= 3 ? 1 :
-                                        demo.next_wave_target + 1;
-            } else {
-                demo.desired_state = 0;
-            }
-            masko_graph_set_bool(&demo.graph_rt, "want_waving", demo.desired_state == 0);
-            masko_graph_set_bool(&demo.graph_rt, "want_typing", demo.desired_state == 1);
-            masko_graph_set_bool(&demo.graph_rt, "want_thinking", demo.desired_state == 2);
-            masko_graph_set_bool(&demo.graph_rt, "want_moonwalk", demo.desired_state == 3);
+            const unsigned current = (unsigned)demo.graph_rt.current;
+            const unsigned target = demo.next_target;
+            demo.next_target = (demo.next_target + 1) % 3;
+            demo.has_route_target = current != 0 && target != 0;
+            demo.route_target = target;
+            set_graph_target(&demo.graph_rt, demo.has_route_target ? 0 : target);
 
             /* Prepare and commit the requested edge now, then hand off on the
              * next frame. Long loop clips no longer delay touch reactions. */
@@ -389,7 +457,7 @@ void app_main(void)
                 const int graph_rc = masko_graph_next(&demo.graph_rt, &step);
                 const int candidate = graph_rc == MASKO_GRAPH_OK && step.edge == edge ?
                                       clip_index(edge->clip) : -1;
-                if (candidate >= 4) {
+                if (candidate >= 3) {
                     err = masko_player_set_pack_direction_immediate(
                         player, demo.clip_data[candidate], demo.clip_size[candidate],
                         clip_plays_reverse((unsigned)candidate));
@@ -399,38 +467,35 @@ void app_main(void)
                     } else {
                         demo.graph_rt.current = old_node;
                         demo.graph_rt.landed = old_landed;
-                        demo.desired_state = old_state;
-                        demo.next_wave_target = old_next_target;
-                        masko_graph_set_bool(&demo.graph_rt, "want_waving", old_state == 0);
-                        masko_graph_set_bool(&demo.graph_rt, "want_typing", old_state == 1);
-                        masko_graph_set_bool(&demo.graph_rt, "want_thinking", old_state == 2);
-                        masko_graph_set_bool(&demo.graph_rt, "want_moonwalk", old_state == 3);
+                        demo.next_target = old_next_target;
+                        demo.route_target = old_route_target;
+                        demo.has_route_target = old_has_route_target;
+                        set_graph_target(&demo.graph_rt, current);
                         ESP_LOGE(TAG, "transition preflight failed: %s",
                                  esp_err_to_name(err));
                     }
                 }
             }
             xSemaphoreGive(demo.graph_lock);
+            const char *target_name = target == 0 ? "Rest" :
+                                      target == 1 ? "Working" : "Attention";
             if (touch_down) {
                 ESP_LOGI(TAG, "%s at %u,%u: target %s", input_name,
                          (unsigned)point[0].x, (unsigned)point[0].y,
-                         demo.desired_state == 0 ? "Waving" :
-                         demo.desired_state == 1 ? "Typing" :
-                         demo.desired_state == 2 ? "Thinking" : "Moonwalk");
+                         target_name);
             } else {
                 ESP_LOGI(TAG, "%s pressed: target %s", input_name,
-                         demo.desired_state == 0 ? "Waving" :
-                         demo.desired_state == 1 ? "Typing" :
-                         demo.desired_state == 2 ? "Thinking" : "Moonwalk");
+                         target_name);
             }
         }
         input_was_down = input_down;
 
-        if (esp_timer_get_time() - since >= 10000000) {
+        if (esp_timer_get_time() - since >= 30000000) {
             report_stats(player, since, frames_before);
             since = esp_timer_get_time();
             frames_before = masko_player_stats(player).frames_shown;
         }
         vTaskDelay(pdMS_TO_TICKS(20));
     }
+#endif
 }

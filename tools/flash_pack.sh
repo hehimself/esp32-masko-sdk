@@ -7,6 +7,7 @@ set -euo pipefail
 
 PACK="${1:?usage: $0 <pack.mkpk> [port]}"
 PORT="${2:-/dev/cu.usbmodem101}"
+BAUD="${MASKO_FLASH_BAUD:-115200}"
 
 if [ ! -f "$PACK" ]; then
   echo "no such pack: $PACK" >&2
@@ -16,9 +17,10 @@ fi
 . "${IDF_PATH:-$HOME/esp/esp-idf}/export.sh" >/dev/null 2>&1
 
 SIZE=$(wc -c < "$PACK" | tr -d ' ')
-echo "flashing $PACK ($SIZE bytes) to 'masko' on $PORT"
+echo "flashing $PACK ($SIZE bytes) to 'masko' on $PORT at $BAUD baud"
 
 python "$IDF_PATH/components/partition_table/parttool.py" \
-  --port "$PORT" write_partition --partition-name masko --input "$PACK"
+  --port "$PORT" --baud "$BAUD" \
+  write_partition --partition-name masko --input "$PACK"
 
 echo "done"

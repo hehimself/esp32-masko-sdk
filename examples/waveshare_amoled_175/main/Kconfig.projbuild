@@ -13,4 +13,12 @@ config MASKO_PACK_MAX_FPS
     default 24
     range 1 60
 
+config MASKO_SINGLE_PACK_BENCHMARK
+    bool "Run a single-pack benchmark instead of the Kylo state graph"
+    default n
+    help
+        Read one .mkpk from the masko partition and play it continuously.
+        The demo reports playback metrics every 30 seconds. Useful for
+        controlled comparisons of quality and frame-rate exports.
+
 endmenu
