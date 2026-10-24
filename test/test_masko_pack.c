@@ -43,6 +43,10 @@ static void test_real_pack(const char *path)
 
     masko_pack_t p;
     check(masko_pack_open(d, size, &p) == MASKO_OK, "pack opens");
+    masko_pack_header_t remote_header;
+    check(masko_pack_read_header(d, MASKO_HEADER_SIZE, &remote_header) == MASKO_OK &&
+          remote_header.file_size == p.hdr.file_size,
+          "header-only remote probe opens without a full pack");
     check(p.hdr.frame_count > 0, "frame_count > 0");
     check(p.hdr.bbox_w % MASKO_MCU == 0, "bbox_w is MCU-aligned");
     check(masko_pack_fps(&p) > 0.0f, "fps parses");

@@ -159,6 +159,8 @@ bool masko_cond_eval(const masko_graph_rt_t *rt, const masko_cond_t *c)
         return false;
     }
     switch (c->op) {
+    case MASKO_OP_GT:
+        return c->is_number && rt->in_num[i] > c->num_value;
     case MASKO_OP_EQ:
     default:
         return c->is_number ? (rt->in_num[i] == c->num_value)
@@ -193,7 +195,10 @@ const masko_edge_t *masko_graph_match(const masko_graph_rt_t *rt, int node)
     /* Declaration order is the priority order. */
     for (int i = 0; i < rt->g->nedges; i++) {
         const masko_edge_t *e = &rt->g->edges[i];
-        if (!streq(e->source, id)) {
+        if (!streq(e->source, id) && !streq(e->source, "*")) {
+            continue;
+        }
+        if (streq(e->source, "*") && streq(e->target, id)) {
             continue;
         }
         if (e->is_loop || streq(e->source, e->target)) {

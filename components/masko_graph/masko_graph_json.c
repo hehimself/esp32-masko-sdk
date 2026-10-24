@@ -96,6 +96,9 @@ static const char *edge_clip_of(const cJSON *e)
     if (!v && cJSON_IsString(cJSON_GetObjectItemCaseSensitive(e, "video"))) {
         v = cJSON_GetObjectItemCaseSensitive(e, "video");
     }
+    if (cJSON_IsObject(v)) {
+        return obj_str(v, "mkpk", NULL);
+    }
     if (!cJSON_IsArray(v)) {
         return NULL;
     }
@@ -218,7 +221,7 @@ static int node_index(const masko_graph_json_t *g, const char *id)
 }
 
 static int parse_edges(const cJSON *root, masko_graph_json_t *g, arena_t *ar,
-                       bool fill)
+                       bool fill, bool duration_seconds)
 {
     const cJSON *es = cJSON_GetObjectItemCaseSensitive(root, "edges");
     const int n = cJSON_IsArray(es) ? cJSON_GetArraySize(es) : 0;
@@ -253,12 +256,15 @@ static int parse_edges(const cJSON *root, masko_graph_json_t *g, arena_t *ar,
     g->edge_clip    = count_calloc(n, sizeof(char *));
     g->edge_dur     = count_calloc(n, sizeof(int32_t));
     g->edge_is_loop = count_calloc(n, sizeof(bool));
+    g->edge_reverse = count_calloc(n, sizeof(bool));
+    g->edge_speed = count_calloc(n, sizeof(uint8_t));
     g->cond_off     = count_calloc(n, sizeof(int));
     g->cond_n       = count_calloc(n, sizeof(int));
     g->cond_input   = count_calloc(total, sizeof(char *));
     g->conds        = count_calloc(total, sizeof(masko_cond_t));
     if (n && (!g->edge_src || !g->edge_dst || !g->edge_clip || !g->edge_dur ||
-              !g->edge_is_loop || !g->cond_off || !g->cond_n)) {
+        !g->edge_is_loop || !g->edge_reverse || !g->edge_speed ||
+        !g->cond_off || !g->cond_n)) {
         return MASKO_GRAPH_ERR_ARG;
     }
     if (total && (!g->cond_input || !g->conds)) {
@@ -274,14 +280,18 @@ static int parse_edges(const cJSON *root, masko_graph_json_t *g, arena_t *ar,
             return MASKO_GRAPH_ERR_PARSE;
         }
         /* Validate against the arrays parsed before edges. */
-        if (node_index(g, src) < 0 || node_index(g, dst) < 0) {
+        if ((strcmp(src, "*") != 0 && node_index(g, src) < 0) ||
+            node_index(g, dst) < 0) {
             return MASKO_GRAPH_ERR_NO_NODE;
         }
 
         g->edge_src[i]     = ar_put(ar, src);
         g->edge_dst[i]     = ar_put(ar, dst);
         g->edge_clip[i]    = ar_put(ar, edge_clip_of(e));
-        g->edge_dur[i]     = obj_num(e, "duration", 0);
+        g->edge_dur[i]     = obj_num(e, "duration", 0) *
+                             (duration_seconds ? 1000 : 1);
+        g->edge_reverse[i] = obj_bool(e, "reverse", false);
+        g->edge_speed[i] = (uint8_t)obj_num(e, "speed", 1);
         g->edge_is_loop[i] = obj_bool(e, "isLoop", false) ||
                              (strcmp(src, dst) == 0);
 
@@ -303,13 +313,14 @@ static int parse_edges(const cJSON *root, masko_graph_json_t *g, arena_t *ar,
             /* Real exports only ever show `==`. Treating an unknown operator as
              * `==` would silently change which transition fires, so refuse it. */
             const char *op = obj_str(cj, "op", "==");
-            if (op && strcmp(op, "==") && strcmp(op, "eq") && strcmp(op, "equals")) {
+            const bool is_gt = op && strcmp(op, ">") == 0;
+            if (op && !is_gt && strcmp(op, "==") && strcmp(op, "eq") && strcmp(op, "equals")) {
                 return MASKO_GRAPH_ERR_PARSE;
             }
 
             g->cond_input[at] = ar_put(ar, in);
             g->conds[at].input = g->cond_input[at];
-            g->conds[at].op    = MASKO_OP_EQ;
+            g->conds[at].op    = is_gt ? MASKO_OP_GT : MASKO_OP_EQ;
 
             const int idx = input_index(g, in);
             const cJSON *v = cJSON_GetObjectItemCaseSensitive(cj, "value");
@@ -366,20 +377,23 @@ int masko_graph_json_parse(const char *text, size_t len, masko_graph_json_t *out
     memcpy(out->json, text, len);
     out->json[len] = '\0';
 
-    const char *init = obj_str(root, "initialNode", "initial_node");
+    const cJSON *graph = cJSON_GetObjectItemCaseSensitive(root, "runtimeGraph");
+    if (!cJSON_IsObject(graph)) graph = root;
+    const char *init = obj_str(graph, "initialNode", "initial_node");
     if (init == NULL) {
         cJSON_Delete(root);
         return MASKO_GRAPH_ERR_PARSE;
     }
     /* Read before the tree goes away. */
-    const bool autoplay = obj_bool(root, "autoPlay", true);
+    const bool autoplay = obj_bool(graph, "autoPlay", true);
 
     arena_t ar = {0};
 
     /* Pass 1 counts strings; pass 2 copies them. Same traversal both times. */
-    int rc = parse_nodes(root, out, &ar, false);
-    if (rc == MASKO_GRAPH_OK) rc = parse_inputs(root, out, &ar, false);
-    if (rc == MASKO_GRAPH_OK) rc = parse_edges(root, out, &ar, false);
+    int rc = parse_nodes(graph, out, &ar, false);
+    if (rc == MASKO_GRAPH_OK) rc = parse_inputs(graph, out, &ar, false);
+    if (rc == MASKO_GRAPH_OK) rc = parse_edges(graph, out, &ar, false,
+                                               graph != root);
     /* initialNode is copied last, so it has to be reserved first or the fill
      * pass runs off the end of the arena. */
     if (rc == MASKO_GRAPH_OK) ar_put(&ar, init);
@@ -396,9 +410,10 @@ int masko_graph_json_parse(const char *text, size_t len, masko_graph_json_t *out
     out->arena     = ar.base;
     out->arena_len = ar.cap;
 
-    rc = parse_nodes(root, out, &ar, true);
-    if (rc == MASKO_GRAPH_OK) rc = parse_inputs(root, out, &ar, true);
-    if (rc == MASKO_GRAPH_OK) rc = parse_edges(root, out, &ar, true);
+    rc = parse_nodes(graph, out, &ar, true);
+    if (rc == MASKO_GRAPH_OK) rc = parse_inputs(graph, out, &ar, true);
+    if (rc == MASKO_GRAPH_OK) rc = parse_edges(graph, out, &ar, true,
+                                               graph != root);
     if (rc == MASKO_GRAPH_OK) out->initial_node = ar_put(&ar, init);
     cJSON_Delete(root);
 
@@ -485,6 +500,8 @@ void masko_graph_json_free(masko_graph_json_t *g)
     free(g->edge_clip);
     free(g->edge_dur);
     free(g->edge_is_loop);
+    free(g->edge_reverse);
+    free(g->edge_speed);
     free(g->cond_off);
     free(g->cond_n);
     free(g->cond_input);

@@ -18,6 +18,11 @@ if [ -f "$CJSON_DIR/cJSON.c" ]; then
     CJSON_CFLAGS=(-I "$CJSON_DIR")
     CJSON_SOURCE="$CJSON_DIR/cJSON.c"
     CJSON_LIBS=""
+elif [ -f "$ROOT/examples/waveshare_amoled_175/managed_components/espressif__cjson/cJSON/cJSON.c" ]; then
+    CJSON_DIR="$ROOT/examples/waveshare_amoled_175/managed_components/espressif__cjson/cJSON"
+    CJSON_CFLAGS=(-I "$CJSON_DIR")
+    CJSON_SOURCE="$CJSON_DIR/cJSON.c"
+    CJSON_LIBS=""
 elif [ -f /usr/include/cjson/cJSON.h ]; then
     # CI and host-only users can use the system cJSON development package.
     CJSON_CFLAGS=(-I /usr/include/cjson)
@@ -54,3 +59,14 @@ cc "${CFLAGS[@]}" \
    $CJSON_LIBS \
    -o "$TMP/test_graph_json"
 "$TMP/test_graph_json"
+
+echo
+echo "== Kylo delivery manifest =="
+cc "${CFLAGS[@]}" \
+   "$ROOT/test/test_kylo_delivery.c" \
+   "$ROOT/components/masko_graph/masko_graph.c" \
+   "$ROOT/components/masko_graph/masko_graph_json.c" \
+   $CJSON_SOURCE -lm $CJSON_LIBS \
+   -o "$TMP/test_kylo_delivery"
+"$TMP/test_kylo_delivery" \
+    "$ROOT/examples/waveshare_amoled_175/main/kylo-stream-mascot.json"

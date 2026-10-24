@@ -37,6 +37,7 @@ enum {
 /** Masko documents only `==`; keep the enum open but do not invent operators. */
 typedef enum {
     MASKO_OP_EQ = 0,
+    MASKO_OP_GT,
 } masko_op_t;
 
 typedef struct {

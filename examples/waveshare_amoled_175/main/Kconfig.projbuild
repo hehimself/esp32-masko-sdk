@@ -1,5 +1,33 @@
 menu "Masko demo"
 
+config MASKO_STREAM_ENABLE
+    bool "Stream the full Kylo mascot over Wi-Fi"
+    default n
+    help
+        Use the public Kylo CDN packs and the bundled delivery graph.
+        The local offline demo remains available when this is disabled.
+
+config MASKO_STREAM_SSID
+    string "Wi-Fi SSID for streaming demo"
+    depends on MASKO_STREAM_ENABLE
+    default ""
+
+config MASKO_STREAM_PASSWORD
+    string "Wi-Fi password for streaming demo (keep sdkconfig local)"
+    depends on MASKO_STREAM_ENABLE
+    default ""
+
+config MASKO_STREAM_PROBE_ONLY
+    bool "Only measure Wi-Fi and CDN range speed at startup"
+    depends on MASKO_STREAM_ENABLE
+    default n
+
+config MASKO_STREAM_CACHE_KIB
+    int "Compressed cache per slot (KiB; two slots per open clip)"
+    depends on MASKO_STREAM_ENABLE
+    default 512
+    range 128 1024
+
 config MASKO_PACK_IN_FLASH
     bool "Play the pack from the 'masko' flash partition"
     default y

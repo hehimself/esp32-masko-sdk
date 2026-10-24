@@ -28,13 +28,30 @@ typedef enum {
     MASKO_EV_CLIP_END,
     MASKO_EV_UNDERRUN,
     MASKO_EV_ERROR,
+    MASKO_EV_FIRST_FRAME_SHOWN, /* emitted after the first frame reaches the panel */
 } masko_event_t;
 
 typedef void (*masko_event_cb_t)(masko_event_t ev, void *user);
 
+/** A pack whose compressed frames are supplied on demand (for example over HTTP).
+ * The caller owns this object and keeps it alive until the player has switched
+ * away from it. read_frame copies one complete JPEG into dst. A temporary
+ * network miss returns ESP_ERR_TIMEOUT; the player holds the last picture and
+ * retries the same frame rather than skipping it. */
+typedef struct {
+    masko_pack_header_t header;
+    size_t max_frame_bytes;
+    uint8_t frame_step; /* 1 normally; 2 shows a speed=2 transition at 24 fps */
+    void *context;
+    esp_err_t (*read_frame)(void *context, uint32_t frame, bool reverse,
+                            uint8_t *dst, size_t capacity, uint32_t *length,
+                            uint32_t timeout_ms);
+} masko_frame_source_t;
+
 typedef struct {
     const uint8_t     *pack_data;
     size_t             pack_size;
+    const masko_frame_source_t *frame_source; /* optional alternative to pack_data */
     masko_display_t   *display;
     uint8_t            max_fps;       /* cap; 0 = use the pack's own fps */
     int8_t             decode_core;   /* 0, 1, or -1 for any */
@@ -47,6 +64,8 @@ typedef struct {
     uint32_t frames_shown;
     uint32_t frames_dropped;
     uint32_t underruns;
+    uint32_t stream_stalls;
+    int64_t  stream_wait_us;
     int64_t  decode_us_avg;
     int64_t  decode_us_max;
     int64_t  push_us_avg;
@@ -105,6 +124,13 @@ esp_err_t masko_player_set_pack_direction(masko_player_t *p, const uint8_t *data
 esp_err_t masko_player_set_pack_direction_immediate(masko_player_t *p,
                                                     const uint8_t *data,
                                                     size_t size, bool reverse);
+
+/** Prepare a frame source without downloading a complete pack. The caller may
+ * invoke this from a controller task; it can wait for the candidate's first
+ * compressed frame. Never call it from a player event callback. */
+esp_err_t masko_player_set_source(masko_player_t *p,
+                                  const masko_frame_source_t *source,
+                                  bool reverse, bool immediate);
 
 /** @brief True while a queued pack is still waiting to take over. */
 bool masko_player_has_pending_pack(const masko_player_t *p);

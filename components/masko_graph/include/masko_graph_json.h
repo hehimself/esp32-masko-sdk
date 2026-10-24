@@ -42,6 +42,8 @@ typedef struct {
     char    **edge_src;  char **edge_dst;  char **edge_clip;
     int32_t  *edge_dur;
     bool     *edge_is_loop;
+    bool     *edge_reverse;
+    uint8_t  *edge_speed;
 
     /* Conditions, flattened: edge e owns conds[cond_off[e] .. cond_off[e]+n). */
     int      *cond_off;

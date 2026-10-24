@@ -1,0 +1,847 @@
+{
+  "deliverySchemaVersion": 1,
+  "playerContract": 1,
+  "requires": [
+    "any-state"
+  ],
+  "target": "esp32",
+  "mode": "selected",
+  "runtimeGraph": {
+    "name": "Kylo",
+    "edges": [
+      {
+        "id": "loop-jar-gazing",
+        "name": "jar-gazing",
+        "speed": 1,
+        "isLoop": true,
+        "source": "jar-gazing",
+        "target": "jar-gazing",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing-581594e9-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-specimen-notes",
+        "name": "specimen-notes",
+        "speed": 1,
+        "isLoop": true,
+        "source": "specimen-notes",
+        "target": "specimen-notes",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/specimen-notes-9122bdf9-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-excited-wave",
+        "name": "excited-wave",
+        "speed": 1,
+        "isLoop": true,
+        "source": "excited-wave",
+        "target": "excited-wave",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/excited-wave-c6be4a55-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-jar-present",
+        "name": "jar-present",
+        "speed": 1,
+        "isLoop": true,
+        "source": "jar-present",
+        "target": "jar-present",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-present-bf9fd387-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-deep-study",
+        "name": "deep-study",
+        "speed": 1,
+        "isLoop": true,
+        "source": "deep-study",
+        "target": "deep-study",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/deep-study-58e32649-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-patient-tinker",
+        "name": "patient-tinker",
+        "speed": 1,
+        "isLoop": true,
+        "source": "patient-tinker",
+        "target": "patient-tinker",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/patient-tinker-d0e29b55-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-discovery-burst",
+        "name": "discovery-burst",
+        "speed": 1,
+        "isLoop": true,
+        "source": "discovery-burst",
+        "target": "discovery-burst",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/discovery-burst-6e481672-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-spilled-jar",
+        "name": "spilled-jar",
+        "speed": 1,
+        "isLoop": true,
+        "source": "spilled-jar",
+        "target": "spilled-jar",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/spilled-jar-fde12f20-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-pocket-rummage",
+        "name": "pocket-rummage",
+        "speed": 1,
+        "isLoop": true,
+        "source": "pocket-rummage",
+        "target": "pocket-rummage",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/pocket-rummage-6c60f74b-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-lab-groove",
+        "name": "lab-groove",
+        "speed": 1,
+        "isLoop": true,
+        "source": "lab-groove",
+        "target": "lab-groove",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/lab-groove-ced9d7fb-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "loop-eager-sip",
+        "name": "eager-sip",
+        "speed": 1,
+        "isLoop": true,
+        "source": "eager-sip",
+        "target": "eager-sip",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/eager-sip-05feaa87-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": []
+      },
+      {
+        "id": "any-spilled-jar",
+        "name": "Any State -> spilled-jar",
+        "isLoop": false,
+        "source": "*",
+        "target": "spilled-jar",
+        "videos": {},
+        "duration": 0,
+        "priority": 95,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::error",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-excited-wave",
+        "name": "Any State -> excited-wave",
+        "isLoop": false,
+        "source": "*",
+        "target": "excited-wave",
+        "videos": {},
+        "duration": 0,
+        "priority": 90,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::attention",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-jar-present",
+        "name": "Any State -> jar-present",
+        "isLoop": false,
+        "source": "*",
+        "target": "jar-present",
+        "videos": {},
+        "duration": 0,
+        "priority": 80,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::interact",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-deep-study",
+        "name": "Any State -> deep-study",
+        "isLoop": false,
+        "source": "*",
+        "target": "deep-study",
+        "videos": {},
+        "duration": 0,
+        "priority": 70,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::focus",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-discovery-burst",
+        "name": "Any State -> discovery-burst",
+        "isLoop": false,
+        "source": "*",
+        "target": "discovery-burst",
+        "videos": {},
+        "duration": 0,
+        "priority": 65,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::celebrate",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-eager-sip",
+        "name": "Any State -> eager-sip",
+        "isLoop": false,
+        "source": "*",
+        "target": "eager-sip",
+        "videos": {},
+        "duration": 0,
+        "priority": 62,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "action::drinkWater",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-specimen-notes",
+        "name": "Any State -> specimen-notes",
+        "isLoop": false,
+        "source": "*",
+        "target": "specimen-notes",
+        "videos": {},
+        "duration": 0,
+        "priority": 60,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::working",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-lab-groove",
+        "name": "Any State -> lab-groove",
+        "isLoop": false,
+        "source": "*",
+        "target": "lab-groove",
+        "videos": {},
+        "duration": 0,
+        "priority": 50,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rhythm",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-patient-tinker",
+        "name": "Any State -> patient-tinker",
+        "isLoop": false,
+        "source": "*",
+        "target": "patient-tinker",
+        "videos": {},
+        "duration": 0,
+        "priority": 40,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::waiting",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-pocket-rummage",
+        "name": "Any State -> pocket-rummage",
+        "isLoop": false,
+        "source": "*",
+        "target": "pocket-rummage",
+        "videos": {},
+        "duration": 0,
+        "priority": 20,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::ambient",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "any-jar-gazing",
+        "name": "Any State -> jar-gazing",
+        "isLoop": false,
+        "source": "*",
+        "target": "jar-gazing",
+        "videos": {},
+        "duration": 0,
+        "priority": 10,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-specimen-notes",
+        "name": "jar-gazing -> specimen-notes",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "specimen-notes",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---specimen-notes-e33d8658-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::working",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-excited-wave",
+        "name": "jar-gazing -> excited-wave",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "excited-wave",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---excited-wave-d3b03951-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::attention",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-jar-present",
+        "name": "jar-gazing -> jar-present",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "jar-present",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---jar-present-d39cb4e6-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::interact",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-deep-study",
+        "name": "jar-gazing -> deep-study",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "deep-study",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---deep-study-248ce0fc-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::focus",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-patient-tinker",
+        "name": "jar-gazing -> patient-tinker",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "patient-tinker",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---patient-tinker-3d2dc7d7-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::waiting",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-discovery-burst",
+        "name": "jar-gazing -> discovery-burst",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "discovery-burst",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---discovery-burst-4d20f017-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::celebrate",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-spilled-jar",
+        "name": "jar-gazing -> spilled-jar",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "spilled-jar",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---spilled-jar-0474400a-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::error",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-pocket-rummage",
+        "name": "jar-gazing -> pocket-rummage",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "pocket-rummage",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---pocket-rummage-b6e5cebe-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::ambient",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-lab-groove",
+        "name": "jar-gazing -> lab-groove",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "lab-groove",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---lab-groove-c8703272-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rhythm",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "enter-eager-sip",
+        "name": "jar-gazing -> eager-sip",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-gazing",
+        "target": "eager-sip",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/jar-gazing---eager-sip-39a0728d-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "action::drinkWater",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-specimen-notes",
+        "name": "specimen-notes -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "specimen-notes",
+        "target": "jar-gazing",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/specimen-notes---jar-gazing-52c5265c-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-excited-wave",
+        "name": "excited-wave -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "excited-wave",
+        "target": "jar-gazing",
+        "videos": {},
+        "reverse": true,
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-jar-present",
+        "name": "jar-present -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "jar-present",
+        "target": "jar-gazing",
+        "videos": {},
+        "reverse": true,
+        "duration": 4,
+        "conditions": [
+          {
+            "op": ">",
+            "input": "node::nodeTime",
+            "value": 2500
+          }
+        ]
+      },
+      {
+        "id": "return-deep-study",
+        "name": "deep-study -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "deep-study",
+        "target": "jar-gazing",
+        "videos": {},
+        "reverse": true,
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-patient-tinker",
+        "name": "patient-tinker -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "patient-tinker",
+        "target": "jar-gazing",
+        "videos": {},
+        "reverse": true,
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-discovery-burst",
+        "name": "discovery-burst -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "discovery-burst",
+        "target": "jar-gazing",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/discovery-burst---jar-gazing-c1c61734-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": ">",
+            "input": "node::nodeTime",
+            "value": 3500
+          }
+        ]
+      },
+      {
+        "id": "return-spilled-jar",
+        "name": "spilled-jar -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "spilled-jar",
+        "target": "jar-gazing",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/spilled-jar---jar-gazing-55bc3f44-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": ">",
+            "input": "node::nodeTime",
+            "value": 5000
+          }
+        ]
+      },
+      {
+        "id": "return-pocket-rummage",
+        "name": "pocket-rummage -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "pocket-rummage",
+        "target": "jar-gazing",
+        "videos": {},
+        "reverse": true,
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-lab-groove",
+        "name": "lab-groove -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "lab-groove",
+        "target": "jar-gazing",
+        "videos": {},
+        "reverse": true,
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "behavior::rest",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "return-eager-sip",
+        "name": "eager-sip -> jar-gazing",
+        "speed": 2,
+        "isLoop": false,
+        "source": "eager-sip",
+        "target": "jar-gazing",
+        "videos": {
+          "mkpk": "https://assets.masko.ai/547bbb8e/kylo-the-tide-mender-9fhe8p43/eager-sip---jar-gazing-60860d5e-384.mkpk"
+        },
+        "duration": 4,
+        "conditions": [
+          {
+            "op": "==",
+            "input": "action::drinkWater",
+            "value": false
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "jar-gazing",
+        "name": "jar-gazing"
+      },
+      {
+        "id": "specimen-notes",
+        "name": "specimen-notes"
+      },
+      {
+        "id": "excited-wave",
+        "name": "excited-wave"
+      },
+      {
+        "id": "jar-present",
+        "name": "jar-present"
+      },
+      {
+        "id": "deep-study",
+        "name": "deep-study"
+      },
+      {
+        "id": "patient-tinker",
+        "name": "patient-tinker"
+      },
+      {
+        "id": "discovery-burst",
+        "name": "discovery-burst"
+      },
+      {
+        "id": "spilled-jar",
+        "name": "spilled-jar"
+      },
+      {
+        "id": "pocket-rummage",
+        "name": "pocket-rummage"
+      },
+      {
+        "id": "lab-groove",
+        "name": "lab-groove"
+      },
+      {
+        "id": "eager-sip",
+        "name": "eager-sip"
+      }
+    ],
+    "inputs": [
+      {
+        "name": "behavior::rest",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::working",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::attention",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::interact",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::focus",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::waiting",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::celebrate",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::error",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::ambient",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "behavior::rhythm",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "action::drinkWater",
+        "type": "boolean",
+        "system": true,
+        "default": false
+      },
+      {
+        "name": "node::nodeTime",
+        "type": "number",
+        "system": true,
+        "default": 0
+      }
+    ],
+    "version": "2.1",
+    "autoPlay": true,
+    "canvasName": "Kylo - Full Behavior Graph",
+    "initialNode": "jar-gazing",
+    "presentation": {
+      "naturalFacing": "left"
+    },
+    "runtimeGraphSchemaVersion": 1,
+    "target": "esp32"
+  }
+}

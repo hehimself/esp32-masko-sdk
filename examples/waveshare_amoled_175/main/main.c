@@ -210,12 +210,18 @@ static void on_event(masko_event_t ev, void *user)
     }
     case MASKO_EV_UNDERRUN:  ESP_LOGW(TAG, "underrun");   break;
     case MASKO_EV_ERROR:      ESP_LOGE(TAG, "playback error"); break;
+    case MASKO_EV_FIRST_FRAME_SHOWN: break;
     }
 }
 #endif
 
 void app_main(void)
 {
+#if CONFIG_MASKO_STREAM_ENABLE
+    extern void masko_stream_demo_main(void);
+    masko_stream_demo_main();
+    return;
+#endif
     ESP_LOGI(TAG, "ESP32 BOOTED");
     ESP_LOGI(TAG, "free internal DRAM %u B, free PSRAM %u B",
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),

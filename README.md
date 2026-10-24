@@ -20,6 +20,8 @@ panel.
   banded display transfer limits.
 - Flash, memory, and SD pack sources through `masko_store` (SD hardware validation is
   pending).
+- HTTPS byte-range frame source with bounded PSRAM caches through `masko_http`;
+  board-side Wi-Fi playback validation is pending.
 - Reference Waveshare example with multi-pack bundles, authored transitions, touch, and
   BOOT-button playback.
 
@@ -121,6 +123,78 @@ use `tools/masko_sequence.py OUTPUT FIRST SECOND`; for example, put the kit's Q9
 before its Q75 pack, verify the resulting pack, then flash it. The generated sequence
 contains each input once, in order, before repeating.
 
+### Kylo Wi-Fi streaming experiment (ESP-IDF 6.1)
+
+The `codex/kylo-wifi-streaming` branch includes the kit's 21 KiB
+`stream/mascot.json` delivery manifest in the Waveshare app. Its 25 distinct
+`.mkpk` URLs remain on the public Masko CDN. The demo cycles all 11 Kylo states
+with touch or BOOT. Each state keeps looping until the next input. It plays an
+authored Rest transition in each direction, routes a change between two other
+states through Rest, and reads six `reverse: true` returns from their forward
+pack in reverse. The kit's Any-State edges have no video; the demo uses their
+destinations for explicit requests and routes them through authored clips.
+
+Enable **Stream the full Kylo mascot over Wi-Fi** in `idf.py menuconfig`, then
+enter the SSID and password under **Masko demo**. `sdkconfig` is ignored by Git;
+do not put credentials in `sdkconfig.defaults` or source files. Enable **Only
+measure Wi-Fi and CDN range speed at startup** for the first board test. It
+connects to Wi-Fi, logs RSSI and free RAM, fetches a 64-byte CDN range, then
+fetches 256 KiB and reports latency and throughput. No animation partition
+flashing or SD card is required for this mode. Disable probe-only for playback:
+
+```bash
+cd examples/waveshare_amoled_175
+idf.py menuconfig
+idf.py build
+idf.py -p PORT flash monitor
+```
+
+The demo logs each requested state, preparation time, and the time from input
+to the **first frame actually sent to the display**. It also logs the first
+frame of the target loop separately; a two-second authored transition is part
+of that latter time. Every 30 seconds it reports displayed FPS, dropped
+frames, underruns, streaming stalls, HTTP bytes/requests/failures, cache
+hits/misses, slowest request, and current internal/PSRAM availability. Leave a
+state playing for 30 seconds and test cold switches through all 11 states.
+Save the monitor output and run `python3 tools/analyze_stream_log.py monitor.log`
+to summarize median and 95th-percentile input-to-first-frame times separately
+for transitions and their target loops.
+
+`masko_http` issues HTTPS byte-range requests for a 64-byte header, frame
+index, and frame-aligned JPEG groups. One worker refills two PSRAM cache slots
+per open clip (512 KiB each by default). The player retains its three decoded
+384×384 RGB565 buffers and adds two compressed-frame scratch buffers. At most
+the active and upcoming clip are open. These fixed buffers peak at about
+3.4 MiB of PSRAM (2 MiB compressed cache, 0.5 MiB JPEG scratch, 0.84 MiB
+decoded frames), before Wi-Fi/TLS, graph, and display allocations. When a
+requested frame is late, the
+display holds its current picture and the player retries that frame. The
+streaming path has an ESP-IDF 6.1 build and host manifest check; frame rate,
+memory floor, and switch latency still need measurement on the Wi-Fi board.
+
+Applications can use the HTTP source directly after connecting Wi-Fi:
+
+```c
+masko_http_t *http = NULL;
+masko_http_clip_t *clip = NULL;
+ESP_ERROR_CHECK(masko_http_new(512 * 1024, &http));
+ESP_ERROR_CHECK(masko_http_clip_open(http, pack_url, &clip));
+masko_http_clip_configure(clip, true, 1); // loop, normal speed
+masko_player_cfg_t cfg = {
+    .frame_source = masko_http_clip_source(clip),
+    .display = display,
+    .decode_core = 1,
+};
+ESP_ERROR_CHECK(masko_player_create(&cfg, &player));
+ESP_ERROR_CHECK(masko_player_play(player));
+```
+
+Keep `clip` open while the player uses it. For a switch, open the next clip and
+call `masko_player_set_source()` from a controller task. Close the old clip
+after the new `MASKO_EV_CLIP_START` event. The Waveshare demo shows this
+ownership sequence and queues player callbacks so no HTTP work runs inside a
+decoder callback.
+
 ## Use the components in an ESP-IDF project
 
 The SDK is organized as local ESP-IDF components. Clone this repository alongside your
@@ -193,6 +267,8 @@ masko_src_memory(data, length, &source);            // caller-owned buffer
 Packs are opened as complete blobs. An SD pack therefore needs enough PSRAM for the
 whole pack; the SD backend rejects an undersized cache instead of returning truncated
 data. Flash playback is verified. SD playback has not yet been exercised on hardware.
+The new `masko_http` source uses the player's `frame_source` option and reads only the
+frames needed for playback; it does not use the blob-oriented `masko_store` API.
 Do not write a flash partition while playing a pack from it: flash writes can stall
 execution and visibly interrupt playback.
 

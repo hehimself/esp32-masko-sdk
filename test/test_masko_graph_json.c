@@ -237,13 +237,13 @@ int main(void)
           "{\"source\":\"a\",\"target\":\"a\",\"videos\":[\"b.mkpk\"],"
           "\"conditions\":[{\"input\":\"ghost\",\"op\":\"==\","
           "\"value\":true}]}]}", MASKO_GRAPH_ERR_NO_INPUT },
-        { "operator other than ==",
+        { "unsupported operator",
           "{\"initialNode\":\"a\",\"nodes\":[{\"id\":\"a\"}],"
           "\"inputs\":[{\"name\":\"mood\",\"type\":\"number\"}],"
           "\"edges\":[{\"source\":\"a\",\"target\":\"a\",\"isLoop\":true,"
           "\"videos\":[\"a.mkpk\"]},"
           "{\"source\":\"a\",\"target\":\"a\",\"videos\":[\"b.mkpk\"],"
-          "\"conditions\":[{\"input\":\"mood\",\"op\":\">\",\"value\":3}]}]}",
+          "\"conditions\":[{\"input\":\"mood\",\"op\":\">=\",\"value\":3}]}]}",
           MASKO_GRAPH_ERR_PARSE },
         { "node with no loop edge",
           "{\"initialNode\":\"a\",\"nodes\":[{\"id\":\"a\"},{\"id\":\"b\"}],"

@@ -82,6 +82,10 @@ typedef struct {
     const uint8_t          *index;  /*< index_offset, for cheap frame lookup */
 } masko_pack_t;
 
+/** Validate and decode only the 64-byte header, before a remote pack is fetched. */
+int masko_pack_read_header(const void *header, size_t len,
+                           masko_pack_header_t *out);
+
 /** @brief Validate the header CRC and pack structure, then decode the header.
  * The payload CRC is available in the header for optional validation by callers. */
 int masko_pack_open(const void *base, size_t size, masko_pack_t *out);
