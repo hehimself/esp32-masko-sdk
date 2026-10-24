@@ -232,12 +232,22 @@ static void report(stream_app_t *a)
     const masko_stats_t p = masko_player_stats(a->player);
     const masko_http_stats_t h = masko_http_stats(a->http);
     const double sec = (double)(esp_timer_get_time()-a->stats_start_us)/1e6;
+    const uint32_t shown = p.frames_shown-a->last_player_stats.frames_shown;
+    const int64_t decode_total = p.decode_us_total-a->last_player_stats.decode_us_total;
+    const int64_t push_total = p.push_us_total-a->last_player_stats.push_us_total;
+    const int64_t decode_avg = shown ? decode_total/shown : 0;
+    const int64_t push_avg = shown ? push_total/shown : 0;
+    const int64_t slower_stage = decode_avg > push_avg ? decode_avg : push_avg;
+    const double render_ceiling = slower_stage > 0 ?
+        1e6/(double)slower_stage : 0;
     ESP_LOGI(TAG, "30s: %.1f fps, shown=%u, dropped=%u, underrun=%u, "
                   "stream stalls=%u, wait=%lld ms, HTTP bytes=%llu, "
                   "requests=%u, failures=%u, cache hits=%u, misses=%u, "
-                  "peak request=%u ms, heap internal=%u (low %u) PSRAM=%u (low %u)",
+                  "peak request=%u ms, decode=%lld/%lld us avg/max, "
+                  "push=%lld/%lld us avg/max, render ceiling=%.1f fps, "
+                  "heap internal=%u (low %u) PSRAM=%u (low %u)",
              sec > 0 ? (p.frames_shown-a->last_player_stats.frames_shown)/sec : 0,
-             (unsigned)(p.frames_shown-a->last_player_stats.frames_shown),
+             (unsigned)shown,
              (unsigned)(p.frames_dropped-a->last_player_stats.frames_dropped),
              (unsigned)(p.underruns-a->last_player_stats.underruns),
              (unsigned)(p.stream_stalls-a->last_player_stats.stream_stalls),
@@ -248,6 +258,8 @@ static void report(stream_app_t *a)
              (unsigned)(h.cache_hits-a->last_http_stats.cache_hits),
              (unsigned)(h.cache_misses-a->last_http_stats.cache_misses),
              (unsigned)h.peak_request_ms,
+             (long long)decode_avg, (long long)p.decode_us_max,
+             (long long)push_avg, (long long)p.push_us_max, render_ceiling,
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
              (unsigned)heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL),
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM),
@@ -255,6 +267,22 @@ static void report(stream_app_t *a)
     a->last_player_stats = p;
     a->last_http_stats = h;
     a->stats_start_us = esp_timer_get_time();
+}
+
+static void start_active_cache(stream_app_t *a)
+{
+#if CONFIG_MASKO_STREAM_FULL_CACHE_KIB > 0
+    /* One-shot transitions are short-lived; caching them duplicates traffic
+     * and the cache is freed as soon as the target loop starts. */
+    if (!a->active_clip || !a->active_edge || !a->active_edge->is_loop) return;
+    const esp_err_t err = masko_http_clip_cache_start(
+        a->active_clip, CONFIG_MASKO_STREAM_FULL_CACHE_KIB*1024u);
+    if (err != ESP_OK)
+        ESP_LOGI(TAG, "full clip cache unavailable; keep range streaming: %s",
+                 esp_err_to_name(err));
+#else
+    (void)a;
+#endif
 }
 
 static void input_task(void *ctx)
@@ -303,6 +331,7 @@ static void handle_message(stream_app_t *a, msg_t m)
             a->pending_clip = NULL;
             a->pending_edge = NULL;
             if (old) masko_http_clip_close(old);
+            start_active_cache(a);
         }
         if (a->active_edge && a->active_edge->is_loop)
             a->loop_start_us = m.at_us;
@@ -406,6 +435,7 @@ void masko_stream_demo_main(void)
     ESP_ERROR_CHECK(masko_player_create(&pc, &app.player));
     app.edge_request_us = esp_timer_get_time();
     ESP_ERROR_CHECK(masko_player_play(app.player));
+    start_active_cache(&app);
     if (xTaskCreatePinnedToCore(input_task, "masko_input", 4096, &app, 3,
                                 NULL, 0) != pdPASS) {
         ESP_LOGE(TAG, "input task allocation failed"); return;

@@ -18,7 +18,7 @@ typedef struct {
     uint32_t peak_request_ms;
 } masko_http_stats_t;
 
-/** One worker services all HTTP range requests. cache_bytes is the size of
+/** One worker services frame HTTP range requests. cache_bytes is the size of
  * each of two frame-aligned PSRAM cache slots per open clip. */
 esp_err_t masko_http_new(size_t cache_bytes, masko_http_t **out);
 void masko_http_free(masko_http_t *http);
@@ -30,6 +30,10 @@ void masko_http_clip_close(masko_http_clip_t *clip);
 const masko_frame_source_t *masko_http_clip_source(masko_http_clip_t *clip);
 /** Apply the delivery graph's loop and speed metadata to an opened pack. */
 void masko_http_clip_configure(masko_http_clip_t *clip, bool loop, uint8_t speed);
+/** Start a background download of this clip's frame data into PSRAM. Once
+ * complete, frames are served from memory and the two range slots are freed.
+ * Assets larger than max_bytes or memory-limited assets keep streaming. */
+esp_err_t masko_http_clip_cache_start(masko_http_clip_t *clip, size_t max_bytes);
 masko_http_stats_t masko_http_stats(const masko_http_t *http);
 
 /** A board-side network probe using the same TLS and Range path as playback.

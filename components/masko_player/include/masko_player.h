@@ -70,8 +70,10 @@ typedef struct {
     int64_t  decode_us_max;
     int64_t  push_us_avg;
     int64_t  push_us_max;
+    int64_t  decode_us_total;
+    int64_t  push_us_total;
     double   achieved_fps;
-    double   ceiling_fps;   /* 1e6 / (decode + push) as measured */
+    double   ceiling_fps;   /* pipeline limit: 1e6 / max(decode, push) */
 } masko_stats_t;
 
 esp_err_t masko_player_create(const masko_player_cfg_t *cfg, masko_player_t **out);

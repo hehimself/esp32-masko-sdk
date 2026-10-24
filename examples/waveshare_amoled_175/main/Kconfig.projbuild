@@ -28,6 +28,12 @@ config MASKO_STREAM_CACHE_KIB
     default 512
     range 128 1024
 
+config MASKO_STREAM_FULL_CACHE_KIB
+    int "Maximum per-clip PSRAM cache (KiB; 0 disables full-clip caching)"
+    depends on MASKO_STREAM_ENABLE
+    default 2304
+    range 0 4096
+
 config MASKO_PACK_IN_FLASH
     bool "Play the pack from the 'masko' flash partition"
     default y

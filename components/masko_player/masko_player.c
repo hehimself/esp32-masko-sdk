@@ -708,12 +708,17 @@ masko_stats_t masko_player_stats(const masko_player_t *p)
     s.stream_wait_us  = p->stream_wait_us;
     s.decode_us_max   = p->decode_us_max;
     s.push_us_max     = p->push_us_max;
+    s.decode_us_total = p->decode_us_total;
+    s.push_us_total   = p->push_us_total;
     if (p->frames_shown > 0) {
         s.decode_us_avg = p->decode_us_total / p->frames_shown;
         s.push_us_avg   = p->push_us_total / p->frames_shown;
-        const int64_t mean = s.decode_us_avg + s.push_us_avg;
-        if (mean > 0) {
-            s.ceiling_fps = 1e6 / (double)mean;
+        const int64_t stage = s.decode_us_avg > s.push_us_avg ?
+                              s.decode_us_avg : s.push_us_avg;
+        if (stage > 0) {
+            /* Decode and panel DMA push run on separate cores. The slower
+             * stage, not their sum, limits the overlapped pipeline rate. */
+            s.ceiling_fps = 1e6 / (double)stage;
         }
     }
     s.achieved_fps = p->active_fps;
