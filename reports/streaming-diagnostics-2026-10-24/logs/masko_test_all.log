@@ -1,0 +1,103 @@
+###############################################################
+# masko_core -- pack reader
+###############################################################
+
+/Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175/assets/mango_loop.mkpk (1271008 bytes)
+  [PASS] pack opens
+  [PASS] frame_count > 0
+  [PASS] bbox_w is MCU-aligned
+  [PASS] fps parses
+  [PASS] payload CRC matches header
+  [PASS] all frame offsets are in range
+  [PASS] all frames are FFD8..FFD9
+  frames=124 avg=9947B min=9791B max=10071B total=1233380B
+  [PASS] all frames are 512-byte aligned
+  [PASS] out-of-range frame index is refused
+
+Corruption handling
+  [PASS] bad magic is rejected
+  [PASS] unknown version is rejected
+  [PASS] tampered header is caught by CRC
+  [PASS] undersized buffer is refused
+  [PASS] NULL is refused
+  [PASS] truncated file is rejected
+
+Concatenated MJPEG indexer
+  [PASS] empty stream -> 0
+  [PASS] NULL -> 0
+  [PASS] frame without EOI is rejected
+  [PASS] two adjacent frames -> 2
+  [PASS] padding between frames is skipped
+  [PASS] max_frames caps the count
+
+ALL TESTS PASSED (21 checks, 0 failures)
+
+###############################################################
+# masko_graph -- canvas state machine and JSON loader
+###############################################################
+== graph state machine ==
+Canvas state machine
+  [PASS] init
+  [PASS] with no inputs set, the loop edge plays
+  [PASS] loop edge is not a transition
+  [PASS] loop repeats without an input change
+  [PASS] set input happy
+  [PASS] happy=true selects the happy transition
+  [PASS] machine lands in the target node and plays its loop
+  [PASS] happy has no reachable transition, so it loops
+  [PASS] loop counter advanced
+  [PASS] exactly one transition taken
+  [PASS] wave=true selects the wave transition
+  [PASS] lands in wave and plays wave.loop.mp4
+  [PASS] with both inputs set, the earlier-declared edge wins
+  [PASS] setting an unknown input is refused
+  [PASS] condition on an undeclared input evaluates false
+  [PASS] init with caller pools
+  [PASS] caller pool was written, not swapped
+  [PASS] caller pool survives masko_graph_free
+  [PASS] unknown initial node is refused
+
+ALL TESTS PASSED (19 checks, 0 failures)
+
+== MaskoAnimationConfig loader ==
+MaskoAnimationConfig loader
+  [PASS] parse a valid config
+  [PASS] node, edge and input counts match the document
+  [PASS] all five conditions were collected
+  [PASS] autoPlay parsed
+  [PASS] isLoop edges recognised
+  [PASS] transition edges not marked as loops
+  [PASS] every parsed string points inside the arena
+  [PASS] bind to masko_graph_t
+  [PASS] bound view carries the counts
+  [PASS] initialNode carried through
+  [PASS] init runtime
+  [PASS] the loop edge plays first
+  [PASS] loop repeats while no condition holds
+  [PASS] happy == true selects the happy transition
+  [PASS] machine lands in the target node and plays its loop
+  [PASS] energy == 3 (its default) takes the numeric edge
+  [PASS] landing back in idle plays idle's loop
+  [PASS] energy != 3 leaves the node looping
+  [PASS] with happy and wave set, the earlier-declared edge wins
+  [PASS] an edge with two conditions fires only when both hold
+  [PASS] one of two conditions satisfied does not fire the edge
+  [PASS] wave == true selects the wave transition
+  [PASS] lands in wave and plays wave.loop.mkpk
+
+Rejections
+  [PASS] malformed JSON
+  [PASS] top level is not an object
+  [PASS] missing initialNode
+  [PASS] initialNode is not a declared node
+  [PASS] edge names an undeclared node
+  [PASS] condition on an undeclared input
+  [PASS] operator other than ==
+  [PASS] node with no loop edge
+  [PASS] NULL text is refused
+  [PASS] NULL output is refused
+  [PASS] empty text is refused
+
+ALL TESTS PASSED (34 checks, 0 failures)
+
+ALL HOST TESTS PASSED

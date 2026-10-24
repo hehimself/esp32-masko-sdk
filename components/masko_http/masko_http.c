@@ -16,6 +16,7 @@
 #include "freertos/task.h"
 
 static const char *TAG = "masko_http";
+#define CACHE_FILL_CHUNK (256u * 1024u)
 
 typedef struct {
     uint8_t *dst;
@@ -51,11 +52,16 @@ struct masko_http_clip_t {
     bool closing;
     bool cache_running;
     bool cache_installing;
-    uint8_t *cache_data_temp;
-    uint8_t *cache_data;
+    bool cache_attempted;
+    bool cache_task_started;
+    uint8_t **cache_chunks_temp;
+    uint8_t **cache_chunks;
+    size_t cache_chunk_count;
     size_t cache_data_len;
+    size_t cache_done_bytes;
     int64_t cache_started_us;
     SemaphoreHandle_t cache_chunk_done;
+    SemaphoreHandle_t cache_task_done;
     esp_err_t cache_chunk_result;
 };
 
@@ -65,7 +71,16 @@ typedef struct {
     uint32_t first, last, offset, length;
     bool cache_job;
     uint8_t *cache_dst;
+    int64_t queued_us;
 } job_t;
+
+static void free_cache_chunks(uint8_t **chunks, size_t count)
+{
+    if (!chunks) return;
+    for (size_t i = 0; i < count; i++)
+        if (chunks[i]) heap_caps_free(chunks[i]);
+    free(chunks);
+}
 
 static esp_err_t on_http(esp_http_client_event_t *ev)
 {
@@ -143,6 +158,8 @@ static void worker(void *arg)
         if (!client) client = client_new(job.clip->url, &transfer);
         uint8_t *dst = job.cache_job ? job.cache_dst :
                        job.clip->slot[job.slot].data;
+        const int64_t request_start_us = esp_timer_get_time();
+        const uint64_t queue_wait_us = (uint64_t)(request_start_us-job.queued_us);
         const int64_t start = esp_timer_get_time();
         uint32_t total = 0;
         esp_err_t err = client ? read_range(client, &transfer, job.clip->url,
@@ -165,7 +182,10 @@ static void worker(void *arg)
         xSemaphoreTake(http->lock, portMAX_DELAY);
         if (job.cache_job) {
             job.clip->cache_chunk_result = err;
-            if (err == ESP_OK) http->stats.bytes += job.length;
+            if (err == ESP_OK) {
+                http->stats.bytes += job.length;
+                http->stats.cache_bytes += job.length;
+            }
         } else {
             slot_t *s = &job.clip->slot[job.slot];
             if (err == ESP_OK) {
@@ -173,6 +193,7 @@ static void worker(void *arg)
                 s->offset = job.offset; s->length = job.length;
                 s->ready = true;
                 http->stats.bytes += job.length;
+                http->stats.frame_bytes += job.length;
             } else {
                 s->ready = false;
                 ESP_LOGW(TAG, "range failed for %s: %s", job.clip->url,
@@ -182,7 +203,16 @@ static void worker(void *arg)
         if (!job.cache_job) job.clip->slot[job.slot].busy = false;
         if (err != ESP_OK) http->stats.failures++;
         http->stats.requests++;
+        http->stats.request_us_total += (uint64_t)(esp_timer_get_time()-start);
+        http->stats.queue_wait_us_total += queue_wait_us;
         if (ms > http->stats.peak_request_ms) http->stats.peak_request_ms = ms;
+        if (job.cache_job) http->stats.cache_requests++;
+        else http->stats.frame_requests++;
+        if (queue_wait_us >= 100000) http->stats.delayed_jobs_100ms++;
+        if (queue_wait_us >= 500000) http->stats.delayed_jobs_500ms++;
+        if (ms >= 250) http->stats.slow_requests_250ms++;
+        if (ms >= 1000) http->stats.slow_requests_1s++;
+        if (ms >= 3000) http->stats.slow_requests_3s++;
         job.clip->jobs_outstanding--;
         xSemaphoreGive(http->lock);
         if (job.cache_job) xSemaphoreGive(job.clip->cache_chunk_done);
@@ -232,7 +262,7 @@ static bool enqueue(masko_http_clip_t *c, unsigned slot, uint32_t at, bool rever
 {
     masko_http_t *h = c->http;
     if (slot > 1 || at >= c->source.header.frame_count ||
-        c->slot[slot].busy || c->closing) return false;
+        c->slot[slot].busy || !c->slot[slot].data || c->closing) return false;
     uint32_t lo = at, hi = at;
     const uint32_t base = c->offsets[at];
     /* A cold scene should not wait for a full 512-KiB cache fill before its
@@ -251,7 +281,8 @@ static bool enqueue(masko_http_clip_t *c, unsigned slot, uint32_t at, bool rever
             hi++;
     }
     job_t job = { c, (uint8_t)slot, lo, hi, c->offsets[lo],
-                  c->offsets[hi] + c->lengths[hi] - c->offsets[lo] };
+                  c->offsets[hi] + c->lengths[hi] - c->offsets[lo],
+                  false, NULL, esp_timer_get_time() };
     if (job.length > h->cache_bytes) return false;
     c->slot[slot].busy = true;
     c->slot[slot].ready = false;
@@ -277,9 +308,22 @@ static esp_err_t frame_read(void *context, uint32_t frame, bool reverse,
     bool miss_counted = false;
     do {
         xSemaphoreTake(h->lock, portMAX_DELAY);
-        if (c->cache_data) {
+        if (c->cache_chunks) {
             const uint32_t pos = c->offsets[frame] - c->source.header.data_offset;
-            memcpy(dst, c->cache_data + pos, c->lengths[frame]);
+            size_t copied = 0;
+            while (copied < c->lengths[frame]) {
+                const size_t absolute = (size_t)pos + copied;
+                const size_t chunk_index = absolute / CACHE_FILL_CHUNK;
+                const size_t chunk_offset = absolute % CACHE_FILL_CHUNK;
+                const size_t chunk_capacity = (chunk_index+1 == c->cache_chunk_count &&
+                    c->cache_data_len % CACHE_FILL_CHUNK) ?
+                    c->cache_data_len % CACHE_FILL_CHUNK : CACHE_FILL_CHUNK;
+                size_t part = chunk_capacity-chunk_offset;
+                if (part > c->lengths[frame]-copied)
+                    part = c->lengths[frame]-copied;
+                memcpy(dst+copied, c->cache_chunks[chunk_index]+chunk_offset, part);
+                copied += part;
+            }
             *length = c->lengths[frame];
             h->stats.cache_hits++;
             xSemaphoreGive(h->lock);
@@ -346,7 +390,12 @@ esp_err_t masko_http_clip_open(masko_http_t *http, const char *url,
     c->url = strdup(url);
     if (!c->url) { free(c); return ESP_ERR_NO_MEM; }
     c->cache_chunk_done = xSemaphoreCreateBinary();
-    if (!c->cache_chunk_done) { free(c->url); free(c); return ESP_ERR_NO_MEM; }
+    c->cache_task_done = xSemaphoreCreateBinary();
+    if (!c->cache_chunk_done || !c->cache_task_done) {
+        if (c->cache_chunk_done) vSemaphoreDelete(c->cache_chunk_done);
+        if (c->cache_task_done) vSemaphoreDelete(c->cache_task_done);
+        free(c->url); free(c); return ESP_ERR_NO_MEM;
+    }
     transfer_t t = {0};
     esp_http_client_handle_t client = client_new(url, &t);
     uint8_t hdr[MASKO_HEADER_SIZE];
@@ -437,13 +486,20 @@ void masko_http_clip_close(masko_http_clip_t *c)
             if (!busy) break;
             vTaskDelay(pdMS_TO_TICKS(10));
         }
+        if (c->cache_task_started) {
+            xSemaphoreTake(c->cache_task_done, portMAX_DELAY);
+            c->cache_task_started = false;
+        }
     }
     for (unsigned i = 0; i < 2; i++)
         if (c->slot[i].data) heap_caps_free(c->slot[i].data);
     if (c->offsets) heap_caps_free(c->offsets);
-    if (c->cache_data) heap_caps_free(c->cache_data);
-    if (c->cache_data_temp) heap_caps_free(c->cache_data_temp);
+    free_cache_chunks(c->cache_chunks, c->cache_chunk_count);
+    free_cache_chunks(c->cache_chunks_temp,
+                      (c->source.header.file_size-c->source.header.data_offset+
+                       CACHE_FILL_CHUNK-1)/CACHE_FILL_CHUNK);
     if (c->cache_chunk_done) vSemaphoreDelete(c->cache_chunk_done);
+    if (c->cache_task_done) vSemaphoreDelete(c->cache_task_done);
     free(c->url);
     free(c);
 }
@@ -466,7 +522,7 @@ static void full_cache_task(void *arg)
     masko_http_clip_t *c = arg;
     masko_http_t *h = c->http;
     const size_t len = c->source.header.file_size - c->source.header.data_offset;
-    uint8_t *data = c->cache_data_temp;
+    uint8_t **chunks = c->cache_chunks_temp;
     esp_err_t err = ESP_OK;
     size_t done = 0;
     while (err == ESP_OK && done < len) {
@@ -475,7 +531,7 @@ static void full_cache_task(void *arg)
         xSemaphoreGive(h->lock);
         if (closing) { err = ESP_ERR_INVALID_STATE; break; }
 
-        const size_t chunk = (len - done > 256 * 1024) ? 256 * 1024 : len - done;
+        const size_t chunk = (len-done > CACHE_FILL_CHUNK) ? CACHE_FILL_CHUNK : len-done;
         xSemaphoreTake(h->lock, portMAX_DELAY);
         if (c->closing) {
             xSemaphoreGive(h->lock);
@@ -488,7 +544,8 @@ static void full_cache_task(void *arg)
             .offset = c->source.header.data_offset + (uint32_t)done,
             .length = (uint32_t)chunk,
             .cache_job = true,
-            .cache_dst = data + done,
+            .cache_dst = chunks[done/CACHE_FILL_CHUNK],
+            .queued_us = esp_timer_get_time(),
         };
         c->jobs_outstanding++;
         if (xQueueSend(h->cache_jobs, &job, 0) != pdTRUE) {
@@ -502,7 +559,12 @@ static void full_cache_task(void *arg)
         xSemaphoreTake(h->lock, portMAX_DELAY);
         err = c->cache_chunk_result;
         xSemaphoreGive(h->lock);
-        if (err == ESP_OK) done += chunk;
+        if (err == ESP_OK) {
+            done += chunk;
+            xSemaphoreTake(h->lock, portMAX_DELAY);
+            c->cache_done_bytes = done;
+            xSemaphoreGive(h->lock);
+        }
     }
 
     if (err == ESP_OK) {
@@ -516,9 +578,10 @@ static void full_cache_task(void *arg)
             const bool ready = c->jobs_outstanding == 0 && !c->closing;
             const bool closing = c->closing;
             if (ready) {
-                c->cache_data = data;
+                c->cache_chunks = chunks;
+                c->cache_chunk_count = (len+CACHE_FILL_CHUNK-1)/CACHE_FILL_CHUNK;
                 c->cache_data_len = len;
-                c->cache_data_temp = NULL;
+                c->cache_chunks_temp = NULL;
                 for (unsigned i = 0; i < 2; i++) {
                     if (c->slot[i].data) heap_caps_free(c->slot[i].data);
                     c->slot[i].data = NULL;
@@ -531,6 +594,7 @@ static void full_cache_task(void *arg)
                 ESP_LOGI(TAG, "full clip cache ready: %u bytes PSRAM, %u frames, %lld ms",
                          (unsigned)len, (unsigned)c->source.header.frame_count,
                          (long long)((esp_timer_get_time()-c->cache_started_us)/1000));
+                xSemaphoreGive(c->cache_task_done);
                 vTaskDelete(NULL);
             }
             xSemaphoreGive(h->lock);
@@ -540,57 +604,99 @@ static void full_cache_task(void *arg)
     }
 
     xSemaphoreTake(h->lock, portMAX_DELAY);
-    if (c->cache_data_temp == data) c->cache_data_temp = NULL;
+    const size_t chunk_count = (len+CACHE_FILL_CHUNK-1)/CACHE_FILL_CHUNK;
+    if (c->cache_chunks_temp == chunks) c->cache_chunks_temp = NULL;
     c->cache_installing = false;
     c->cache_running = false;
     xSemaphoreGive(h->lock);
-    if (data) heap_caps_free(data);
+    if (chunks) free_cache_chunks(chunks, chunk_count);
     if (err != ESP_ERR_INVALID_STATE)
         ESP_LOGW(TAG, "full clip cache stopped after %u/%u bytes: %s",
                  (unsigned)done, (unsigned)len, esp_err_to_name(err));
+    xSemaphoreGive(c->cache_task_done);
     vTaskDelete(NULL);
 }
 
-esp_err_t masko_http_clip_cache_start(masko_http_clip_t *c, size_t max_bytes)
+static esp_err_t clip_cache_start(masko_http_clip_t *c, size_t max_bytes,
+                                  bool prefetch_only)
 {
     if (!c || !max_bytes) return ESP_ERR_INVALID_ARG;
     const size_t len = c->source.header.file_size - c->source.header.data_offset;
     if (len > max_bytes) return ESP_ERR_INVALID_SIZE;
     masko_http_t *h = c->http;
     xSemaphoreTake(h->lock, portMAX_DELAY);
-    if (c->cache_running || c->cache_data || c->closing) {
+    if (c->cache_running || c->cache_chunks || c->cache_attempted || c->closing) {
+        xSemaphoreGive(h->lock);
+        return ESP_ERR_INVALID_STATE;
+    }
+    if (prefetch_only && c->jobs_outstanding) {
         xSemaphoreGive(h->lock);
         return ESP_ERR_INVALID_STATE;
     }
     c->cache_running = true;
+    c->cache_attempted = true;
+    c->cache_done_bytes = 0;
+    if (prefetch_only) {
+        c->cache_installing = true;
+        for (unsigned i = 0; i < 2; i++) {
+            if (c->slot[i].data) heap_caps_free(c->slot[i].data);
+            c->slot[i].data = NULL;
+            c->slot[i].ready = false;
+            c->slot[i].busy = false;
+        }
+    }
     xSemaphoreGive(h->lock);
 
     const size_t free_psram = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
     const size_t largest_psram = heap_caps_get_largest_free_block(
         MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-    uint8_t *data = heap_caps_malloc(len, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-    if (!data) {
+    const size_t chunk_count = (len+CACHE_FILL_CHUNK-1)/CACHE_FILL_CHUNK;
+    uint8_t **chunks = calloc(chunk_count, sizeof(*chunks));
+    bool allocation_failed = chunks == NULL;
+    for (size_t i = 0; chunks && i < chunk_count; i++) {
+        const size_t offset = i*CACHE_FILL_CHUNK;
+        const size_t size = len-offset > CACHE_FILL_CHUNK ?
+                            CACHE_FILL_CHUNK : len-offset;
+        chunks[i] = heap_caps_malloc(size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+        if (!chunks[i]) { allocation_failed = true; break; }
+    }
+    if (allocation_failed) {
+        free_cache_chunks(chunks, chunk_count);
         xSemaphoreTake(h->lock, portMAX_DELAY);
         c->cache_running = false;
+        c->cache_installing = false;
         xSemaphoreGive(h->lock);
-        ESP_LOGW(TAG, "full clip cache allocation failed: need=%u free=%u largest=%u",
-                 (unsigned)len, (unsigned)free_psram, (unsigned)largest_psram);
+        ESP_LOGW(TAG, "full clip cache allocation failed: need=%u free=%u largest=%u chunk=%u",
+                 (unsigned)len, (unsigned)free_psram, (unsigned)largest_psram,
+                 (unsigned)CACHE_FILL_CHUNK);
         return ESP_ERR_NO_MEM;
     }
     c->cache_started_us = esp_timer_get_time();
-    c->cache_data_temp = data;
+    c->cache_chunks_temp = chunks;
     if (xTaskCreatePinnedToCore(full_cache_task, "masko_clip_cache", 3072, c,
                                 3, NULL, 0) != pdPASS) {
-        c->cache_data_temp = NULL;
+        c->cache_chunks_temp = NULL;
         xSemaphoreTake(h->lock, portMAX_DELAY);
         c->cache_running = false;
+        c->cache_installing = false;
         xSemaphoreGive(h->lock);
-        heap_caps_free(data);
+        free_cache_chunks(chunks, chunk_count);
         return ESP_ERR_NO_MEM;
     }
+    c->cache_task_started = true;
     ESP_LOGI(TAG, "full clip cache started: %u bytes PSRAM, %u frames",
              (unsigned)len, (unsigned)c->source.header.frame_count);
     return ESP_OK;
+}
+
+esp_err_t masko_http_clip_cache_start(masko_http_clip_t *c, size_t max_bytes)
+{
+    return clip_cache_start(c, max_bytes, false);
+}
+
+esp_err_t masko_http_clip_cache_prefetch(masko_http_clip_t *c, size_t max_bytes)
+{
+    return clip_cache_start(c, max_bytes, true);
 }
 
 masko_http_stats_t masko_http_stats(const masko_http_t *h)
@@ -600,6 +706,20 @@ masko_http_stats_t masko_http_stats(const masko_http_t *h)
     xSemaphoreTake(h->lock, portMAX_DELAY);
     masko_http_stats_t s = h->stats;
     xSemaphoreGive(h->lock);
+    return s;
+}
+
+masko_http_cache_stats_t masko_http_clip_cache_stats(const masko_http_clip_t *c)
+{
+    masko_http_cache_stats_t s = {0};
+    if (!c || !c->http) return s;
+    xSemaphoreTake(c->http->lock, portMAX_DELAY);
+    s.attempted = c->cache_attempted;
+    s.filling = c->cache_running;
+    s.ready = c->cache_chunks != NULL;
+    s.downloaded_bytes = c->cache_done_bytes;
+    s.total_bytes = c->source.header.file_size-c->source.header.data_offset;
+    xSemaphoreGive(c->http->lock);
     return s;
 }
 

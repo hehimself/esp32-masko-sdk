@@ -175,3 +175,21 @@ window, although our 16,384-byte CDN experiment did not reproduce that large
 gain. Another [Espressif issue](https://github.com/espressif/esp-idf/issues/15385)
 reports that high iPerf throughput can coexist with slow application HTTP
 transfers; its workload differs from our download path.
+
+## 2026-10-24 cache and bottleneck diagnosis
+
+The complete available serial, build, and flash captures are preserved in
+[`reports/streaming-diagnostics-2026-10-24/logs/`](reports/streaming-diagnostics-2026-10-24/logs/).
+The detailed diagnosis, measurements, root-cause assessment, and ranked
+improvements are in
+[`reports/streaming-diagnostics-2026-10-24/REPORT.md`](reports/streaming-diagnostics-2026-10-24/REPORT.md).
+
+The key result is that fully cached loops sustain about 24–25.5 fps with
+near-zero source wait and no observed stalls in steady diagnostic windows;
+cold loop fill and live-streamed transition clips still freeze and drop well
+below target. This points first to source availability and the single HTTP
+worker's scheduling, not to the decoder or display. A contiguous PSRAM
+allocation failure was solved for tested loop sizes by chunking the cache, but
+memory headroom remains limited. Transition prefetch changes made after the
+last flashed run were removed; the demo source is back at the tested
+loop-prefetch state. No additional device test was run for this report.

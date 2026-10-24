@@ -85,7 +85,16 @@ struct masko_player_t {
     volatile uint32_t frames_dropped;
     volatile uint32_t underruns;
     volatile uint32_t stream_stalls;
+    volatile uint32_t source_reads;
+    volatile uint32_t display_gaps_100ms;
+    volatile uint32_t display_gaps_500ms;
+    volatile uint32_t display_gaps_1s;
     volatile int64_t  stream_wait_us;
+    volatile int64_t  stream_wait_us_max;
+    volatile int64_t  push_queue_wait_us_total;
+    volatile int64_t  push_queue_wait_us_max;
+    volatile int64_t  display_gap_us_max;
+    volatile int64_t  last_push_start_us;
     volatile int64_t  decode_us_max;
     volatile int64_t  push_us_max;
     volatile int64_t  decode_us_total;
@@ -159,7 +168,11 @@ static void decode_task(void *arg)
                 const esp_err_t read_err = frame_source->read_frame(
                     frame_source->context, frame_idx, frame_reverse,
                     p->jpeg_buf, STREAM_JPEG_CAP, &jlen, 300);
-                p->stream_wait_us += esp_timer_get_time() - wait_start;
+                const int64_t wait_us = esp_timer_get_time() - wait_start;
+                p->source_reads++;
+                p->stream_wait_us += wait_us;
+                if (wait_us > p->stream_wait_us_max)
+                    p->stream_wait_us_max = wait_us;
                 if (read_err != ESP_OK) {
                     if (read_err == ESP_ERR_TIMEOUT) {
                         p->stream_stalls++;
@@ -279,7 +292,14 @@ static void push_task(void *arg)
 
     while (sw->running) {
         frame_t frame;
-        if (xQueueReceive(sw->ready, &frame, pdMS_TO_TICKS(200)) != pdTRUE) {
+        const int64_t queue_wait_start = esp_timer_get_time();
+        const BaseType_t got_frame = xQueueReceive(sw->ready, &frame,
+                                                   pdMS_TO_TICKS(200));
+        const int64_t queue_wait_us = esp_timer_get_time()-queue_wait_start;
+        p->push_queue_wait_us_total += queue_wait_us;
+        if (queue_wait_us > p->push_queue_wait_us_max)
+            p->push_queue_wait_us_max = queue_wait_us;
+        if (got_frame != pdTRUE) {
             if (!sw->running) break;
             if (!p->clip_ended) {
                 p->underruns++;
@@ -290,6 +310,14 @@ static void push_task(void *arg)
         if (!sw->running) break;
 
         const int64_t t0 = esp_timer_get_time();
+        if (p->last_push_start_us) {
+            const int64_t gap_us = t0-p->last_push_start_us;
+            if (gap_us > p->display_gap_us_max) p->display_gap_us_max = gap_us;
+            if (gap_us >= 100000) p->display_gaps_100ms++;
+            if (gap_us >= 500000) p->display_gaps_500ms++;
+            if (gap_us >= 1000000) p->display_gaps_1s++;
+        }
+        p->last_push_start_us = t0;
         const esp_err_t err = masko_display_blit(p->display,
                                                   frame.x, frame.y,
                                                   sw->w, sw->h, sw->buf[frame.buf]);
@@ -620,7 +648,12 @@ esp_err_t masko_player_play(masko_player_t *p)
     p->frames_dropped = 0;
     p->underruns = 0;
     p->stream_stalls = 0;
+    p->source_reads = 0;
+    p->display_gaps_100ms = p->display_gaps_500ms = p->display_gaps_1s = 0;
     p->stream_wait_us = 0;
+    p->stream_wait_us_max = 0;
+    p->push_queue_wait_us_total = p->push_queue_wait_us_max = 0;
+    p->display_gap_us_max = p->last_push_start_us = 0;
     p->decode_us_max = p->push_us_max = 0;
     p->decode_us_total = p->push_us_total = 0;
     p->first_frame_us = 0;
@@ -705,7 +738,15 @@ masko_stats_t masko_player_stats(const masko_player_t *p)
     s.frames_dropped  = p->frames_dropped;
     s.underruns       = p->underruns;
     s.stream_stalls   = p->stream_stalls;
+    s.source_reads    = p->source_reads;
+    s.display_gaps_100ms = p->display_gaps_100ms;
+    s.display_gaps_500ms = p->display_gaps_500ms;
+    s.display_gaps_1s = p->display_gaps_1s;
     s.stream_wait_us  = p->stream_wait_us;
+    s.stream_wait_us_max = p->stream_wait_us_max;
+    s.push_queue_wait_us_total = p->push_queue_wait_us_total;
+    s.push_queue_wait_us_max = p->push_queue_wait_us_max;
+    s.display_gap_us_max = p->display_gap_us_max;
     s.decode_us_max   = p->decode_us_max;
     s.push_us_max     = p->push_us_max;
     s.decode_us_total = p->decode_us_total;

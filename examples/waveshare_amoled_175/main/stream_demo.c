@@ -44,14 +44,20 @@ typedef struct {
     QueueHandle_t events;
     esp_lcd_touch_handle_t touch;
     masko_http_clip_t *active_clip, *pending_clip;
+    masko_http_clip_t *prefetch_clip;
     const masko_edge_t *active_edge, *pending_edge;
+    const masko_edge_t *prefetch_edge;
     int current_node, wanted_node, next_touch_node;
+    int prefetch_node, prefetch_failed_node;
     int64_t request_us, edge_request_us, loop_start_us;
     int64_t stats_start_us;
+    int64_t diag_start_us;
     int64_t last_prepare_attempt_us;
     bool need_next;
     masko_stats_t last_player_stats;
     masko_http_stats_t last_http_stats;
+    masko_stats_t diag_player_stats;
+    masko_http_stats_t diag_http_stats;
 } stream_app_t;
 
 static stream_app_t app;
@@ -171,6 +177,20 @@ static const masko_edge_t *direct_edge(stream_app_t *a, int src, int dst)
     return NULL;
 }
 
+static const char *edge_url(stream_app_t *a, const masko_edge_t *edge,
+                            bool *reverse)
+{
+    *reverse = false;
+    if (edge->clip) return edge->clip;
+    if (!edge_reverse(a, edge)) return NULL;
+    const int rest = node_index(a, "jar-gazing");
+    const int from = node_index(a, edge->source);
+    const masko_edge_t *forward = direct_edge(a, rest, from);
+    if (!forward) return NULL;
+    *reverse = true;
+    return forward->clip;
+}
+
 static const masko_edge_t *next_edge(stream_app_t *a)
 {
     if (a->current_node == a->wanted_node)
@@ -183,20 +203,69 @@ static const masko_edge_t *next_edge(stream_app_t *a)
     return masko_graph_loop(&a->graph, a->wanted_node);
 }
 
+static void discard_prefetch(stream_app_t *a)
+{
+    if (a->prefetch_clip) masko_http_clip_close(a->prefetch_clip);
+    a->prefetch_clip = NULL;
+    a->prefetch_edge = NULL;
+    a->prefetch_node = -1;
+}
+
+static void prefetch_next_loop(stream_app_t *a)
+{
+    if (a->pending_clip || !a->active_edge || !a->active_edge->is_loop ||
+        a->current_node < 0 || a->next_touch_node < 0 ||
+        a->next_touch_node == a->current_node)
+        return;
+
+    if (a->prefetch_clip) {
+        if (a->prefetch_node == a->next_touch_node ||
+            a->prefetch_node == a->wanted_node)
+            return;
+        discard_prefetch(a);
+    }
+
+    /* Keep playback on its in-memory cache while warming the next touch target. */
+    const masko_http_cache_stats_t active_cache =
+        masko_http_clip_cache_stats(a->active_clip);
+    if (!active_cache.ready) return;
+
+    const int node = a->next_touch_node;
+    if (a->prefetch_failed_node == node) return;
+    const masko_edge_t *edge = masko_graph_loop(&a->graph, node);
+    if (!edge || !edge->clip) {
+        a->prefetch_failed_node = node;
+        return;
+    }
+
+    masko_http_clip_t *clip = NULL;
+    esp_err_t err = masko_http_clip_open(a->http, edge->clip, &clip);
+    if (err == ESP_OK) {
+        masko_http_clip_configure(clip, true, edge_speed(a, edge));
+        err = masko_http_clip_cache_prefetch(
+            clip, CONFIG_MASKO_STREAM_FULL_CACHE_KIB*1024u);
+    }
+    if (err != ESP_OK) {
+        if (clip) masko_http_clip_close(clip);
+        ESP_LOGW(TAG, "next-loop prefetch unavailable for %s: %s", edge->target,
+                 esp_err_to_name(err));
+        a->prefetch_failed_node = node;
+        return;
+    }
+    a->prefetch_failed_node = -1;
+    a->prefetch_clip = clip;
+    a->prefetch_edge = edge;
+    a->prefetch_node = node;
+    ESP_LOGI(TAG, "prefetching next touch loop: %s", edge->target);
+}
+
 static esp_err_t queue_edge(stream_app_t *a, const masko_edge_t *edge,
                             bool immediate)
 {
     if (!edge || a->pending_clip) return ESP_ERR_INVALID_STATE;
     a->last_prepare_attempt_us = esp_timer_get_time();
-    const char *url = edge->clip;
     bool reverse = false;
-    if (!url && edge_reverse(a, edge)) {
-        const int rest = node_index(a, "jar-gazing");
-        const int from = node_index(a, edge->source);
-        const masko_edge_t *forward = direct_edge(a, rest, from);
-        if (forward) url = forward->clip;
-        reverse = true;
-    }
+    const char *url = edge_url(a, edge, &reverse);
     if (!url) {
         ESP_LOGE(TAG, "edge has no playable pack: %s -> %s", edge->source,
                  edge->target);
@@ -204,12 +273,29 @@ static esp_err_t queue_edge(stream_app_t *a, const masko_edge_t *edge,
     }
     const int64_t start = esp_timer_get_time();
     masko_http_clip_t *clip = NULL;
-    esp_err_t err = masko_http_clip_open(a->http, url, &clip);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "cannot open %s: %s", url, esp_err_to_name(err));
-        return err;
+    const int target_node = edge->is_loop ? node_index(a, edge->target) : -1;
+    bool prefetched = false;
+    if (edge->is_loop && a->prefetch_clip && target_node == a->prefetch_node) {
+        if (masko_http_clip_cache_stats(a->prefetch_clip).ready) {
+            clip = a->prefetch_clip;
+            a->prefetch_clip = NULL;
+            ESP_LOGI(TAG, "using prefetched loop: %s", edge->target);
+            discard_prefetch(a);
+            prefetched = true;
+        } else {
+            ESP_LOGW(TAG, "target loop prefetch not ready; using live range stream");
+            discard_prefetch(a);
+        }
+    }
+    if (!prefetched) {
+        esp_err_t open_err = masko_http_clip_open(a->http, url, &clip);
+        if (open_err != ESP_OK) {
+            ESP_LOGE(TAG, "cannot open %s: %s", url, esp_err_to_name(open_err));
+            return open_err;
+        }
     }
     masko_http_clip_configure(clip, edge->is_loop, edge_speed(a, edge));
+    esp_err_t err;
     err = masko_player_set_source(a->player, masko_http_clip_source(clip),
                                   reverse, immediate);
     if (err != ESP_OK) {
@@ -269,12 +355,78 @@ static void report(stream_app_t *a)
     a->stats_start_us = esp_timer_get_time();
 }
 
+static void report_diagnostic(stream_app_t *a)
+{
+    const masko_stats_t p = masko_player_stats(a->player);
+    const masko_http_stats_t h = masko_http_stats(a->http);
+    const masko_http_cache_stats_t c = masko_http_clip_cache_stats(a->active_clip);
+    const double sec = (double)(esp_timer_get_time()-a->diag_start_us)/1e6;
+    const uint32_t shown = p.frames_shown-a->diag_player_stats.frames_shown;
+    const uint32_t frame_reqs = h.frame_requests-a->diag_http_stats.frame_requests;
+    const uint32_t cache_reqs = h.cache_requests-a->diag_http_stats.cache_requests;
+    const uint64_t request_us = h.request_us_total-a->diag_http_stats.request_us_total;
+    const uint64_t queue_us = h.queue_wait_us_total-a->diag_http_stats.queue_wait_us_total;
+    const char *cache_state = c.ready ? "ready" : c.filling ? "fill" :
+                              c.attempted ? "failed" : "off";
+    const char *source = a->active_edge ? a->active_edge->source : "?";
+    const char *target = a->active_edge ? a->active_edge->target : "?";
+
+    ESP_LOGI(TAG, "diag state=%s->%s cache=%s %u/%uB fps=%.1f frames=%u "
+                  "src_reads=%u src_wait=%lldms src_max=%lldms stalls=%u "
+                  "queue_underrun=%u display_gap_max=%lldms gaps>100/500/1000ms=%u/%u/%u",
+             source, target, cache_state, (unsigned)c.downloaded_bytes,
+             (unsigned)c.total_bytes, sec > 0 ? shown/sec : 0.0, (unsigned)shown,
+             (unsigned)(p.source_reads-a->diag_player_stats.source_reads),
+             (long long)((p.stream_wait_us-a->diag_player_stats.stream_wait_us)/1000),
+             (long long)(p.stream_wait_us_max/1000),
+             (unsigned)(p.stream_stalls-a->diag_player_stats.stream_stalls),
+             (unsigned)(p.underruns-a->diag_player_stats.underruns),
+             (long long)(p.display_gap_us_max/1000),
+             (unsigned)(p.display_gaps_100ms-a->diag_player_stats.display_gaps_100ms),
+             (unsigned)(p.display_gaps_500ms-a->diag_player_stats.display_gaps_500ms),
+             (unsigned)(p.display_gaps_1s-a->diag_player_stats.display_gaps_1s));
+    ESP_LOGI(TAG, "diag_net req_frame/cache=%u/%u bytes_frame/cache=%llu/%llu "
+                  "req_avg=%llums queue_avg=%llums delayed>100/500ms=%u/%u "
+                  "slow>250/1000/3000ms=%u/%u/%u decoder=%lldus push=%lldus "
+                  "push_qwait=%lldms max=%lldms heap_int=%u PSRAM=%u",
+             (unsigned)frame_reqs, (unsigned)cache_reqs,
+             (unsigned long long)(h.frame_bytes-a->diag_http_stats.frame_bytes),
+             (unsigned long long)(h.cache_bytes-a->diag_http_stats.cache_bytes),
+             (unsigned long long)(h.requests ? request_us/((frame_reqs+cache_reqs) ?
+                 (frame_reqs+cache_reqs) : 1)/1000 : 0),
+             (unsigned long long)(h.requests ? queue_us/((frame_reqs+cache_reqs) ?
+                 (frame_reqs+cache_reqs) : 1)/1000 : 0),
+             (unsigned)(h.delayed_jobs_100ms-a->diag_http_stats.delayed_jobs_100ms),
+             (unsigned)(h.delayed_jobs_500ms-a->diag_http_stats.delayed_jobs_500ms),
+             (unsigned)(h.slow_requests_250ms-a->diag_http_stats.slow_requests_250ms),
+             (unsigned)(h.slow_requests_1s-a->diag_http_stats.slow_requests_1s),
+             (unsigned)(h.slow_requests_3s-a->diag_http_stats.slow_requests_3s),
+             (long long)(shown ? (p.decode_us_total-a->diag_player_stats.decode_us_total)/shown : 0),
+             (long long)(shown ? (p.push_us_total-a->diag_player_stats.push_us_total)/shown : 0),
+             (long long)((p.push_queue_wait_us_total-a->diag_player_stats.push_queue_wait_us_total)/1000),
+             (long long)(p.push_queue_wait_us_max/1000),
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
+    if (a->prefetch_clip) {
+        const masko_http_cache_stats_t prefetch =
+            masko_http_clip_cache_stats(a->prefetch_clip);
+        ESP_LOGI(TAG, "diag_prefetch state=%s cache=%s %u/%uB",
+                 a->prefetch_edge ? a->prefetch_edge->target : "?",
+                 prefetch.ready ? "ready" : prefetch.filling ? "fill" : "failed",
+                 (unsigned)prefetch.downloaded_bytes, (unsigned)prefetch.total_bytes);
+    }
+    a->diag_player_stats = p;
+    a->diag_http_stats = h;
+    a->diag_start_us = esp_timer_get_time();
+}
+
 static void start_active_cache(stream_app_t *a)
 {
 #if CONFIG_MASKO_STREAM_FULL_CACHE_KIB > 0
     /* One-shot transitions are short-lived; caching them duplicates traffic
      * and the cache is freed as soon as the target loop starts. */
     if (!a->active_clip || !a->active_edge || !a->active_edge->is_loop) return;
+    if (masko_http_clip_cache_stats(a->active_clip).attempted) return;
     const esp_err_t err = masko_http_clip_cache_start(
         a->active_clip, CONFIG_MASKO_STREAM_FULL_CACHE_KIB*1024u);
     if (err != ESP_OK)
@@ -314,6 +466,8 @@ static void handle_message(stream_app_t *a, msg_t m)
     if (m.kind == MSG_TOUCH) {
         a->wanted_node = a->next_touch_node;
         a->next_touch_node = (a->next_touch_node+1) % a->graph.nnodes;
+        if (a->prefetch_clip && a->prefetch_node != a->wanted_node)
+            discard_prefetch(a);
         a->request_us = m.at_us;
         ESP_LOGI(TAG, "%s requested %s", m.event ? "touch" : "BOOT",
                  a->graph.nodes[a->wanted_node].id);
@@ -373,6 +527,8 @@ void masko_stream_demo_main(void)
     app.current_node = node_index(&app, app.graph.initial_node);
     app.wanted_node = app.current_node;
     app.next_touch_node = (app.current_node+1) % app.graph.nnodes;
+    app.prefetch_node = -1;
+    app.prefetch_failed_node = -1;
     const masko_edge_t *initial = masko_graph_loop(&app.graph, app.current_node);
     if (!initial || !initial->clip) { ESP_LOGE(TAG, "initial loop missing"); return; }
     ESP_LOGI(TAG, "Kylo manifest: %d states, %d edges", app.graph.nnodes,
@@ -441,6 +597,7 @@ void masko_stream_demo_main(void)
         ESP_LOGE(TAG, "input task allocation failed"); return;
     }
     app.stats_start_us = esp_timer_get_time();
+    app.diag_start_us = app.stats_start_us;
     ESP_LOGI(TAG, "streaming; touch/BOOT cycles all %d Kylo states", app.graph.nnodes);
     while (true) {
         msg_t m;
@@ -451,8 +608,11 @@ void masko_stream_demo_main(void)
                                app.current_node != app.wanted_node)) &&
             esp_timer_get_time()-app.last_prepare_attempt_us > 2000000)
             app.need_next = queue_edge(&app, next_edge(&app), true) != ESP_OK;
+        prefetch_next_loop(&app);
         if (esp_timer_get_time()-app.stats_start_us >= 30000000)
             report(&app);
+        if (esp_timer_get_time()-app.diag_start_us >= 1000000)
+            report_diagnostic(&app);
     }
 }
 

@@ -1,0 +1,15 @@
+ 0)akht:pndeo ak 7rms 093 ye,mxJE 27
+I(1637 yosem rrxie-ae>ectdwv lo)i 27m;rvre0
+I (116378) masko_player: switched clip: 97 frames, 24.0 fps
+I (116384) masko_http: full clip cache started: 2078107 bytes PSRAM, 97 frames
+I (116387) kylo_stream: clip started: excited-wave -> excited-wave
+I (116398) kylo_stream: first pixel: excited-wave -> excited-wave, preparation-to-display=1248 ms, input-to-display=21730 ms
+I (127863) kylo_stream: 30s: 5.1 fps, shown=154, dropped=0, underrun=102, stream stalls=66, wait=21136 ms, HTTP bytes=7544263, requests=26, failures=0, cache hits=155, misses=78, peak request=6735 ms, decode=23972/27274 us avg/max, push=19008/21195 us avg/max, render ceiling=23.3 fps, heap internal=111987 (low 51592) PSRAM=2674780 (low 1952688)
+I (138181) masko_http: full clip cache ready: 2078107 bytes PSRAM, 97 frames
+I (148186) kylo_stream: touch requested jar-present
+I (148898) masko_http: opened remote pack: 97 frames, 2026460 bytes, max JPEG 22492
+I (149147) kylo_stream: prepared excited-wave -> jar-gazing (transition) in 960 ms; reverse=1
+I (149164) masko_player: switched clip: 97 frames, 24.0 fps
+I (149167) masko_http: full clip cache started: 2025436 bytes PSRAM, 97 frames
+I (149168) kylo_stream: clip started: excited-wave -> jar-gazing
+I (149184) kylo_stream: first pixel: excited-wave -> jar-gazing, preparation-to-display=997 ms, input-to-display=998 ms

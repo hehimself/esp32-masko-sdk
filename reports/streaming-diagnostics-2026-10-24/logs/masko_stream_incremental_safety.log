@@ -1,0 +1,19 @@
+ninja: Entering directory `/tmp/masko_stream_build'
+[1/9] Performing build step for 'bootloader'
+[1/1] cd /private/tmp/masko_stream_build/bootloader && /Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /private/tmp/masko_stream_build/bootloader/bootloader.bin
+Bootloader binary size 0x5820 bytes. 0x27e0 bytes (31%) free.
+[2/9] No install step for 'bootloader'
+[3/9] Completed 'bootloader'
+[4/9] Building C object esp-idf/masko_player/CMakeFiles/__idf_masko_player.dir/masko_player.c.obj
+[5/9] Linking C static library esp-idf/masko_player/libmasko_player.a
+[6/9] Generating esp-idf/esp_system/ld/sections.ld
+Skipping linker script generation, section names unchanged
+[7/9] Linking CXX executable masko_amoled_175.elf
+[8/9] Generating binary image from built executable
+esptool v5.6.0
+Creating ESP32-S3 image...
+Merged 2 ELF sections.
+Successfully created ESP32-S3 image.
+Generated /private/tmp/masko_stream_build/masko_amoled_175.bin
+[9/9] cd /private/tmp/masko_stream_build && /Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /private/tmp/masko_stream_build/partition_table/partition-table.bin /private/tmp/masko_stream_build/masko_amoled_175.bin
+masko_amoled_175.bin binary size 0x39840 bytes. Smallest app partition is 0x400000 bytes. 0x3c67c0 bytes (94%) free.

@@ -1,0 +1,33 @@
+I (24971) masko_http: full clip cache ready: 1904796 bytes PSRAM, 97 frames, 18799 ms
+I (36221) kylo_stream: 30s: 15.4 fps, shown=464, dropped=0, underrun=52, stream stalls=33, wait=11040 ms, HTTP bytes=6232077, requests=20, failures=0, cache hits=466, misses=42, peak request=4082 ms, decode=23257/26765 us avg/max, push=18580/21041 us avg/max, render ceiling=43.0 fps, heap internal=116255 (low 52520) PSRAM=3887068 (low 2838132)
+I (38896) kylo_stream: touch requested specimen-notes
+I (39593) masko_http: opened remote pack: 97 frames, 1741251 bytes, max JPEG 19183
+I (39835) kylo_stream: prepared jar-gazing -> specimen-notes (transition) in 938 ms; reverse=0
+I (39872) masko_player: switched clip: 97 frames, 24.0 fps
+I (39872) kylo_stream: clip started: jar-gazing -> specimen-notes
+I (39891) kylo_stream: first pixel: jar-gazing -> specimen-notes, preparation-to-display=995 ms, input-to-display=995 ms
+I (45378) masko_http: opened remote pack: 97 frames, 1757945 bytes, max JPEG 18264
+I (45563) kylo_stream: prepared specimen-notes -> specimen-notes (loop) in 724 ms; reverse=0
+I (45563) masko_player: switched clip: 97 frames, 24.0 fps
+I (45569) masko_http: full clip cache started: 1756921 bytes PSRAM, 97 frames
+I (45572) kylo_stream: clip started: specimen-notes -> specimen-notes
+I (45584) kylo_stream: first pixel: specimen-notes -> specimen-notes, preparation-to-display=745 ms, input-to-display=6687 ms
+I (59702) masko_http: full clip cache ready: 1756921 bytes PSRAM, 97 frames, 14135 ms
+I (61398) kylo_stream: touch requested excited-wave
+I (62106) masko_http: opened remote pack: 97 frames, 1736069 bytes, max JPEG 19333
+I (62358) kylo_stream: prepared specimen-notes -> jar-gazing (transition) in 959 ms; reverse=0
+I (62367) masko_player: switched clip: 97 frames, 24.0 fps
+I (62367) kylo_stream: clip started: specimen-notes -> jar-gazing
+I (62388) kylo_stream: first pixel: specimen-notes -> jar-gazing, preparation-to-display=989 ms, input-to-display=989 ms
+I (66324) kylo_stream: 30s: 13.4 fps, shown=404, dropped=0, underrun=59, stream stalls=36, wait=12921 ms, HTTP bytes=8094898, requests=30, failures=0, cache hits=403, misses=51, peak request=4082 ms, decode=22995/26765 us avg/max, push=18774/21041 us avg/max, render ceiling=43.5 fps, heap internal=122479 (low 52520) PSRAM=4771848 (low 2837344)
+I (72611) masko_http: opened remote pack: 97 frames, 2026460 bytes, max JPEG 22492
+I (72826) kylo_stream: prepared jar-gazing -> excited-wave (transition) in 1078 ms; reverse=0
+I (72828) masko_player: switched clip: 97 frames, 24.0 fps
+I (72830) kylo_stream: clip started: jar-gazing -> excited-wave
+I (72847) kylo_stream: first pixel: jar-gazing -> excited-wave, preparation-to-display=1099 ms, input-to-display=11449 ms
+I (78570) masko_http: opened remote pack: 97 frames, 2079131 bytes, max JPEG 22178
+I (78803) kylo_stream: prepared excited-wave -> excited-wave (loop) in 948 ms; reverse=0
+I (78805) masko_player: switched clip: 97 frames, 24.0 fps
+I (78809) masko_http: full clip cache started: 2078107 bytes PSRAM, 97 frames
+I (78812) kylo_stream: clip started: excited-wave -> excited-wave
+I (78824) kylo_stream: first pixel: excited-wave -> excited-wave, preparation-to-display=969 ms, input-to-display=17425 ms

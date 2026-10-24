@@ -1,0 +1,2 @@
+I (37649) kylo_stream: 30s: 12.9 fps, shown=388, dropped=0, underrun=66, stream stalls=41, wait=14040 ms, HTTP bytes=7616952, requests=19, failures=0, cache hits=389, misses=57, peak request=5545 ms, heap internal=118075 (low 56724) PSRAM=4772252 (low 4771708)
+I (67682) kylo_stream: 30s: 14.3 fps, shown=430, dropped=0, underrun=59, stream stalls=36, wait=12931 ms, HTTP bytes=8658660, requests=18, failures=0, cache hits=431, misses=50, peak request=5545 ms, heap internal=109343 (low 55908) PSRAM=4772252 (low 4771708)

@@ -1,0 +1,35 @@
+I (4930) masko_http: Wi-Fi probe: 64B latency=792 ms, 256KiB=502 ms, 509.7 KiB/s
+I (5474) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
+I (5550) wifi:<ba-add>idx:1 (ifx:0, 9a:b5:8d:77:14:8f), tid:3, ssn:1, winSize:64
+I (6172) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus
+I (6173) co5300: version: 2.2.0
+I (6173) co5300_spi: LCD panel create success, version: 2.2.0
+W (6339) co5300_spi: The 3Ah command has been used and will be overwritten by external initialization sequence
+I (7613) CST9217: Checkcode: 0x204ECACA
+I (7615) CST9217: Resolution X: 466, Y: 466
+I (7617) CST9217: Chip Type: 0x9217, ProjectID: 0x5734
+I (7617) masko_display: 466x466, 50-row bands = 46600 B per transfer (internal DMA budget 280000)
+I (7646) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (7646) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (7650) masko_player: pack: 97 frames, bbox 384x384+40+40, 24.0 fps, 0.0 ms decode (measured)
+I (7658) masko_http: full clip cache started: 1904796 bytes PSRAM, 97 frames
+I (7665) kylo_stream: streaming; touch/BOOT cycles all 11 Kylo states
+I (7702) kylo_stream: first pixel: jar-gazing -> jar-gazing, preparation-to-display=43 ms, input-to-display=-1 ms
+I (29345) masko_http: full clip cache ready: 1904796 bytes PSRAM, 97 frames
+I (37711) kylo_stream: 30s: 14.0 fps, shown=421, dropped=0, underrun=60, stream stalls=37, wait=12852 ms, HTTP bytes=6755958, requests=21, failures=0, cache hits=423, misses=47, peak request=4075 ms, decode=23363/26615 us avg/max, push=18625/21195 us avg/max, render ceiling=23.8 fps, heap internal=116271 (low 54572) PSRAM=3887156 (low 2838220)
+I (53821) kylo_stream: touch requested specimen-notes
+I (54687) masko_http: opened remote pack: 97 frames, 1741251 bytes, max JPEG 19183
+I (55460) kylo_stream: prepared jar-gazing -> specimen-notes (transition) in 1638 ms; reverse=0
+I (55495) masko_player: switched clip: 97 frames, 24.0 fps
+I (55499) masko_http: full clip cache started: 1740227 bytes PSRAM, 97 frames
+I (55499) kylo_stream: clip started: jar-gazing -> specimen-notes
+I (55515) kylo_stream: first pixel: jar-gazing -> specimen-notes, preparation-to-display=1694 ms, input-to-display=1694 ms
+I (65275) masko_http: opened remote pack: 97 frames, 1757945 bytes, max JPEG 18264
+I (65451) masko_http: full clip cache ready: 1740227 bytes PSRAM, 97 frames
+I (65756) kylo_stream: prepared specimen-notes -> specimen-notes (loop) in 1702 ms; reverse=0
+I (65757) masko_player: switched clip: 97 frames, 24.0 fps
+I (65762) masko_http: full clip cache started: 1756921 bytes PSRAM, 97 frames
+I (65766) kylo_stream: clip started: specimen-notes -> specimen-notes
+I (65777) kylo_stream: first pixel: specimen-notes -> specimen-notes, preparation-to-display=1723 ms, input-to-display=11955 ms
+I (67784) kylo_stream: 30s: 16.1 fps, shown=485, dropped=0, underrun=40, stream stalls=25, wait=8491 ms, HTTP bytes=4309487, requests=19, failures=0, cache hits=485, misses=31, peak request=4075 ms, decode=22558/26615 us avg/max, push=18337/21195 us avg/max, render ceiling=24.5 fps, heap internal=111951 (low 54572) PSRAM=3002412 (low 1952688)
+I (78915) masko_http: full clip cache ready: 1756921 bytes PSRAM, 97 frames

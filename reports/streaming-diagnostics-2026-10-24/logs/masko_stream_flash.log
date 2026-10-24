@@ -1,0 +1,115 @@
+[1/4] cd /private/tmp/masko_stream_build && /Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /private/tmp/masko_stream_build/partition_table/partition-table.bin /private/tmp/masko_stream_build/masko_amoled_175.bin
+masko_amoled_175.bin binary size 0x125600 bytes. Smallest app partition is 0x400000 bytes. 0x2daa00 bytes (71%) free.
+[2/4] Performing build step for 'bootloader'
+[1/1] cd /private/tmp/masko_stream_build/bootloader && /Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /private/tmp/masko_stream_build/bootloader/bootloader.bin
+Bootloader binary size 0x5820 bytes. 0x27e0 bytes (31%) free.
+[3/4] No install step for 'bootloader'
+[4/4] Completed 'bootloader'
+Adding "flash"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory /private/tmp/masko_stream_build
+Executing "ninja all"...
+Executing action: flash
+Running ninja in directory /private/tmp/masko_stream_build
+Executing "ninja flash"...
+[1/5] cd /private/tmp/masko_stream_build && /Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /private/tmp/masko_stream_build/partition_table/partition-table.bin /private/tmp/masko_stream_build/masko_amoled_175.bin
+masko_amoled_175.bin binary size 0x125600 bytes. Smallest app partition is 0x400000 bytes. 0x2daa00 bytes (71%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd /private/tmp/masko_stream_build/bootloader && /Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /private/tmp/masko_stream_build/bootloader/bootloader.bin
+Bootloader binary size 0x5820 bytes. 0x27e0 bytes (31%) free.
+[3/5] No install step for 'bootloader'
+[4/5] Completed 'bootloader'
+[4/5] Running utility command for flash
+esptool --chip esp32s3 -p /dev/cu.usbmodem1101 -b 460800 --before=default-reset --after=hard-reset write-flash --flash-mode dio --flash-freq 80m --flash-size 16MB 0x0 bootloader/bootloader.bin 0x8000 partition_table/partition-table.bin 0x10000 masko_amoled_175.bin --diff-with bootloader/bootloader_flashed.bin partition_table/partition-table_flashed.bin masko_amoled_175_flashed.bin
+esptool v5.6.0
+Serial port /dev/cu.usbmodem1101:
+Connecting...
+Connected to ESP32-S3 on /dev/cu.usbmodem1101:
+Chip type:          ESP32-S3 (QFN56) (revision v0.2)
+Features:           Wi-Fi, BT 5 (LE), Dual Core + LP Core, 240MHz, Embedded PSRAM 8MB (AP_3v3)
+Crystal frequency:  40MHz
+USB mode:           USB-Serial/JTAG
+MAC:                7c:0c:5f:42:2e:34
+
+Uploading stub flasher...
+Running stub flasher...
+Stub flasher running.
+Changing baud rate to 460800...
+Changed.
+
+Configuring flash size...
+
+Writing 'bootloader/bootloader.bin' at 0x00000000...
+SHA digest in image updated.
+SHA digest in image updated.
+No changed sectors found, verifying if data is in flash...
+'bootloader/bootloader.bin' at 0x00000000 verified.
+
+Writing 'partition_table/partition-table.bin' at 0x00008000...
+No changed sectors found, verifying if data is in flash...
+'partition_table/partition-table.bin' at 0x00008000 verified.
+
+Writing 'masko_amoled_175.bin' at 0x00010000...
+Changed data sectors found, fast reflashing...
+Reflashing 1 changed sector at 0x00010000...
+Flash will be erased from 0x00010000 to 0x00010fff...
+Compressed 4096 bytes to 1948...
+Writing at 0x00011000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 1.90kB/1.90kB [0s] 
+Wrote 4096 bytes (1948 compressed) at 0x00010000 in 0.0 seconds (1413.5 kbit/s).
+Reflashing 291 changed sectors at 0x00013000...
+Flash will be erased from 0x00013000 to 0x00135fff...
+Compressed 1191936 bytes to 774061...
+Writing at 0x0001ff37 ╸                                2.1% 16.00kB/755.92kB [0s] 
+Writing at 0x0002ed47 ━                                4.2% 32.00kB/755.92kB [0s] 
+Writing at 0x00033a57 ━╸                               6.3% 48.00kB/755.92kB [0s] 
+Writing at 0x000387fb ━━╸                              8.5% 64.00kB/755.92kB [1s] 
+Writing at 0x0003dc61 ━━━                             10.6% 80.00kB/755.92kB [1s] 
+Writing at 0x00043d2a ━━━╸                            12.7% 96.00kB/755.92kB [1s] 
+Writing at 0x0004fad8 ━━━━                            14.8% 112.00kB/755.92kB [1s] 
+Writing at 0x000558be ━━━━━                           16.9% 128.00kB/755.92kB [1s] 
+Writing at 0x0005b40c ━━━━━╸                          19.0% 144.00kB/755.92kB [1s] 
+Writing at 0x00060aae ━━━━━━                          21.2% 160.00kB/755.92kB [2s] 
+Writing at 0x00065c2d ━━━━━━╸                         23.3% 176.00kB/755.92kB [2s] 
+Writing at 0x0006d94c ━━━━━━━╸                        25.4% 192.00kB/755.92kB [2s] 
+Writing at 0x00077110 ━━━━━━━━                        27.5% 208.00kB/755.92kB [2s] 
+Writing at 0x0007ce2c ━━━━━━━━╸                       29.6% 224.00kB/755.92kB [2s] 
+Writing at 0x00082796 ━━━━━━━━━╸                      31.7% 240.00kB/755.92kB [2s] 
+Writing at 0x0008794c ━━━━━━━━━━                      33.9% 256.00kB/755.92kB [2s] 
+Writing at 0x0008cdfc ━━━━━━━━━━╸                     36.0% 272.00kB/755.92kB [3s] 
+Writing at 0x0009242c ━━━━━━━━━━━                     38.1% 288.00kB/755.92kB [3s] 
+Writing at 0x00097c0d ━━━━━━━━━━━━                    40.2% 304.00kB/755.92kB [3s] 
+Writing at 0x0009d330 ━━━━━━━━━━━━╸                   42.3% 320.00kB/755.92kB [3s] 
+Writing at 0x000a27d1 ━━━━━━━━━━━━━                   44.4% 336.00kB/755.92kB [3s] 
+Writing at 0x000a7cfb ━━━━━━━━━━━━━╸                  46.6% 352.00kB/755.92kB [3s] 
+Writing at 0x000ad099 ━━━━━━━━━━━━━━╸                 48.7% 368.00kB/755.92kB [3s] 
+Writing at 0x000b20c8 ━━━━━━━━━━━━━━━                 50.8% 384.00kB/755.92kB [3s] 
+Writing at 0x000b78f2 ━━━━━━━━━━━━━━━╸                52.9% 400.00kB/755.92kB [3s] 
+Writing at 0x000bd0f8 ━━━━━━━━━━━━━━━━╸               55.0% 416.00kB/755.92kB [4s] 
+Writing at 0x000c2557 ━━━━━━━━━━━━━━━━━               57.1% 432.00kB/755.92kB [4s] 
+Writing at 0x000c78c5 ━━━━━━━━━━━━━━━━━╸              59.3% 448.00kB/755.92kB [4s] 
+Writing at 0x000ccd59 ━━━━━━━━━━━━━━━━━━              61.4% 464.00kB/755.92kB [4s] 
+Writing at 0x000d2d95 ━━━━━━━━━━━━━━━━━━━             63.5% 480.00kB/755.92kB [4s] 
+Writing at 0x000d7bfe ━━━━━━━━━━━━━━━━━━━╸            65.6% 496.00kB/755.92kB [4s] 
+Writing at 0x000dcdb6 ━━━━━━━━━━━━━━━━━━━━            67.7% 512.00kB/755.92kB [4s] 
+Writing at 0x000e1e6d ━━━━━━━━━━━━━━━━━━━━╸           69.8% 528.00kB/755.92kB [4s] 
+Writing at 0x000e6fb0 ━━━━━━━━━━━━━━━━━━━━━╸          72.0% 544.00kB/755.92kB [4s] 
+Writing at 0x000ec4f4 ━━━━━━━━━━━━━━━━━━━━━━          74.1% 560.00kB/755.92kB [4s] 
+Writing at 0x000f1635 ━━━━━━━━━━━━━━━━━━━━━━╸         76.2% 576.00kB/755.92kB [4s] 
+Writing at 0x000f66e3 ━━━━━━━━━━━━━━━━━━━━━━━         78.3% 592.00kB/755.92kB [4s] 
+Writing at 0x000fbece ━━━━━━━━━━━━━━━━━━━━━━━━        80.4% 608.00kB/755.92kB [5s] 
+Writing at 0x001015b4 ━━━━━━━━━━━━━━━━━━━━━━━━╸       82.5% 624.00kB/755.92kB [5s] 
+Writing at 0x001098b8 ━━━━━━━━━━━━━━━━━━━━━━━━━       84.7% 640.00kB/755.92kB [5s] 
+Writing at 0x0011038f ━━━━━━━━━━━━━━━━━━━━━━━━━━      86.8% 656.00kB/755.92kB [5s] 
+Writing at 0x00115af2 ━━━━━━━━━━━━━━━━━━━━━━━━━━╸     88.9% 672.00kB/755.92kB [5s] 
+Writing at 0x0011c4b8 ━━━━━━━━━━━━━━━━━━━━━━━━━━━     91.0% 688.00kB/755.92kB [5s] 
+Writing at 0x001222d6 ━━━━━━━━━━━━━━━━━━━━━━━━━━━╸    93.1% 704.00kB/755.92kB [5s] 
+Writing at 0x0012928e ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   95.2% 720.00kB/755.92kB [5s] 
+Writing at 0x0012e942 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   97.4% 736.00kB/755.92kB [5s] 
+Writing at 0x00133963 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸  99.5% 752.00kB/755.92kB [5s] 
+Writing at 0x00136000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 755.92kB/755.92kB [5s] 
+Wrote 1191936 bytes (774061 compressed) at 0x00013000 in 5.9 seconds (1625.5 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Hard resetting via RTS pin...
+Done

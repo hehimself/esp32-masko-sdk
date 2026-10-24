@@ -1,0 +1,298 @@
+I (9678) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 524288/1904796B fps=12.7 frames=13 src_reads=16 src_wait=709ms src_max=304ms stalls=2 queue_underrun=2 display_gap_max=1353ms gaps>100/500/1000ms=1/1/1
+I (9701) kylo_stream: diag_net req_frame/cache=1/1 bytes_frame/cache=522513/262144 req_avg=1193ms queue_avg=1184ms delayed>100/500ms=2/1 slow>250/1000/3000ms=2/1/0 decoder=25394us push=19600us push_qwait=783ms max=199ms heap_int=109251 PSRAM=2864380
+I (10756) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 524288/1904796B fps=18.5 frames=19 src_reads=20 src_wait=323ms src_max=304ms stalls=1 queue_underrun=1 display_gap_max=1353ms gaps>100/500/1000ms=1/0/0
+I (10771) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=524174/0 req_avg=948ms queue_avg=467ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/0/0 decoder=24983us push=19385us push_qwait=714ms max=199ms heap_int=111911 PSRAM=2864380
+I (11804) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 786432/1904796B fps=21.7 frames=22 src_reads=21 src_wait=11ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1353ms gaps>100/500/1000ms=0/0/0
+I (11812) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=445ms queue_avg=946ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=23810us push=18813us push_qwait=500ms max=199ms heap_int=113879 PSRAM=2864380
+I (12874) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 786432/1904796B fps=4.8 frames=5 src_reads=9 src_wait=1004ms src_max=304ms stalls=3 queue_underrun=5 display_gap_max=1353ms gaps>100/500/1000ms=1/1/1
+I (12911) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=280732/0 req_avg=1659ms queue_avg=444ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/1/0 decoder=25389us push=19967us push_qwait=1093ms max=199ms heap_int=112091 PSRAM=2864380
+I (13977) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1048576/1904796B fps=9.5 frames=10 src_reads=12 src_wait=693ms src_max=304ms stalls=2 queue_underrun=3 display_gap_max=1353ms gaps>100/500/1000ms=1/1/0
+I (13997) kylo_stream: diag_net req_frame/cache=1/1 bytes_frame/cache=518479/262144 req_avg=625ms queue_avg=1048ms delayed>100/500ms=2/1 slow>250/1000/3000ms=2/0/0 decoder=28192us push=19678us push_qwait=912ms max=199ms heap_int=108547 PSRAM=2864380
+I (15037) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=24.5 frames=25 src_reads=24 src_wait=14ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1353ms gaps>100/500/1000ms=0/0/0
+I (15045) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=455ms queue_avg=808ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=23625us push=19090us push_qwait=538ms max=199ms heap_int=113891 PSRAM=2864380
+I (16085) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=305ms stalls=3 queue_underrun=5 display_gap_max=1353ms gaps>100/500/1000ms=0/0/0
+I (16093) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=199ms heap_int=113895 PSRAM=2864380
+I (17123) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=8.9 frames=9 src_reads=12 src_wait=862ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=1810ms gaps>100/500/1000ms=1/1/1
+I (17137) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=523881/0 req_avg=2379ms queue_avg=454ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/1/0 decoder=25673us push=19959us push_qwait=949ms max=200ms heap_int=109247 PSRAM=2864380
+I (18176) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1572864/1904796B fps=20.8 frames=21 src_reads=21 src_wait=209ms src_max=305ms stalls=0 queue_underrun=1 display_gap_max=1810ms gaps>100/500/1000ms=1/0/0
+I (18187) kylo_stream: diag_net req_frame/cache=1/1 bytes_frame/cache=522615/262144 req_avg=650ms queue_avg=1399ms delayed>100/500ms=2/1 slow>250/1000/3000ms=2/0/0 decoder=25490us push=19646us push_qwait=640ms max=200ms heap_int=112107 PSRAM=2864380
+I (19239) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=23.8 frames=24 src_reads=23 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=1810ms gaps>100/500/1000ms=0/0/0
+I (19247) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=475ms queue_avg=876ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=24015us push=18857us push_qwait=541ms max=200ms heap_int=119235 PSRAM=2864380
+I (20362) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=0.0 frames=0 src_reads=3 src_wait=910ms src_max=305ms stalls=3 queue_underrun=6 display_gap_max=1810ms gaps>100/500/1000ms=0/0/0
+I (20370) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=115675 PSRAM=2864380
+I (21462) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=305ms stalls=4 queue_underrun=5 display_gap_max=1810ms gaps>100/500/1000ms=0/0/0
+I (21470) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=121031 PSRAM=2864380
+I (22562) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=305ms stalls=4 queue_underrun=6 display_gap_max=1810ms gaps>100/500/1000ms=0/0/0
+I (22570) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=113879 PSRAM=2864380
+I (23662) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=305ms stalls=3 queue_underrun=5 display_gap_max=1810ms gaps>100/500/1000ms=0/0/0
+I (23670) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=121031 PSRAM=2864380
+I (24713) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1904796/1904796B fps=9.8 frames=10 src_reads=13 src_wait=878ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=5178ms gaps>100/500/1000ms=1/1/1
+I (24730) kylo_stream: diag_net req_frame/cache=1/1 bytes_frame/cache=339100/69788 req_avg=2954ms queue_avg=3117ms delayed>100/500ms=2/1 slow>250/1000/3000ms=1/1/1 decoder=25607us push=19419us push_qwait=945ms max=200ms heap_int=109051 PSRAM=2864380
+I (25269) masko_http: full clip cache ready: 1904796 bytes PSRAM, 97 frames, 18818 ms
+I (25926) masko_http: opened remote pack: 97 frames, 1757945 bytes, max JPEG 18264
+I (25929) masko_http: full clip cache started: 1756921 bytes PSRAM, 97 frames
+I (25929) kylo_stream: prefetching next touch loop: specimen-notes
+I (25935) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=19.5 frames=23 src_reads=23 src_wait=293ms src_max=305ms stalls=0 queue_underrun=1 display_gap_max=5178ms gaps>100/500/1000ms=1/0/0
+I (25959) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=518479/0 req_avg=831ms queue_avg=138ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/0/0 decoder=24814us push=18942us push_qwait=781ms max=200ms heap_int=108339 PSRAM=2154792
+I (25976) kylo_stream: diag_prefetch state=specimen-notes cache=fill 0/1756921B
+I (27013) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.3 frames=26 src_reads=26 src_wait=17ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (27033) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=511ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=24995us push=19245us push_qwait=586ms max=200ms heap_int=106959 PSRAM=2154792
+I (27043) kylo_stream: diag_prefetch state=specimen-notes cache=fill 524288/1756921B
+I (28103) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.8 frames=26 src_reads=26 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (28111) kylo_stream: diag_net req_frame/cache=0/3 bytes_frame/cache=0/786432 req_avg=482ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=3/0/0 decoder=25338us push=19418us push_qwait=575ms max=200ms heap_int=101375 PSRAM=2154964
+I (28132) kylo_stream: diag_prefetch state=specimen-notes cache=fill 1048576/1756921B
+I (29240) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.5 frames=27 src_reads=27 src_wait=13ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (29248) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23866us push=18440us push_qwait=647ms max=200ms heap_int=101367 PSRAM=2154964
+I (29269) kylo_stream: diag_prefetch state=specimen-notes cache=fill 1048576/1756921B
+I (30298) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=26 src_reads=26 src_wait=14ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (30315) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=2094ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=22982us push=18779us push_qwait=575ms max=200ms heap_int=111367 PSRAM=2154964
+I (30337) kylo_stream: diag_prefetch state=specimen-notes cache=fill 1310720/1756921B
+I (30730) masko_http: full clip cache ready: 1756921 bytes PSRAM, 97 frames, 4803 ms
+I (31400) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.9 frames=26 src_reads=26 src_wait=13ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (31409) kylo_stream: diag_net req_frame/cache=0/2 bytes_frame/cache=0/446201 req_avg=374ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=24574us push=18717us push_qwait=615ms max=200ms heap_int=111955 PSRAM=2154964
+I (31430) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (32537) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (32545) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22451us push=18237us push_qwait=632ms max=200ms heap_int=114827 PSRAM=2154964
+I (32566) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (33617) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.9 frames=26 src_reads=26 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (33625) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22746us push=18233us push_qwait=609ms max=200ms heap_int=111955 PSRAM=2154964
+I (33646) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (34753) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (34761) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21773us push=18233us push_qwait=632ms max=200ms heap_int=114819 PSRAM=2154964
+I (34782) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (35889) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (35897) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22382us push=18237us push_qwait=632ms max=200ms heap_int=114807 PSRAM=2154964
+I (35918) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (36525) kylo_stream: 30s: 15.4 fps, shown=464, dropped=0, underrun=50, stream stalls=31, wait=11097 ms, HTTP bytes=7989838, requests=29, failures=0, cache hits=466, misses=41, peak request=5765 ms, decode=24127/27260 us avg/max, push=18901/21804 us avg/max, render ceiling=41.4 fps, heap internal=111955 (low 53524) PSRAM=2154964 (low 2154508)
+I (36945) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.5 frames=25 src_reads=25 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (36953) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23455us push=18228us push_qwait=609ms max=200ms heap_int=111955 PSRAM=2154964
+I (36974) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (38059) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.1 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (38068) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21921us push=18231us push_qwait=609ms max=200ms heap_int=111959 PSRAM=2154964
+I (38088) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (39195) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (39203) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23312us push=18233us push_qwait=655ms max=200ms heap_int=111959 PSRAM=2154964
+I (39224) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (40331) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (40339) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22420us push=18238us push_qwait=632ms max=200ms heap_int=114807 PSRAM=2154964
+I (40360) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (41401) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.2 frames=26 src_reads=26 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (41409) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22677us push=18236us push_qwait=609ms max=200ms heap_int=111959 PSRAM=2154964
+I (41430) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (42537) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (42545) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22662us push=18232us push_qwait=632ms max=200ms heap_int=114791 PSRAM=2154964
+I (42566) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (43673) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (43681) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21633us push=18236us push_qwait=632ms max=200ms heap_int=114819 PSRAM=2154964
+I (43702) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (44809) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (44817) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22469us push=18236us push_qwait=632ms max=200ms heap_int=111963 PSRAM=2154964
+I (44838) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (45942) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (45950) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23576us push=18233us push_qwait=656ms max=200ms heap_int=111963 PSRAM=2154964
+I (45971) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (47078) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (47086) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22526us push=18240us push_qwait=632ms max=200ms heap_int=114791 PSRAM=2154964
+I (47107) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (48215) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (48223) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21593us push=18238us push_qwait=632ms max=200ms heap_int=114807 PSRAM=2154964
+I (48244) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (48395) kylo_stream: touch requested specimen-notes
+I (49040) masko_http: opened remote pack: 97 frames, 1741251 bytes, max JPEG 19183
+I (49273) kylo_stream: prepared jar-gazing -> specimen-notes (transition) in 877 ms; reverse=0
+I (49273) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.5 frames=25 src_reads=25 src_wait=13ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (49290) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=57642/0 req_avg=114ms queue_avg=89ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23733us push=18573us push_qwait=581ms max=200ms heap_int=111251 PSRAM=1105592
+I (49293) masko_player: switched clip: 97 frames, 24.0 fps
+I (49311) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (49324) kylo_stream: clip started: jar-gazing -> specimen-notes
+I (49334) kylo_stream: first pixel: jar-gazing -> specimen-notes, preparation-to-display=938 ms, input-to-display=938 ms
+I (50386) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=7.5 frames=8 src_reads=9 src_wait=804ms src_max=305ms stalls=2 queue_underrun=4 display_gap_max=5178ms gaps>100/500/1000ms=1/1/0
+I (50419) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=515357/0 req_avg=831ms queue_avg=98ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=20315us push=18732us push_qwait=964ms max=200ms heap_int=114351 PSRAM=3013148
+I (50433) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (51551) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=12.7 frames=14 src_reads=15 src_wait=593ms src_max=305ms stalls=1 queue_underrun=3 display_gap_max=5178ms gaps>100/500/1000ms=1/1/0
+I (51559) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=513607/0 req_avg=1045ms queue_avg=98ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=25093us push=18966us push_qwait=903ms max=200ms heap_int=114179 PSRAM=3013148
+I (51581) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (52631) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=9.6 frames=10 src_reads=11 src_wait=609ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (52639) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=20545us push=18760us push_qwait=804ms max=200ms heap_int=116135 PSRAM=3013148
+I (52659) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (53731) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=305ms stalls=3 queue_underrun=6 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (53738) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=116147 PSRAM=3013148
+I (53758) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (54831) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=0.0 frames=0 src_reads=4 src_wait=1215ms src_max=305ms stalls=4 queue_underrun=5 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (54839) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=123299 PSRAM=3013148
+I (54858) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (55755) kylo_stream: using prefetched loop: specimen-notes
+I (55782) kylo_stream: prepared specimen-notes -> specimen-notes (loop) in 27 ms; reverse=0
+I (55783) masko_player: switched clip: 97 frames, 24.0 fps
+I (55785) kylo_stream: clip started: specimen-notes -> specimen-notes
+I (56432) masko_http: opened remote pack: 97 frames, 2079131 bytes, max JPEG 22178
+I (56436) masko_http: full clip cache started: 2078107 bytes PSRAM, 97 frames
+I (56436) kylo_stream: prefetching next touch loop: excited-wave
+I (56442) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=20.9 frames=33 src_reads=34 src_wait=392ms src_max=305ms stalls=1 queue_underrun=1 display_gap_max=5178ms gaps>100/500/1000ms=1/1/1
+I (56474) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=652533/0 req_avg=1981ms queue_avg=95ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/1/1 decoder=23042us push=18585us push_qwait=1087ms max=200ms heap_int=110703 PSRAM=1980884
+I (56507) kylo_stream: diag_prefetch state=excited-wave cache=fill 0/2078107B
+I (56546) kylo_stream: first pixel: specimen-notes -> specimen-notes, preparation-to-display=48 ms, input-to-display=7407 ms
+I (57602) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=26.5 frames=28 src_reads=28 src_wait=17ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (57626) kylo_stream: diag_net req_frame/cache=0/2 bytes_frame/cache=0/524288 req_avg=469ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=24595us push=19297us push_qwait=627ms max=200ms heap_int=110715 PSRAM=1980884
+I (57640) kylo_stream: diag_prefetch state=excited-wave cache=fill 524288/2078107B
+I (58672) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.5 frames=26 src_reads=26 src_wait=15ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (58687) kylo_stream: diag_net req_frame/cache=0/2 bytes_frame/cache=0/524288 req_avg=419ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=23737us push=19360us push_qwait=556ms max=200ms heap_int=106291 PSRAM=1980712
+I (58702) kylo_stream: diag_prefetch state=excited-wave cache=fill 1310720/2078107B
+I (59714) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.9 frames=25 src_reads=25 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (59723) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=471ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=22333us push=18437us push_qwait=580ms max=200ms heap_int=110511 PSRAM=1980884
+I (59746) kylo_stream: diag_prefetch state=excited-wave cache=fill 1310720/2078107B
+I (60809) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.6 frames=26 src_reads=26 src_wait=12ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (60819) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23477us push=18507us push_qwait=622ms max=200ms heap_int=100683 PSRAM=1980884
+I (60839) kylo_stream: diag_prefetch state=excited-wave cache=fill 1310720/2078107B
+I (61713) masko_http: full clip cache ready: 2078107 bytes PSRAM, 97 frames, 5279 ms
+I (61895) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.8 frames=26 src_reads=26 src_wait=15ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (61905) kylo_stream: diag_net req_frame/cache=0/3 bytes_frame/cache=0/767387 req_avg=1009ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=3/1/0 decoder=24310us push=19195us push_qwait=583ms max=200ms heap_int=111287 PSRAM=1980884
+I (61925) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (63033) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.5 frames=28 src_reads=27 src_wait=10ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (63042) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21070us push=18230us push_qwait=632ms max=200ms heap_int=114139 PSRAM=1980884
+I (63063) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (64148) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.1 frames=26 src_reads=27 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (64157) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22807us push=18226us push_qwait=632ms max=200ms heap_int=123067 PSRAM=1980884
+I (64177) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (65285) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.5 frames=28 src_reads=28 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (65294) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21153us push=18233us push_qwait=632ms max=200ms heap_int=114155 PSRAM=1980884
+I (65315) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (66422) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.6 frames=27 src_reads=27 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (66432) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21860us push=18230us push_qwait=632ms max=200ms heap_int=111287 PSRAM=1980884
+I (66451) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (66559) kylo_stream: 30s: 20.5 fps, shown=614, dropped=0, underrun=22, stream stalls=13, wait=4787 ms, HTTP bytes=3818926, requests=17, failures=0, cache hits=614, misses=17, peak request=5765 ms, decode=22718/27260 us avg/max, push=18455/21804 us avg/max, render ceiling=44.0 fps, heap internal=111287 (low 52068) PSRAM=1980884 (low 1105136)
+I (67478) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.5 frames=25 src_reads=25 src_wait=10ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (67488) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22737us push=18232us push_qwait=609ms max=200ms heap_int=111287 PSRAM=1980884
+I (67508) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (68590) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.1 frames=27 src_reads=27 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (68599) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21199us push=18229us push_qwait=609ms max=200ms heap_int=111287 PSRAM=1980884
+I (68619) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (69727) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.6 frames=27 src_reads=27 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (69736) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22684us push=18229us push_qwait=655ms max=200ms heap_int=111287 PSRAM=1980884
+I (69756) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (70764) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.0 frames=25 src_reads=25 src_wait=10ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (70774) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21857us push=18229us push_qwait=585ms max=200ms heap_int=111287 PSRAM=1980884
+I (70794) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (71901) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.6 frames=27 src_reads=27 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (71910) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21903us push=18235us push_qwait=632ms max=200ms heap_int=114139 PSRAM=1980884
+I (71930) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (73038) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.5 frames=28 src_reads=28 src_wait=11ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (73047) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21220us push=18227us push_qwait=632ms max=200ms heap_int=114155 PSRAM=1980884
+I (73067) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (74175) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.6 frames=27 src_reads=27 src_wait=10ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (74184) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21837us push=18236us push_qwait=632ms max=200ms heap_int=111287 PSRAM=1980884
+I (74204) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (75312) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.5 frames=27 src_reads=27 src_wait=10ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (75321) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22658us push=18230us push_qwait=656ms max=200ms heap_int=111287 PSRAM=1980884
+I (75341) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (76373) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=25.4 frames=26 src_reads=26 src_wait=10ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (76382) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21131us push=18231us push_qwait=585ms max=200ms heap_int=114151 PSRAM=1980884
+I (76403) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (76992) kylo_stream: touch requested excited-wave
+I (77638) masko_http: opened remote pack: 97 frames, 1736069 bytes, max JPEG 19333
+I (77854) kylo_stream: prepared specimen-notes -> jar-gazing (transition) in 861 ms; reverse=0
+I (77854) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=24.2 frames=35 src_reads=35 src_wait=18ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (77866) masko_player: switched clip: 97 frames, 24.0 fps
+I (77871) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=54828/0 req_avg=111ms queue_avg=74ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23412us push=18458us push_qwait=838ms max=200ms heap_int=122351 PSRAM=931512
+I (77898) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (77905) kylo_stream: clip started: specimen-notes -> jar-gazing
+I (77911) kylo_stream: first pixel: specimen-notes -> jar-gazing, preparation-to-display=902 ms, input-to-display=902 ms
+I (78956) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=8.6 frames=9 src_reads=10 src_wait=754ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=5178ms gaps>100/500/1000ms=1/1/0
+I (78991) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=511787/0 req_avg=772ms queue_avg=98ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=17786us push=18829us push_qwait=914ms max=200ms heap_int=113915 PSRAM=2689512
+I (79021) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (80108) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=19.5 frames=21 src_reads=21 src_wait=306ms src_max=305ms stalls=0 queue_underrun=1 display_gap_max=5178ms gaps>100/500/1000ms=1/0/0
+I (80116) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=517809/0 req_avg=803ms queue_avg=95ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=24427us push=18989us push_qwait=770ms max=200ms heap_int=109291 PSRAM=2689512
+I (80137) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (81164) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=2.0 frames=2 src_reads=4 src_wait=915ms src_max=305ms stalls=3 queue_underrun=5 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (81172) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=11627us push=18530us push_qwait=1022ms max=200ms heap_int=115703 PSRAM=2689512
+I (81192) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (82264) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=305ms stalls=3 queue_underrun=5 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (82271) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=115711 PSRAM=2689512
+I (82291) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (83364) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=305ms stalls=4 queue_underrun=6 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (83372) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=115703 PSRAM=2689512
+I (83392) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (84464) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=305ms stalls=4 queue_underrun=5 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (84472) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=115703 PSRAM=2689512
+I (84491) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (85564) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=305ms stalls=3 queue_underrun=6 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (85578) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=122855 PSRAM=2689512
+I (85591) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (86664) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=305ms stalls=4 queue_underrun=5 display_gap_max=5178ms gaps>100/500/1000ms=0/0/0
+I (86672) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=115703 PSRAM=2689512
+I (86691) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (87782) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=10.2 frames=11 src_reads=13 src_wait=781ms src_max=305ms stalls=2 queue_underrun=4 display_gap_max=7220ms gaps>100/500/1000ms=1/1/1
+I (87790) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=649540/0 req_avg=3939ms queue_avg=96ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/1 decoder=23495us push=18977us push_qwait=1008ms max=200ms heap_int=113927 PSRAM=2689512
+I (87811) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (88591) masko_http: opened remote pack: 97 frames, 2026460 bytes, max JPEG 22492
+I (88886) kylo_stream: prepared jar-gazing -> excited-wave (transition) in 829 ms; reverse=0
+I (88886) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=6.6 frames=7 src_reads=7 src_wait=3ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (88887) masko_player: switched clip: 97 frames, 24.0 fps
+I (88902) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=58172/0 req_avg=182ms queue_avg=85ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22303us push=18247us push_qwait=964ms max=200ms heap_int=122151 PSRAM=1640140
+I (88928) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (88936) kylo_stream: clip started: jar-gazing -> excited-wave
+I (88941) kylo_stream: first pixel: jar-gazing -> excited-wave, preparation-to-display=868 ms, input-to-display=11933 ms
+I (89990) kylo_stream: diag state=jar-gazing->excited-wave cache=off 0/2025436B fps=8.5 frames=9 src_reads=11 src_wait=746ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=7220ms gaps>100/500/1000ms=2/2/0
+I (89998) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=507440/0 req_avg=746ms queue_avg=95ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=21424us push=19149us push_qwait=942ms max=200ms heap_int=110139 PSRAM=2689512
+I (90037) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (91143) kylo_stream: diag state=jar-gazing->excited-wave cache=off 0/2025436B fps=16.4 frames=18 src_reads=18 src_wait=391ms src_max=305ms stalls=1 queue_underrun=1 display_gap_max=7220ms gaps>100/500/1000ms=1/0/0
+I (91151) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=507257/0 req_avg=809ms queue_avg=93ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=24439us push=19123us push_qwait=764ms max=200ms heap_int=115475 PSRAM=2689512
+I (91172) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (92204) kylo_stream: diag state=jar-gazing->excited-wave cache=off 0/2025436B fps=0.0 frames=0 src_reads=3 src_wait=910ms src_max=305ms stalls=3 queue_underrun=5 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (92212) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=122635 PSRAM=2689512
+I (92232) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (93297) kylo_stream: diag state=jar-gazing->excited-wave cache=off 0/2025436B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=305ms stalls=4 queue_underrun=6 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (93304) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=115483 PSRAM=2689512
+I (93324) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (94406) kylo_stream: diag state=jar-gazing->excited-wave cache=off 0/2025436B fps=8.4 frames=9 src_reads=12 src_wait=822ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=7220ms gaps>100/500/1000ms=1/1/1
+I (94418) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=523400/0 req_avg=3327ms queue_avg=98ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/1 decoder=25573us push=19298us push_qwait=934ms max=200ms heap_int=113715 PSRAM=2689512
+I (94462) kylo_stream: diag_prefetch state=excited-wave cache=ready 2078107/2078107B
+I (95279) kylo_stream: using prefetched loop: excited-wave
+I (95308) kylo_stream: prepared excited-wave -> excited-wave (loop) in 29 ms; reverse=0
+I (95309) masko_player: switched clip: 97 frames, 24.0 fps
+I (95311) kylo_stream: clip started: excited-wave -> excited-wave
+I (95942) masko_http: opened remote pack: 97 frames, 2236277 bytes, max JPEG 23542
+I (95945) masko_http: full clip cache started: 2235253 bytes PSRAM, 97 frames
+I (95945) kylo_stream: prefetching next touch loop: jar-present
+I (95951) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=18.9 frames=28 src_reads=28 src_wait=389ms src_max=305ms stalls=1 queue_underrun=1 display_gap_max=7220ms gaps>100/500/1000ms=1/0/0
+I (95991) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=427996/0 req_avg=753ms queue_avg=97ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=23815us push=18670us push_qwait=1007ms max=200ms heap_int=110067 PSRAM=1501644
+I (96002) kylo_stream: diag_prefetch state=jar-present cache=fill 0/2235253B
+I (96010) kylo_stream: first pixel: excited-wave -> excited-wave, preparation-to-display=49 ms, input-to-display=18336 ms
+I (96657) kylo_stream: 30s: 13.4 fps, shown=402, dropped=0, underrun=59, stream stalls=38, wait=12858 ms, HTTP bytes=4022893, requests=17, failures=0, cache hits=402, misses=47, peak request=7640 ms, decode=22522/27623 us avg/max, push=18492/21804 us avg/max, render ceiling=44.4 fps, heap internal=109667 (low 52060) PSRAM=1501644 (low 931056)
+I (97017) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=24.8 frames=25 src_reads=25 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (97040) kylo_stream: diag_net req_frame/cache=0/2 bytes_frame/cache=0/524288 req_avg=436ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=27236us push=19369us push_qwait=582ms max=200ms heap_int=109871 PSRAM=1501644
+I (97060) kylo_stream: diag_prefetch state=jar-present cache=fill 524288/2235253B
+I (98101) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=25.1 frames=26 src_reads=26 src_wait=18ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (98110) kylo_stream: diag_net req_frame/cache=0/2 bytes_frame/cache=0/524288 req_avg=487ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=25523us push=19377us push_qwait=577ms max=200ms heap_int=110059 PSRAM=1501644
+I (98131) kylo_stream: diag_prefetch state=jar-present cache=fill 1048576/2235253B
+I (99150) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=25.7 frames=26 src_reads=26 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (99164) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1149ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=23395us push=18795us push_qwait=572ms max=200ms heap_int=109479 PSRAM=1501644
+I (99196) kylo_stream: diag_prefetch state=jar-present cache=fill 1310720/2235253B
+I (100271) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=25.2 frames=27 src_reads=27 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (100280) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=916ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=25273us push=19173us push_qwait=607ms max=200ms heap_int=109875 PSRAM=1501644
+I (100305) kylo_stream: diag_prefetch state=jar-present cache=fill 1572864/2235253B
+I (101182) masko_http: full clip cache ready: 2235253 bytes PSRAM, 97 frames, 5239 ms
+I (101324) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=24.7 frames=25 src_reads=25 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (101333) kylo_stream: diag_net req_frame/cache=0/3 bytes_frame/cache=0/662389 req_avg=441ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=3/0/0 decoder=25422us push=19308us push_qwait=555ms max=200ms heap_int=113511 PSRAM=1501644
+I (101354) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (102461) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=24.6 frames=27 src_reads=27 src_wait=18ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (102470) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=24126us push=18450us push_qwait=650ms max=200ms heap_int=110643 PSRAM=1501644
+I (102490) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (103576) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=25.0 frames=27 src_reads=27 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (103585) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22582us push=18386us push_qwait=605ms max=200ms heap_int=110643 PSRAM=1501644
+I (103605) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (104713) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=24.5 frames=27 src_reads=27 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (104722) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=24011us push=18354us push_qwait=652ms max=200ms heap_int=110643 PSRAM=1501644
+I (104742) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (105750) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=25.0 frames=25 src_reads=25 src_wait=17ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (105759) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23215us push=18451us push_qwait=580ms max=200ms heap_int=110643 PSRAM=1501644
+I (105780) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (106887) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=24.6 frames=27 src_reads=27 src_wait=17ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (106896) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23259us push=18424us push_qwait=627ms max=200ms heap_int=113507 PSRAM=1501644
+I (106916) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (108017) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=24.7 frames=27 src_reads=27 src_wait=15ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (108026) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23464us push=18375us push_qwait=628ms max=200ms heap_int=113507 PSRAM=1501644
+I (108046) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B
+I (109154) kylo_stream: diag state=excited-wave->excited-wave cache=ready 2078107/2078107B fps=25.5 frames=28 src_reads=28 src_wait=17ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=7220ms gaps>100/500/1000ms=0/0/0
+I (109163) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22278us push=18378us push_qwait=628ms max=200ms heap_int=113503 PSRAM=1501644
+I (109183) kylo_stream: diag_prefetch state=jar-present cache=ready 2235253/2235253B

@@ -1,0 +1,142 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0xb (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40383ada
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x1664
+load:0x403c8700,len:0xf7c
+load:0x403cb700,len:0x31ec
+entry 0x403c892c
+I (24) boot: ESP-IDF v6.1 2nd stage bootloader
+I (24) boot: compile time Oct 24 2026 14:09:59
+I (25) boot: Multicore bootloader
+I (25) boot: chip revision: v0.2
+I (27) boot: efuse block revision: v1.4
+I (31) qio_mode: Enabling default flash chip QIO
+I (35) boot.esp32s3: Boot SPI Speed : 80MHz
+I (39) boot.esp32s3: SPI Mode       : QIO
+I (43) boot.esp32s3: SPI Flash Size : 16MB
+I (47) boot: Enabling RNG early entropy source...
+I (51) boot: Partition Table:
+I (54) boot: ## Label            Usage          Type ST Offset   Length
+I (60) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (67) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (73) boot:  2 factory          factory app      00 00 00010000 00400000
+I (80) boot:  3 masko            Unknown data     01 40 00410000 00a00000
+I (86) boot: End of partition table
+I (90) esp_image: segment 0: paddr=00010020 vaddr=3c0d0020 size=3c698h (247448) map
+I (135) esp_image: segment 1: paddr=0004c6c0 vaddr=3fca3700 size=03958h ( 14680) load
+I (138) esp_image: segment 2: paddr=00050020 vaddr=42000020 size=c7fe8h (819176) map
+I (266) esp_image: segment 3: paddr=00118010 vaddr=3fca7058 size=01fdch (  8156) load
+I (268) esp_image: segment 4: paddr=00119ff4 vaddr=40378000 size=1b65ch (112220) load
+I (292) esp_image: segment 5: paddr=00135658 vaddr=50000000 size=00024h (    36) load
+I (304) boot: Loaded app from partition at offset 0x10000
+I (304) boot: Disabling RNG early entropy source...
+I (314) octal_psram: vendor id    : 0x0d (AP)
+I (314) octal_psram: dev id       : 0x02 (generation 3)
+I (314) octal_psram: density      : 0x03 (64 Mbit)
+I (316) octal_psram: good-die     : 0x01 (Pass)
+I (321) octal_psram: Latency      : 0x01 (Fixed)
+I (325) octal_psram: VCC          : 0x01 (3V)
+I (329) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (334) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (339) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (343) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (348) octal_psram: DriveStrength: 0x00 (1/1)
+I (353) MSPI Timing: Enter psram timing tuning
+I (357) esp_psram: Found 8MB PSRAM device
+I (361) esp_psram: Speed: 80MHz
+I (378) mmu_psram: Read only data copied and mapped to SPIRAM
+I (435) mmu_psram: Instructions copied and mapped to SPIRAM
+I (435) cpu_start: Multicore app
+I (680) esp_psram: SPI SRAM memory test OK
+I (689) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (689) cpu_start: Pro cpu start user code
+I (689) cpu_start: cpu freq: 240000000 Hz
+I (691) app_init: Application information:
+I (695) app_init: Project name:     masko_amoled_175
+I (699) app_init: App version:      5ef2e44-dirty
+I (704) app_init: Compile time:     Oct 24 2026 14:21:23
+I (709) app_init: ELF file SHA256:  50d3d5d6f...
+I (713) app_init: ESP-IDF:          v6.1
+I (717) efuse_init: Min chip rev:     v0.0
+I (721) efuse_init: Max chip rev:     v0.99
+I (725) efuse_init: Chip rev:         v0.2
+I (729) heap_init: Initializing. RAM available for dynamic allocation:
+I (735) heap_init: At 3FCADD90 len 0003B980 (238 KiB): RAM
+I (740) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (745) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (750) esp_psram: Adding pool of 7104K of PSRAM memory to heap allocator
+I (757) esp_psram: Adding pool of 14K of PSRAM memory gap generated due to end address alignment of drom to the heap allocator
+I (768) spi_flash: detected chip: gd
+I (771) spi_flash: flash io: qio
+W (774) spi_flash: Detected size(32768k) larger than the size in the binary image header(16384k). Using the size in the binary image header.
+I (787) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (793) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (800) main_task: Started on CPU0
+I (803) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (811) main_task: Calling app_main()
+I (832) kylo_stream: Kylo manifest: 11 states, 42 edges
+I (841) pp: pp rom version: e7ae62f
+I (842) net80211: net80211 rom version: e7ae62f
+I (843) wifi:wifi driver task: 3fced7f0, prio:23, stack:6656, core=0
+I (849) wifi:wifi firmware version: e12a754
+I (849) wifi:wifi certification version: v7.0
+I (852) wifi:config NVS flash: enabled
+I (855) wifi:config nano formatting: disabled
+I (860) wifi:Init data frame dynamic rx buffer num: 32
+I (864) wifi:Init static rx mgmt buffer num: 5
+I (869) wifi:Init management short buffer num: 32
+I (873) wifi:Init dynamic tx buffer num: 32
+I (877) wifi:Init static tx FG buffer num: 2
+I (881) wifi:Init static rx buffer size: 1600
+I (885) wifi:Init static rx buffer num: 10
+I (889) wifi:Init dynamic rx buffer num: 32
+I (893) wifi_init: rx ba win: 6
+I (895) wifi_init: accept mbox: 6
+I (899) wifi_init: tcpip mbox: 32
+I (902) wifi_init: udp mbox: 6
+I (904) wifi_init: tcp mbox: 6
+I (907) wifi_init: tcp tx win: 5760
+I (910) wifi_init: tcp rx win: 5760
+I (914) wifi_init: tcp mss: 1440
+I (916) wifi_init: WiFi IRAM OP enabled
+I (920) wifi_init: WiFi RX IRAM OP enabled
+W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (933) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (974) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (974) wifi:enable tsf
+I (975) wifi:Set ps type: 0, coexist: 0
+
+I (985) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (986) wifi:state: init -> auth (0xb0)
+I (1013) wifi:state: auth -> assoc (0x0)
+I (1031) wifi:state: assoc -> run (0x10)
+I (1282) wifi:<ba-add>idx:0 (ifx:0, ae:65:3b:42:b2:d6), tid:0, ssn:0, winSize:64
+I (1295) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1295) wifi:security: WPA2-PSK, phy: bgn, rssi: -63, cipher(pairwise:0x3, group:0x3), pmf:0
+I (1301) wifi:pm start, type: 0
+
+I (1303) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1312) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (1393) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (2469) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (2469) kylo_stream: Wi-Fi connected; RSSI -63 dBm, channel 6
+I (2471) kylo_stream: heap after Wi-Fi: internal=188327, PSRAM=7261620
+I (7586) masko_http: Wi-Fi probe: 64B latency=1006 ms, 256KiB=4101 ms, 62.4 KiB/s
+I (8655) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
+I (10540) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus
+I (10541) co5300: version: 2.2.0
+I (10541) co5300_spi: LCD panel create success, version: 2.2.0
+W (10703) co5300_spi: The 3Ah command has been used and will be overwritten by external initialization sequence
+I (11977) CST9217: Checkcode: 0x204ECACA
+I (11979) CST9217: Resolution X: 466, Y: 466
+I (11981) CST9217: Chip Type: 0x9217, ProjectID: 0x5734
+I (11981) masko_display: 466x466, 50-row bands = 46600 B per transfer (internal DMA budget 280000)
+I (12011) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (12012) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (12016) masko_player: pack: 97 frames, bbox 384x384+40+40, 24.0 fps, 0.0 ms decode (measured)
+I (12024) kylo_stream: streaming; touch/BOOT cycles all 11 Kylo states
+I (12067) kylo_stream: first pixel: jar-gazing -> jar-gazing, preparation-to-display=43 ms, input-to-display=-1 ms
+I (42033) kylo_stream: 30s: 3.2 fps, shown=97, dropped=0, underrun=129, stream stalls=82, wait=25877 ms, HTTP bytes=1904727, requests=7, failures=0, cache hits=98, misses=88, peak request=8353 ms, heap internal=125567 (low 71228) PSRAM=4772256 (low 4771708)

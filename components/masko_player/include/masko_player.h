@@ -65,7 +65,15 @@ typedef struct {
     uint32_t frames_dropped;
     uint32_t underruns;
     uint32_t stream_stalls;
+    uint32_t source_reads;
+    uint32_t display_gaps_100ms;
+    uint32_t display_gaps_500ms;
+    uint32_t display_gaps_1s;
     int64_t  stream_wait_us;
+    int64_t  stream_wait_us_max;
+    int64_t  push_queue_wait_us_total;
+    int64_t  push_queue_wait_us_max;
+    int64_t  display_gap_us_max;
     int64_t  decode_us_avg;
     int64_t  decode_us_max;
     int64_t  push_us_avg;

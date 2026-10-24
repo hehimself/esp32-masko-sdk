@@ -1,0 +1,23 @@
+I (4932) masko_http: Wi-Fi probe: 64B latency=532 ms, 256KiB=797 ms, 321.2 KiB/s
+I (4965) wifi:<ba-add>idx:1 (ifx:0, 9a:b5:8d:77:14:8f), tid:3, ssn:1, winSize:64
+I (5502) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
+I (6466) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus
+I (6467) co5300: version: 2.2.0
+I (6467) co5300_spi: LCD panel create success, version: 2.2.0
+W (6628) co5300_spi: The 3Ah command has been used and will be overwritten by external initialization sequence
+I (7908) CST9217: Checkcode: 0x204ECACA
+I (7910) CST9217: Resolution X: 466, Y: 466
+I (7914) CST9217: Chip Type: 0x9217, ProjectID: 0x5734
+I (7915) masko_display: 466x466, 50-row bands = 46600 B per transfer (internal DMA budget 280000)
+I (7953) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (7954) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (7957) masko_player: pack: 97 frames, bbox 384x384+40+40, 24.0 fps, 0.0 ms decode (measured)
+I (7967) masko_http: full clip cache started: 1904796 bytes PSRAM, 97 frames
+I (7975) kylo_stream: streaming; touch/BOOT cycles all 11 Kylo states
+I (8010) kylo_stream: first pixel: jar-gazing -> jar-gazing, preparation-to-display=44 ms, input-to-display=-1 ms
+E (15686) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (15686) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (15691) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (15698) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (15720) kylo_stream: player error
+I (29833) masko_http: full clip cache ready: 1904796 bytes PSRAM, 97 frames

@@ -1,0 +1,1 @@
+I (68091) kylo_stream: 30s: 24.0 fps, shown=722, dropped=0, underrun=0, stream stalls=0, wait=319 ms, HTTP bytes=0, requests=0, failures=0, cache hits=722, misses=0, peak request=11501 ms, decode=22544/27326 us avg/max, push=18229/21341 us avg/max, render ceiling=24.5 fps, heap internal=113211 (low 34760) PSRAM=3887156 (low 2799276)

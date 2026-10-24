@@ -1,0 +1,20 @@
+I (94398) masko_http: full clip cache ready: 2078107 bytes PSRAM, 97 frames, 15591 ms
+I (96406) kylo_stream: 30s: 9.4 fps, shown=284, dropped=0, underrun=78, stream stalls=47, wait=16724 ms, HTTP bytes=8885950, requests=28, failures=0, cache hits=285, misses=61, peak request=6470 ms, decode=24501/27547 us avg/max, push=19020/21087 us avg/max, render ceiling=40.8 fps, heap internal=112107 (low 51528) PSRAM=3723276 (low 2673504)
+I (120802) kylo_stream: touch requested jar-present
+I (121509) masko_http: opened remote pack: 97 frames, 2026460 bytes, max JPEG 22492
+I (121738) kylo_stream: prepared excited-wave -> jar-gazing (transition) in 935 ms; reverse=1
+I (121755) masko_player: switched clip: 97 frames, 24.0 fps
+I (121756) kylo_stream: clip started: excited-wave -> jar-gazing
+I (121778) kylo_stream: first pixel: excited-wave -> jar-gazing, preparation-to-display=975 ms, input-to-display=976 ms
+I (126484) kylo_stream: 30s: 21.4 fps, shown=643, dropped=0, underrun=15, stream stalls=10, wait=3755 ms, HTTP bytes=1583615, requests=6, failures=0, cache hits=643, misses=14, peak request=6470 ms, decode=23288/27547 us avg/max, push=18443/21087 us avg/max, render ceiling=42.9 fps, heap internal=113815 (low 51528) PSRAM=4771800 (low 2673504)
+I (128393) masko_http: opened remote pack: 97 frames, 2200463 bytes, max JPEG 24975
+I (128707) kylo_stream: prepared jar-gazing -> jar-present (transition) in 978 ms; reverse=0
+I (128708) masko_player: switched clip: 97 frames, 24.0 fps
+I (128710) kylo_stream: clip started: jar-gazing -> jar-present
+I (128727) kylo_stream: first pixel: jar-gazing -> jar-present, preparation-to-display=999 ms, input-to-display=7925 ms
+I (137323) masko_http: opened remote pack: 97 frames, 2236277 bytes, max JPEG 23542
+I (137509) kylo_stream: prepared jar-present -> jar-present (loop) in 788 ms; reverse=0
+I (137510) masko_player: switched clip: 97 frames, 24.0 fps
+I (137515) masko_http: full clip cache started: 2235253 bytes PSRAM, 97 frames
+I (137518) kylo_stream: clip started: jar-present -> jar-present
+I (137529) kylo_stream: first pixel: jar-present -> jar-present, preparation-to-display=808 ms, input-to-display=16727 ms
