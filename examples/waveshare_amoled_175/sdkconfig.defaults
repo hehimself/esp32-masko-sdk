@@ -55,3 +55,12 @@ CONFIG_IDF_EXPERIMENTAL_FEATURES=y
 # Target is mandatory: without it IDF defaults to esp32 and the Waveshare
 # BSP will not resolve.
 CONFIG_IDF_TARGET="esp32s3"
+
+# The Masko CDN serves a cross-signed TLS chain. Keep HTTPS verification on.
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_CROSS_SIGNED_VERIFY=y
+
+# HTTPS probe plus stream setup run in app_main before the playback tasks start.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+
+# Keep TLS buffers out of scarce internal RAM on this PSRAM-equipped board.
+CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC=y

@@ -211,12 +211,19 @@ static bool enqueue(masko_http_clip_t *c, unsigned slot, uint32_t at, bool rever
         c->slot[slot].busy || c->closing) return false;
     uint32_t lo = at, hi = at;
     const uint32_t base = c->offsets[at];
+    /* A cold scene should not wait for a full 512-KiB cache fill before its
+     * first frame can be displayed. Later requests use the full cache. */
+    const bool cold = !c->slot[0].ready && !c->slot[1].ready;
+    const uint32_t limit = cold ?
+        (c->lengths[at] > 64 * 1024 ? c->lengths[at] :
+         (h->cache_bytes < 64 * 1024 ? h->cache_bytes : 64 * 1024)) :
+        h->cache_bytes;
     if (reverse) {
-        while (lo > 0 && base + c->lengths[at] - c->offsets[lo-1] <= h->cache_bytes)
+        while (lo > 0 && base + c->lengths[at] - c->offsets[lo-1] <= limit)
             lo--;
     } else {
         while (hi + 1 < c->source.header.frame_count &&
-               c->offsets[hi+1] + c->lengths[hi+1] - base <= h->cache_bytes)
+               c->offsets[hi+1] + c->lengths[hi+1] - base <= limit)
             hi++;
     }
     job_t job = { c, (uint8_t)slot, lo, hi, c->offsets[lo],

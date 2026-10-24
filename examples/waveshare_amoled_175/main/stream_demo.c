@@ -59,8 +59,11 @@ static stream_app_t app;
 static void wifi_event(void *ctx, esp_event_base_t base, int32_t id, void *data)
 {
     EventGroupHandle_t flags = ctx;
-    if (base == WIFI_EVENT && id == WIFI_EVENT_STA_DISCONNECTED)
+    if (base == WIFI_EVENT && id == WIFI_EVENT_STA_DISCONNECTED) {
+        const wifi_event_sta_disconnected_t *event = data;
+        ESP_LOGW(TAG, "Wi-Fi disconnected, reason=%u", (unsigned)event->reason);
         esp_wifi_connect();
+    }
     if (base == IP_EVENT && id == IP_EVENT_STA_GOT_IP)
         xEventGroupSetBits(flags, BIT0);
 }
@@ -96,10 +99,27 @@ static esp_err_t wifi_start(void)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &cfg));
     ESP_ERROR_CHECK(esp_wifi_start());
     ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
+#if CONFIG_MASKO_STREAM_PROBE_ONLY
+    wifi_scan_config_t scan = {
+        .ssid = (uint8_t *)CONFIG_MASKO_STREAM_SSID,
+        .show_hidden = true,
+    };
+    err = esp_wifi_scan_start(&scan, true);
+    if (err == ESP_OK) {
+        uint16_t found = 0;
+        ESP_ERROR_CHECK(esp_wifi_scan_get_ap_num(&found));
+        ESP_LOGI(TAG, "Wi-Fi scan: %u matching access points", (unsigned)found);
+    } else {
+        ESP_LOGW(TAG, "Wi-Fi scan failed: %s", esp_err_to_name(err));
+    }
+#endif
     ESP_ERROR_CHECK(esp_wifi_connect());
     const EventBits_t bits = xEventGroupWaitBits(flags, BIT0, pdFALSE, pdTRUE,
                                                  pdMS_TO_TICKS(30000));
-    if (!(bits & BIT0)) return ESP_ERR_TIMEOUT;
+    if (!(bits & BIT0)) {
+        ESP_LOGE(TAG, "Wi-Fi connection timed out after 30 seconds");
+        return ESP_ERR_TIMEOUT;
+    }
     wifi_ap_record_t ap = {0};
     if (esp_wifi_sta_get_ap_info(&ap) == ESP_OK)
         ESP_LOGI(TAG, "Wi-Fi connected; RSSI %d dBm, channel %u", ap.rssi,
@@ -346,11 +366,16 @@ void masko_stream_demo_main(void)
     uint8_t *warm = heap_caps_malloc(first_source->max_frame_bytes,
                                      MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
     uint32_t warm_len = 0;
-    if (!warm || first_source->read_frame(first_source->context, 0, false,
-                                          warm, first_source->max_frame_bytes,
-                                          &warm_len, 8000) != ESP_OK) {
-        ESP_LOGE(TAG, "first streamed frame unavailable");
+    const esp_err_t warm_err = warm ?
+        first_source->read_frame(first_source->context, 0, false, warm,
+                                 first_source->max_frame_bytes, &warm_len,
+                                 8000) : ESP_ERR_NO_MEM;
+    if (warm_err != ESP_OK) {
+        ESP_LOGE(TAG, "first streamed frame unavailable: %s",
+                 esp_err_to_name(warm_err));
         if (warm) heap_caps_free(warm);
+        masko_http_clip_close(app.active_clip);
+        masko_http_free(app.http);
         return;
     }
     heap_caps_free(warm);

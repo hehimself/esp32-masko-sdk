@@ -21,7 +21,8 @@ panel.
 - Flash, memory, and SD pack sources through `masko_store` (SD hardware validation is
   pending).
 - HTTPS byte-range frame source with bounded PSRAM caches through `masko_http`;
-  board-side Wi-Fi playback validation is pending.
+  board-side hotspot playback has been measured and requires a faster connection
+  for 24 fps (see [Kylo Wi-Fi results](KYLO_WIFI_TEST_RESULTS.md)).
 - Reference Waveshare example with multi-pack bundles, authored transitions, touch, and
   BOOT-button playback.
 
@@ -161,7 +162,8 @@ to summarize median and 95th-percentile input-to-first-frame times separately
 for transitions and their target loops.
 
 `masko_http` issues HTTPS byte-range requests for a 64-byte header, frame
-index, and frame-aligned JPEG groups. One worker refills two PSRAM cache slots
+index, and frame-aligned JPEG groups. The first compressed range is capped at
+64 KiB to make the first frame available sooner. One worker then refills two PSRAM cache slots
 per open clip (512 KiB each by default). The player retains its three decoded
 384×384 RGB565 buffers and adds two compressed-frame scratch buffers. At most
 the active and upcoming clip are open. These fixed buffers peak at about
@@ -169,8 +171,10 @@ the active and upcoming clip are open. These fixed buffers peak at about
 decoded frames), before Wi-Fi/TLS, graph, and display allocations. When a
 requested frame is late, the
 display holds its current picture and the player retries that frame. The
-streaming path has an ESP-IDF 6.1 build and host manifest check; frame rate,
-memory floor, and switch latency still need measurement on the Wi-Fi board.
+streaming path builds with ESP-IDF 6.1. A phone-hotspot board run reached the
+first frame, but averaged 2.8 fps in a 30-second sample with many source
+underruns. See the [measurements](KYLO_WIFI_TEST_RESULTS.md) before relying on
+live streaming for a product.
 
 Applications can use the HTTP source directly after connecting Wi-Fi:
 
