@@ -30,6 +30,11 @@
 #include "masko_player.h"
 
 static const char *TAG = "kylo_stream";
+/* Streaming keeps TLS and Wi-Fi buffers alive while the panel is active.
+ * A 50-row PSRAM-backed push needs a 46,600-byte internal DMA bounce buffer,
+ * which can fail after the network heap fragments. */
+#define STREAM_BAND_ROWS 8
+#define STREAM_BAND_BYTES (MASKO_PANEL_W * STREAM_BAND_ROWS * 2)
 extern const char manifest_start[] asm("_binary_kylo_stream_mascot_json_start");
 extern const char manifest_end[] asm("_binary_kylo_stream_mascot_json_end");
 
@@ -45,8 +50,11 @@ typedef struct {
     esp_lcd_touch_handle_t touch;
     masko_http_clip_t *active_clip, *pending_clip;
     masko_http_clip_t *prefetch_clip;
+    masko_http_clip_t *prefetch_transition_clip;
     const masko_edge_t *active_edge, *pending_edge;
     const masko_edge_t *prefetch_edge;
+    const masko_edge_t *prefetch_transition_edge;
+    const masko_edge_t *prefetch_transition_failed_edge;
     int current_node, wanted_node, next_touch_node;
     int prefetch_node, prefetch_failed_node;
     int64_t request_us, edge_request_us, loop_start_us;
@@ -127,11 +135,15 @@ static esp_err_t wifi_start(void)
         return ESP_ERR_TIMEOUT;
     }
     wifi_ap_record_t ap = {0};
+    wifi_bandwidth_t bandwidth = WIFI_BW20;
+    const esp_err_t bw_err = esp_wifi_get_bandwidth(WIFI_IF_STA, &bandwidth);
     if (esp_wifi_sta_get_ap_info(&ap) == ESP_OK)
-        ESP_LOGI(TAG, "Wi-Fi connected; RSSI %d dBm, channel %u", ap.rssi,
-                 (unsigned)ap.primary);
-    ESP_LOGI(TAG, "heap after Wi-Fi: internal=%u, PSRAM=%u",
+        ESP_LOGI(TAG, "Wi-Fi connected; RSSI %d dBm, channel %u, BW%s",
+                 ap.rssi, (unsigned)ap.primary,
+                 bw_err == ESP_OK ? (bandwidth == WIFI_BW40 ? "40" : "20") : "?");
+    ESP_LOGI(TAG, "heap after Wi-Fi: internal=%u, DMA_largest=%u, PSRAM=%u",
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA),
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
     return ESP_OK;
 }
@@ -211,6 +223,71 @@ static void discard_prefetch(stream_app_t *a)
     a->prefetch_node = -1;
 }
 
+static void discard_prefetch_transition(stream_app_t *a)
+{
+    if (a->prefetch_transition_clip)
+        masko_http_clip_close(a->prefetch_transition_clip);
+    a->prefetch_transition_clip = NULL;
+    a->prefetch_transition_edge = NULL;
+}
+
+static const masko_edge_t *first_transition_toward(stream_app_t *a, int target)
+{
+    if (a->current_node < 0 || target < 0 || a->current_node == target)
+        return NULL;
+    const masko_edge_t *edge = direct_edge(a, a->current_node, target);
+    if (edge) return edge;
+    const int rest = node_index(a, "jar-gazing");
+    return a->current_node == rest ? NULL :
+        direct_edge(a, a->current_node, rest);
+}
+
+static void prefetch_next_transition(stream_app_t *a)
+{
+    if (a->pending_clip || !a->active_edge || !a->active_edge->is_loop ||
+        a->current_node < 0 || a->next_touch_node < 0) return;
+    const masko_edge_t *edge = first_transition_toward(a, a->next_touch_node);
+    if (a->prefetch_transition_clip) {
+        const masko_http_cache_stats_t cache =
+            masko_http_clip_cache_stats(a->prefetch_transition_clip);
+        if (!cache.ready && !cache.filling) {
+            ESP_LOGW(TAG, "transition prefetch failed for %s -> %s",
+                     a->prefetch_transition_edge->source,
+                     a->prefetch_transition_edge->target);
+            a->prefetch_transition_failed_edge = a->prefetch_transition_edge;
+            discard_prefetch_transition(a);
+        } else if (a->prefetch_transition_edge == edge) {
+            return;
+        }
+        discard_prefetch_transition(a);
+    }
+    if (!edge || edge == a->prefetch_transition_failed_edge) return;
+    if (!masko_http_clip_cache_stats(a->active_clip).ready) return;
+
+    bool reverse = false;
+    const char *url = edge_url(a, edge, &reverse);
+    if (!url) { a->prefetch_transition_failed_edge = edge; return; }
+    masko_http_clip_t *clip = NULL;
+    esp_err_t err = masko_http_clip_open(a->http, url, &clip);
+    if (err == ESP_OK) {
+        masko_http_clip_configure(clip, false, edge_speed(a, edge));
+        err = masko_http_clip_cache_prefetch(
+            clip, CONFIG_MASKO_STREAM_FULL_CACHE_KIB*1024u);
+    }
+    if (err != ESP_OK) {
+        if (clip) masko_http_clip_close(clip);
+        ESP_LOGW(TAG, "transition prefetch unavailable for %s -> %s: %s",
+                 edge->source, edge->target, esp_err_to_name(err));
+        a->prefetch_transition_failed_edge = edge;
+        return;
+    }
+    a->prefetch_transition_failed_edge = NULL;
+    a->prefetch_transition_clip = clip;
+    a->prefetch_transition_edge = edge;
+    ESP_LOGI(TAG, "prefetching next touch transition: %s -> %s, reverse=%d",
+             edge->source, edge->target, reverse);
+}
+
 static void prefetch_next_loop(stream_app_t *a)
 {
     if (a->pending_clip || !a->active_edge || !a->active_edge->is_loop ||
@@ -229,6 +306,9 @@ static void prefetch_next_loop(stream_app_t *a)
     const masko_http_cache_stats_t active_cache =
         masko_http_clip_cache_stats(a->active_clip);
     if (!active_cache.ready) return;
+    if (a->prefetch_transition_clip &&
+        !masko_http_clip_cache_stats(a->prefetch_transition_clip).ready)
+        return;
 
     const int node = a->next_touch_node;
     if (a->prefetch_failed_node == node) return;
@@ -275,6 +355,19 @@ static esp_err_t queue_edge(stream_app_t *a, const masko_edge_t *edge,
     masko_http_clip_t *clip = NULL;
     const int target_node = edge->is_loop ? node_index(a, edge->target) : -1;
     bool prefetched = false;
+    if (!edge->is_loop && a->prefetch_transition_clip) {
+        if (edge == a->prefetch_transition_edge &&
+            masko_http_clip_cache_stats(a->prefetch_transition_clip).ready) {
+            clip = a->prefetch_transition_clip;
+            a->prefetch_transition_clip = NULL;
+            a->prefetch_transition_edge = NULL;
+            prefetched = true;
+            ESP_LOGI(TAG, "using prefetched transition: %s -> %s",
+                     edge->source, edge->target);
+        } else {
+            discard_prefetch_transition(a);
+        }
+    }
     if (edge->is_loop && a->prefetch_clip && target_node == a->prefetch_node) {
         if (masko_http_clip_cache_stats(a->prefetch_clip).ready) {
             clip = a->prefetch_clip;
@@ -331,7 +424,7 @@ static void report(stream_app_t *a)
                   "requests=%u, failures=%u, cache hits=%u, misses=%u, "
                   "peak request=%u ms, decode=%lld/%lld us avg/max, "
                   "push=%lld/%lld us avg/max, render ceiling=%.1f fps, "
-                  "heap internal=%u (low %u) PSRAM=%u (low %u)",
+                  "heap internal=%u (low %u) DMA_largest=%u PSRAM=%u (low %u)",
              sec > 0 ? (p.frames_shown-a->last_player_stats.frames_shown)/sec : 0,
              (unsigned)shown,
              (unsigned)(p.frames_dropped-a->last_player_stats.frames_dropped),
@@ -348,6 +441,7 @@ static void report(stream_app_t *a)
              (long long)push_avg, (long long)p.push_us_max, render_ceiling,
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
              (unsigned)heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA),
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM),
              (unsigned)heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM));
     a->last_player_stats = p;
@@ -388,7 +482,7 @@ static void report_diagnostic(stream_app_t *a)
     ESP_LOGI(TAG, "diag_net req_frame/cache=%u/%u bytes_frame/cache=%llu/%llu "
                   "req_avg=%llums queue_avg=%llums delayed>100/500ms=%u/%u "
                   "slow>250/1000/3000ms=%u/%u/%u decoder=%lldus push=%lldus "
-                  "push_qwait=%lldms max=%lldms heap_int=%u PSRAM=%u",
+                  "push_qwait=%lldms max=%lldms heap_int=%u DMA_largest=%u PSRAM=%u",
              (unsigned)frame_reqs, (unsigned)cache_reqs,
              (unsigned long long)(h.frame_bytes-a->diag_http_stats.frame_bytes),
              (unsigned long long)(h.cache_bytes-a->diag_http_stats.cache_bytes),
@@ -406,6 +500,7 @@ static void report_diagnostic(stream_app_t *a)
              (long long)((p.push_queue_wait_us_total-a->diag_player_stats.push_queue_wait_us_total)/1000),
              (long long)(p.push_queue_wait_us_max/1000),
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA),
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
     if (a->prefetch_clip) {
         const masko_http_cache_stats_t prefetch =
@@ -414,6 +509,16 @@ static void report_diagnostic(stream_app_t *a)
                  a->prefetch_edge ? a->prefetch_edge->target : "?",
                  prefetch.ready ? "ready" : prefetch.filling ? "fill" : "failed",
                  (unsigned)prefetch.downloaded_bytes, (unsigned)prefetch.total_bytes);
+    }
+    if (a->prefetch_transition_clip) {
+        const masko_http_cache_stats_t transition =
+            masko_http_clip_cache_stats(a->prefetch_transition_clip);
+        ESP_LOGI(TAG, "diag_transition_prefetch state=%s->%s cache=%s %u/%uB",
+                 a->prefetch_transition_edge->source,
+                 a->prefetch_transition_edge->target,
+                 transition.ready ? "ready" : transition.filling ? "fill" : "failed",
+                 (unsigned)transition.downloaded_bytes,
+                 (unsigned)transition.total_bytes);
     }
     a->diag_player_stats = p;
     a->diag_http_stats = h;
@@ -468,6 +573,9 @@ static void handle_message(stream_app_t *a, msg_t m)
         a->next_touch_node = (a->next_touch_node+1) % a->graph.nnodes;
         if (a->prefetch_clip && a->prefetch_node != a->wanted_node)
             discard_prefetch(a);
+        if (a->prefetch_transition_clip &&
+            a->prefetch_transition_edge != first_transition_toward(a, a->wanted_node))
+            discard_prefetch_transition(a);
         a->request_us = m.at_us;
         ESP_LOGI(TAG, "%s requested %s", m.event ? "touch" : "BOOT",
                  a->graph.nodes[a->wanted_node].id);
@@ -489,6 +597,8 @@ static void handle_message(stream_app_t *a, msg_t m)
         }
         if (a->active_edge && a->active_edge->is_loop)
             a->loop_start_us = m.at_us;
+        if (a->active_edge && a->active_edge->is_loop)
+            a->prefetch_transition_failed_edge = NULL;
         ESP_LOGI(TAG, "clip started: %s -> %s", a->active_edge->source,
                  a->active_edge->target);
         break;
@@ -565,7 +675,7 @@ void masko_stream_demo_main(void)
     }
     heap_caps_free(warm);
     app.active_edge = initial;
-    const bsp_display_config_t disp_cfg = { .max_transfer_sz = MASKO_PUSH_BAND_BYTES };
+    const bsp_display_config_t disp_cfg = { .max_transfer_sz = STREAM_BAND_BYTES };
     esp_lcd_panel_handle_t panel = NULL;
     esp_lcd_panel_io_handle_t io = NULL;
     ESP_ERROR_CHECK(bsp_display_new(&disp_cfg, &panel, &io));
@@ -575,7 +685,7 @@ void masko_stream_demo_main(void)
     ESP_ERROR_CHECK(bsp_touch_new(&touch_cfg, &app.touch));
     masko_display_cfg_t dc = {
         .panel = panel, .canvas_w = BSP_LCD_H_RES,
-        .canvas_h = BSP_LCD_V_RES, .band_rows = MASKO_PUSH_BAND_ROWS,
+        .canvas_h = BSP_LCD_V_RES, .band_rows = STREAM_BAND_ROWS,
     };
     masko_display_t *display = NULL;
     ESP_ERROR_CHECK(masko_display_new(&dc, &display));
@@ -608,6 +718,7 @@ void masko_stream_demo_main(void)
                                app.current_node != app.wanted_node)) &&
             esp_timer_get_time()-app.last_prepare_attempt_us > 2000000)
             app.need_next = queue_edge(&app, next_edge(&app), true) != ESP_OK;
+        prefetch_next_transition(&app);
         prefetch_next_loop(&app);
         if (esp_timer_get_time()-app.stats_start_us >= 30000000)
             report(&app);

@@ -1,4 +1,5 @@
 #include "masko_http.h"
+#include "sdkconfig.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,8 @@ typedef struct {
     size_t want, got;
     uint32_t start, end, total;
     bool range_seen, overflow;
+    int64_t started_us, first_byte_us;
+    unsigned connections;
 } transfer_t;
 
 typedef struct {
@@ -91,11 +94,14 @@ static esp_err_t on_http(esp_http_client_event_t *ev)
         if (sscanf(ev->header_value, "bytes %u-%u/%u", &a, &b, &total) == 3) {
             t->start = a; t->end = b; t->total = total; t->range_seen = true;
         }
+    } else if (ev->event_id == HTTP_EVENT_ON_CONNECTED) {
+        t->connections++;
     } else if (ev->event_id == HTTP_EVENT_ON_DATA && ev->data_len > 0) {
+        if (!t->first_byte_us) t->first_byte_us = esp_timer_get_time();
         if ((size_t)ev->data_len > t->want - t->got) {
             t->overflow = true;
         } else {
-            memcpy(t->dst + t->got, ev->data, (size_t)ev->data_len);
+            if (t->dst) memcpy(t->dst + t->got, ev->data, (size_t)ev->data_len);
             t->got += (size_t)ev->data_len;
         }
     }
@@ -109,8 +115,8 @@ static esp_http_client_handle_t client_new(const char *url, transfer_t *t)
         .event_handler = on_http,
         .user_data = t,
         .crt_bundle_attach = esp_crt_bundle_attach,
-        .timeout_ms = 8000,
-        .buffer_size = 4096,
+        .timeout_ms = CONFIG_MASKO_HTTP_TIMEOUT_MS,
+        .buffer_size = CONFIG_MASKO_HTTP_RX_BUFFER_KIB * 1024,
         .buffer_size_tx = 1024,
     };
     return esp_http_client_init(&cfg);
@@ -120,7 +126,7 @@ static esp_err_t read_range(esp_http_client_handle_t client, transfer_t *t,
                             const char *url, uint32_t start, size_t len,
                             uint8_t *dst, uint32_t *total)
 {
-    if (!client || !t || !url || !dst || !len || len > UINT32_MAX - start)
+    if (!client || !t || !url || !len || len > UINT32_MAX - start)
         return ESP_ERR_INVALID_ARG;
     memset(t, 0, sizeof(*t));
     t->dst = dst; t->want = len;
@@ -130,6 +136,7 @@ static esp_err_t read_range(esp_http_client_handle_t client, transfer_t *t,
     esp_err_t err = esp_http_client_set_url(client, url);
     if (err == ESP_OK) err = esp_http_client_set_header(client, "Range", range);
     if (err != ESP_OK) return err;
+    t->started_us = esp_timer_get_time();
     err = esp_http_client_perform(client);
     if (err != ESP_OK) return err;
     if (esp_http_client_get_status_code(client) != 206 || !t->range_seen ||
@@ -162,11 +169,13 @@ static void worker(void *arg)
         const uint64_t queue_wait_us = (uint64_t)(request_start_us-job.queued_us);
         const int64_t start = esp_timer_get_time();
         uint32_t total = 0;
+        unsigned retries = 0;
         esp_err_t err = client ? read_range(client, &transfer, job.clip->url,
                                             job.offset, job.length,
                                             dst, &total)
                                : ESP_ERR_NO_MEM;
         if (err != ESP_OK || total != job.clip->source.header.file_size) {
+            retries = 1;
             if (client) esp_http_client_cleanup(client);
             client = NULL;
             /* A fresh connection handles a stale keep-alive socket. */
@@ -178,7 +187,24 @@ static void worker(void *arg)
             if (err == ESP_OK && total != job.clip->source.header.file_size)
                 err = ESP_ERR_INVALID_SIZE;
         }
-        const uint32_t ms = (uint32_t)((esp_timer_get_time() - start) / 1000);
+        const int64_t ended_us = esp_timer_get_time();
+        const uint32_t ms = (uint32_t)((ended_us - start) / 1000);
+        const int64_t ttfb_us = transfer.first_byte_us ?
+            transfer.first_byte_us - transfer.started_us : 0;
+        const int64_t body_us = transfer.first_byte_us ?
+            ended_us - transfer.first_byte_us : 0;
+        if (job.cache_job || ms >= 250 || err != ESP_OK) {
+            ESP_LOGI(TAG, "job class=%s bytes=%u queue=%llums total=%ums "
+                     "ttfb=%llums body=%llums body_Mbit_s=%.2f connects=%u "
+                     "retry=%u err=%s heap_int=%u psram=%u",
+                     job.cache_job ? "cache" : "frame", (unsigned)job.length,
+                     (long long)(queue_wait_us/1000), (unsigned)ms,
+                     (long long)(ttfb_us/1000), (long long)(body_us/1000),
+                     body_us > 0 ? (double)transfer.got*8/body_us : 0.0,
+                     transfer.connections, retries, esp_err_to_name(err),
+                     (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+                     (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
+        }
         xSemaphoreTake(http->lock, portMAX_DELAY);
         if (job.cache_job) {
             job.clip->cache_chunk_result = err;
@@ -744,17 +770,37 @@ esp_err_t masko_http_probe(const char *url)
     uint8_t *buf = heap_caps_malloc(256 * 1024, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
     if (!buf) { esp_http_client_cleanup(client); return ESP_ERR_NO_MEM; }
     uint32_t total = 0;
-    const int64_t a = esp_timer_get_time();
-    esp_err_t err = read_range(client, &t, url, 0, 64, buf, &total);
-    const int64_t b = esp_timer_get_time();
-    if (err == ESP_OK && total >= 256 * 1024)
-        err = read_range(client, &t, url, 0, 256 * 1024, buf, &total);
-    const int64_t c = esp_timer_get_time();
-    if (err == ESP_OK)
-        ESP_LOGI(TAG, "Wi-Fi probe: 64B latency=%lld ms, 256KiB=%lld ms, %.1f KiB/s",
-                 (long long)((b-a)/1000), (long long)((c-b)/1000),
-                 (double)(256*1024) / ((double)(c-b)/1e6) / 1024);
+    esp_err_t err = ESP_OK;
+    const size_t sizes[] = {256u*1024u, 1024u*1024u, 256u*1024u};
+    const char *labels[] = {"cold", "reused", "new_connection"};
+    for (unsigned i = 0; i < 3 && err == ESP_OK; i++) {
+        if (i == 2) {
+            esp_http_client_cleanup(client);
+            client = client_new(url, &t);
+            if (!client) { err = ESP_ERR_NO_MEM; break; }
+        }
+        /* The 1 MiB probe discards bytes after validation so the probe does
+         * not require a contiguous 1 MiB PSRAM allocation. Worker jobs copy. */
+        const int64_t started_us = esp_timer_get_time();
+        err = read_range(client, &t, url, 0, sizes[i],
+                         sizes[i] <= 256u*1024u ? buf : NULL, &total);
+        const int64_t ended_us = esp_timer_get_time();
+        const int64_t ttfb_us = t.first_byte_us ?
+            t.first_byte_us-t.started_us : 0;
+        const int64_t body_us = t.first_byte_us ?
+            ended_us-t.first_byte_us : 0;
+        ESP_LOGI(TAG, "probe %s bytes=%u total=%u total_ms=%lld ttfb_ms=%lld "
+                 "body_ms=%lld body_Mbit_s=%.2f connects=%u err=%s "
+                 "heap_int=%u psram=%u",
+                 labels[i], (unsigned)sizes[i], (unsigned)total,
+                 (long long)((ended_us-started_us)/1000),
+                 (long long)(ttfb_us/1000), (long long)(body_us/1000),
+                 body_us > 0 ? (double)t.got*8/body_us : 0.0,
+                 t.connections, esp_err_to_name(err),
+                 (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+                 (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
+    }
     heap_caps_free(buf);
-    esp_http_client_cleanup(client);
+    if (client) esp_http_client_cleanup(client);
     return err;
 }

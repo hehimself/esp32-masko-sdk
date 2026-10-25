@@ -139,9 +139,11 @@ Enable **Stream the full Kylo mascot over Wi-Fi** in `idf.py menuconfig`, then
 enter the SSID and password under **Masko demo**. `sdkconfig` is ignored by Git;
 do not put credentials in `sdkconfig.defaults` or source files. Enable **Only
 measure Wi-Fi and CDN range speed at startup** for the first board test. It
-connects to Wi-Fi, logs RSSI and free RAM, fetches a 64-byte CDN range, then
-fetches 256 KiB and reports latency and throughput. No animation partition
-flashing or SD card is required for this mode. Disable probe-only for playback:
+connects to Wi-Fi, logs RSSI and free RAM, then measures a cold 256 KiB range,
+a reused-connection 1 MiB range, and a fresh-connection 256 KiB range. The
+probe reports time to first byte, transfer time after that byte, and Mbit/s.
+The playback mode runs this probe at startup too. No animation partition
+flashing or SD card is required. Disable probe-only for playback:
 
 ```bash
 cd examples/waveshare_amoled_175
@@ -163,18 +165,32 @@ for transitions and their target loops.
 
 `masko_http` issues HTTPS byte-range requests for a 64-byte header, frame
 index, and frame-aligned JPEG groups. The first compressed range is capped at
-64 KiB to make the first frame available sooner. One worker then refills two PSRAM cache slots
-per open clip (512 KiB each by default). The player retains its three decoded
-384×384 RGB565 buffers and adds two compressed-frame scratch buffers. At most
-the active and upcoming clip are open. These fixed buffers peak at about
-3.4 MiB of PSRAM (2 MiB compressed cache, 0.5 MiB JPEG scratch, 0.84 MiB
-decoded frames), before Wi-Fi/TLS, graph, and display allocations. When a
-requested frame is late, the
-display holds its current picture and the player retries that frame. The
-streaming path builds with ESP-IDF 6.1. A phone-hotspot board run reached the
-first frame, but averaged 2.8 fps in a 30-second sample with many source
-underruns. See the [measurements](KYLO_WIFI_TEST_RESULTS.md) before relying on
-live streaming for a product.
+64 KiB to make the first frame available sooner. One worker refills two PSRAM
+range slots per open clip (512 KiB each by default). Once a full clip has been
+copied into 256 KiB PSRAM chunks, its range slots are released. The demo first
+loads the active loop, then anticipates the next touch by caching its authored
+transition and destination loop. A ready transition starts directly from PSRAM;
+a missing or failed cache falls back to live range playback. The display uses
+8-row SPI transfers and a one-entry transfer queue to keep DMA allocations
+small while HTTPS is active.
+
+On the measured home Wi-Fi, the final 4 KiB HTTP-buffer profile showed **23.9
+fps during the first 30 seconds** while three clips were loading, then **24.0
+fps for the next 30 seconds**, with no dropped frames, underruns, or memory
+errors in that controlled run. A prefetched Rest→Working transition began 74 ms
+after touch; the Working loop appeared 2.125 s after touch, including the
+authored transition. An early BOOT press before prefetch finished took 3.222 s
+to the first transition frame, so cache readiness still matters. The 8 MiB
+PSRAM budget cannot hold the 25-pack graph; three cached packs left only about
+0.4 MiB free in the measured Rest→Working case. Other states and two-hop routes
+may stream uncached clips and stutter. See the [full tuning report and sanitized
+serial logs](reports/streaming-tuning-2026-10-25/REPORT.md) before treating this
+as a product-level latency guarantee.
+
+The visible `jar-gazing` loop has a small hold at its wrap: its 97-frame pack
+ends with two byte-identical JPEG frames at 24 fps. This can make the final
+image remain on screen for about 83 ms. The player inserts no loop-boundary
+delay; see the report for the asset inspection and the limits of the timing log.
 
 Applications can use the HTTP source directly after connecting Wi-Fi:
 

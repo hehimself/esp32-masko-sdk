@@ -105,25 +105,25 @@ I (915) wifi_init: WiFi IRAM OP enabled
 I (919) wifi_init: WiFi RX IRAM OP enabled
 W (923) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (973) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (973) wifi:mode : sta (<mac>)
 I (974) wifi:enable tsf
 I (975) wifi:Set ps type: 0, coexist: 0
 
 I (981) wifi:state: init -> auth (0xb0)
 I (998) wifi:state: auth -> assoc (0x0)
 I (1003) wifi:state: assoc -> run (0x10)
-I (1031) wifi:connected with FRITZ!Box Gastzugang, aid = 32, channel 1, BW20, bssid = [REDACTED]
+I (1031) wifi:connected with <redacted>, aid = 32, channel 1, BW20, bssid = [REDACTED]
 I (1032) wifi:security: WPA2-PSK, phy: bgn, rssi: -69, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1039) wifi:pm start, type: 0
 
 I (1041) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1049) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (1062) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (1063) wifi:<ba-add>idx:0 (ifx:0, 9a:b5:8d:77:14:8f), tid:0, ssn:1, winSize:64
-I (2073) esp_netif_handlers: sta ip: 192.168.189.10, mask: 255.255.255.0, gw: 192.168.189.1
+I (1063) wifi:<ba-add>idx:0 (ifx:0, <mac>), tid:0, ssn:1, winSize:64
+I (2073) esp_netif_handlers: sta ip: <ip>, mask: <ip>, gw: <ip>
 I (2073) kylo_stream: Wi-Fi connected; RSSI -70 dBm, channel 1
 I (2075) kylo_stream: heap after Wi-Fi: internal=188323, PSRAM=7261604
-I (2104) wifi:<ba-add>idx:1 (ifx:0, 9a:b5:8d:77:14:8f), tid:3, ssn:1, winSize:64
+I (2104) wifi:<ba-add>idx:1 (ifx:0, <mac>), tid:3, ssn:1, winSize:64
 I (3539) masko_http: Wi-Fi probe: 64B latency=524 ms, 256KiB=931 ms, 274.8 KiB/s
 I (4065) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
 I (4820) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus

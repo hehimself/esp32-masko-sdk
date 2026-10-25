@@ -104,7 +104,7 @@ I (921) wifi_init: tcp mss: 1440
 I (924) wifi_init: WiFi IRAM OP enabled
 I (928) wifi_init: WiFi RX IRAM OP enabled
 I (933) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (973) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (973) wifi:mode : sta ([redacted MAC])
 I (973) wifi:enable tsf
 I (974) wifi:Set ps type: 0, coexist: 0
 

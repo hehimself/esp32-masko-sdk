@@ -1,0 +1,16 @@
+menu "Masko HTTP transport"
+
+config MASKO_HTTP_RX_BUFFER_KIB
+    int "HTTP receive buffer (KiB)"
+    range 4 16
+    default 4
+    help
+        Allocated per HTTP client. Larger buffers can improve transfer rate,
+        but reduce the internal heap available to TLS and display DMA.
+
+config MASKO_HTTP_TIMEOUT_MS
+    int "HTTP request timeout (ms)"
+    range 1000 30000
+    default 8000
+
+endmenu

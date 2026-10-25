@@ -105,7 +105,7 @@ I (890) wifi_init: WiFi IRAM OP enabled
 I (894) wifi_init: WiFi RX IRAM OP enabled
 W (898) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (906) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (947) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (947) wifi:mode : sta ([redacted MAC])
 I (948) wifi:enable tsf
 I (949) wifi:Set ps type: 0, coexist: 0
 

@@ -1,5 +1,5 @@
 I (4932) masko_http: Wi-Fi probe: 64B latency=532 ms, 256KiB=797 ms, 321.2 KiB/s
-I (4965) wifi:<ba-add>idx:1 (ifx:0, 9a:b5:8d:77:14:8f), tid:3, ssn:1, winSize:64
+I (4965) wifi:<ba-add>idx:1 (ifx:0, [redacted MAC]), tid:3, ssn:1, winSize:64
 I (5502) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
 I (6466) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus
 I (6467) co5300: version: 2.2.0

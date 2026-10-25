@@ -1,0 +1,1071 @@
+--- esp-idf-monitor 1.10.0 on /dev/cu.usbmodem101 115200
+--- Standard input is not a TTY, running in non-interactive mode. Reading commands from stdin: reset, flash, flash-all, app-flash, output, log, timestamps, bootloader, send <text>, sleep <seconds>, expect [--timeout <seconds>] <regex>, exit | Quit: 'exit' command, EOF or Ctrl+C
+--- No commands on standard input, watching serial output only...
+Executing action: monitor
+Running idf_monitor in directory /Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175
+Executing "/Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem101 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175/build/masko_amoled_175.elf /Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175/build/bootloader/bootloader.elf -m '/Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python' '/Users/marvin/.espressif/v6.1/esp-idf/tools/idf.py' '-p' '/dev/cu.usbmodem101'"...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42051f49
+--- 0x42051f49: xor_data at /Users/marvin/.espressif/v6.1/esp-idf/components/mbedtls/port/aes/esp_aes_gcm.c:106(inlined by) esp_gcm_ghash at /Users/marvin/.espressif/v6.1/esp-idf/components/mbedtls/port/aes/esp_aes_gcm.c:300
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x1664
+load:0x403c8700,len:0xf7c
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x31ec
+entry 0x403c892c
+--- 0x403c892c: call_start_cpu0 at /Users/marvin/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+I (24) boot: ESP-IDF v6.1 2nd stage bootloader
+I (24) boot: compile time Oct 25 2026 11:01:01
+I (25) boot: Multicore bootloader
+I (25) boot: chip revision: v0.2
+I (27) boot: efuse block revision: v1.4
+I (31) qio_mode: Enabling default flash chip QIO
+I (35) boot.esp32s3: Boot SPI Speed : 80MHz
+I (39) boot.esp32s3: SPI Mode       : QIO
+I (43) boot.esp32s3: SPI Flash Size : 16MB
+I (47) boot: Enabling RNG early entropy source...
+I (51) boot: Partition Table:
+I (54) boot: ## Label            Usage          Type ST Offset   Length
+I (60) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (67) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (73) boot:  2 factory          factory app      00 00 00010000 00400000
+I (80) boot:  3 masko            Unknown data     01 40 00410000 00a00000
+I (86) boot: End of partition table
+I (90) esp_image: segment 0: paddr=00010020 vaddr=3c0d0020 size=3cc20h (248864) map
+I (135) esp_image: segment 1: paddr=0004cc48 vaddr=3fca3700 size=033d0h ( 13264) load
+I (138) esp_image: segment 2: paddr=00050020 vaddr=42000020 size=c98e0h (825568) map
+I (267) esp_image: segment 3: paddr=00119908 vaddr=3fca6ad0 size=02564h (  9572) load
+I (269) esp_image: segment 4: paddr=0011be74 vaddr=40378000 size=1b634h (112180) load
+I (293) esp_image: segment 5: paddr=001374b0 vaddr=50000000 size=00024h (    36) load
+I (305) boot: Loaded app from partition at offset 0x10000
+I (305) boot: Disabling RNG early entropy source...
+I (315) octal_psram: vendor id    : 0x0d (AP)
+I (315) octal_psram: dev id       : 0x02 (generation 3)
+I (316) octal_psram: density      : 0x03 (64 Mbit)
+I (318) octal_psram: good-die     : 0x01 (Pass)
+I (322) octal_psram: Latency      : 0x01 (Fixed)
+I (326) octal_psram: VCC          : 0x01 (3V)
+I (330) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (335) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (340) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (345) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (350) octal_psram: DriveStrength: 0x00 (1/1)
+I (354) MSPI Timing: Enter psram timing tuning
+I (359) esp_psram: Found 8MB PSRAM device
+I (362) esp_psram: Speed: 80MHz
+I (380) mmu_psram: Read only data copied and mapped to SPIRAM
+I (437) mmu_psram: Instructions copied and mapped to SPIRAM
+I (437) cpu_start: Multicore app
+I (684) esp_psram: SPI SRAM memory test OK
+I (693) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (693) cpu_start: Pro cpu start user code
+I (693) cpu_start: cpu freq: 240000000 Hz
+I (695) app_init: Application information:
+I (699) app_init: Project name:     masko_amoled_175
+I (703) app_init: App version:      7d8f689-dirty
+I (708) app_init: Compile time:     Oct 25 2026 11:01:13
+I (713) app_init: ELF file SHA256:  73190bd01...
+I (717) app_init: ESP-IDF:          v6.1
+I (721) efuse_init: Min chip rev:     v0.0
+I (725) efuse_init: Max chip rev:     v0.99
+I (729) efuse_init: Chip rev:         v0.2
+I (732) heap_init: Initializing. RAM available for dynamic allocation:
+I (739) heap_init: At 3FCADEA0 len 0003B870 (238 KiB): RAM
+I (744) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (749) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (754) esp_psram: Adding pool of 7104K of PSRAM memory to heap allocator
+I (761) esp_psram: Adding pool of 12K of PSRAM memory gap generated due to end address alignment of drom to the heap allocator
+I (772) spi_flash: detected chip: generic
+I (776) spi_flash: flash io: qio
+I (779) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (785) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (792) main_task: Started on CPU0
+I (795) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (803) main_task: Calling app_main()
+I (824) kylo_stream: Kylo manifest: 11 states, 42 edges
+I (830) pp: pp rom version: e7ae62f
+I (830) net80211: net80211 rom version: e7ae62f
+I (832) wifi:wifi driver task: 3fced7d0, prio:23, stack:6656, core=0
+I (837) wifi:wifi firmware version: e12a754
+I (837) wifi:wifi certification version: v7.0
+I (841) wifi:config NVS flash: enabled
+I (844) wifi:config nano formatting: disabled
+I (848) wifi:Init data frame dynamic rx buffer num: 32
+I (853) wifi:Init static rx mgmt buffer num: 5
+I (857) wifi:Init management short buffer num: 32
+I (862) wifi:Init dynamic tx buffer num: 32
+I (866) wifi:Init static tx FG buffer num: 2
+I (870) wifi:Init static rx buffer size: 1600
+I (874) wifi:Init static rx buffer num: 10
+I (877) wifi:Init dynamic rx buffer num: 32
+I (882) wifi_init: rx ba win: 6
+I (884) wifi_init: accept mbox: 6
+I (887) wifi_init: tcpip mbox: 32
+I (890) wifi_init: udp mbox: 6
+I (893) wifi_init: tcp mbox: 6
+I (896) wifi_init: tcp tx win: 5760
+I (899) wifi_init: tcp rx win: 5760
+I (902) wifi_init: tcp mss: 1440
+I (905) wifi_init: WiFi IRAM OP enabled
+I (909) wifi_init: WiFi RX IRAM OP enabled
+W (913) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (921) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (968) wifi:mode : sta (<mac>)
+I (968) wifi:enable tsf
+I (969) wifi:Set ps type: 0, coexist: 0
+
+I (976) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (976) wifi:state: init -> auth (0xb0)
+I (981) wifi:state: auth -> assoc (0x0)
+I (986) wifi:state: assoc -> run (0x10)
+I (1053) wifi:connected with <redacted>, aid = 30, channel 6, BW20, bssid = <mac>
+I (1053) wifi:security: WPA2-PSK, phy: bgn, rssi: -51, cipher(pairwise:0x3, group:0x3), pmf:0
+I (1060) wifi:pm start, type: 0
+
+I (1062) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1070) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (1091) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (1103) wifi:<ba-add>idx:0 (ifx:0, <mac>), tid:0, ssn:1, winSize:64
+I (2113) esp_netif_handlers: sta ip: <ip>, mask: <ip>, gw: <ip>
+I (2113) kylo_stream: Wi-Fi connected; RSSI -46 dBm, channel 6, BW40
+I (2116) kylo_stream: heap after Wi-Fi: internal=177263, PSRAM=7262324
+I (2150) wifi:<ba-add>idx:1 (ifx:0, <mac>), tid:3, ssn:1, winSize:64
+I (3719) masko_http: probe cold bytes=262144 total=1905820 total_ms=1596 ttfb_ms=607 body_ms=989 body_Mbit_s=2.12 connects=1 err=ESP_OK heap_int=136491 psram=7000176
+I (7568) masko_http: probe reused bytes=1048576 total=1905820 total_ms=3845 ttfb_ms=29 body_ms=3816 body_Mbit_s=2.20 connects=0 err=ESP_OK heap_int=136263 psram=7000176
+I (9090) masko_http: probe new_connection bytes=262144 total=1905820 total_ms=1516 ttfb_ms=577 body_ms=938 body_Mbit_s=2.23 connects=1 err=ESP_OK heap_int=136007 psram=7000176
+I (9655) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
+I (10524) masko_http: job class=frame bytes=61019 queue=40ms total=829ms ttfb=606ms body=222ms body_Mbit_s=2.20 connects=1 retry=0 err=ESP_OK heap_int=127643 psram=6192420
+I (10529) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus
+I (10534) co5300: version: 2.2.0
+I (10536) co5300_spi: LCD panel create success, version: 2.2.0
+W (10702) co5300_spi: The 3Ah command has been used and will be overwritten by external initialization sequence
+I (11979) CST9217: Checkcode: 0x204ECACA
+I (11981) CST9217: Resolution X: 466, Y: 466
+I (11983) CST9217: Chip Type: 0x9217, ProjectID: 0x5734
+I (11983) masko_display: 466x466, 50-row bands = 46600 B per transfer (internal DMA budget 280000)
+I (12014) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (12014) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (12018) masko_player: pack: 97 frames, bbox 384x384+40+40, 24.0 fps, 0.0 ms decode (measured)
+I (12030) masko_http: full clip cache started: 1904796 bytes PSRAM, 97 frames
+I (12034) kylo_stream: streaming; touch/BOOT cycles all 11 Kylo states
+I (12074) kylo_stream: first pixel: jar-gazing -> jar-gazing, preparation-to-display=43 ms, input-to-display=-1 ms
+I (12653) masko_http: job class=frame bytes=515449 queue=98ms total=2025ms ttfb=19ms body=2005ms body_Mbit_s=2.06 connects=0 retry=0 err=ESP_OK heap_int=79903 psram=2895812
+E (13004) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (13004) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (13009) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (13016) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (13026) kylo_stream: player error
+I (13127) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 0/1904796B fps=11.9 frames=13 src_reads=16 src_wait=474ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=506ms gaps>100/500/1000ms=1/1/0
+I (13136) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=576468/0 req_avg=1431ms queue_avg=69ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/1/0 decoder=26080us push=19185us push_qwait=808ms max=199ms heap_int=68123 PSRAM=2895812
+E (13461) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (13461) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (13466) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (13473) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (13484) kylo_stream: player error
+I (13648) masko_http: job class=cache bytes=262144 queue=626ms total=990ms ttfb=21ms body=969ms body_Mbit_s=2.16 connects=0 retry=0 err=ESP_OK heap_int=70975 psram=2895812
+E (13712) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (13713) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (13717) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (13724) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (13734) kylo_stream: player error
+I (14230) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 262144/1904796B fps=12.1 frames=13 src_reads=15 src_wait=309ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=506ms gaps>100/500/1000ms=0/0/0
+I (14238) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=995ms queue_avg=626ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=28113us push=18987us push_qwait=740ms max=199ms heap_int=106527 PSRAM=2895812
+I (15330) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 262144/1904796B fps=0.0 frames=0 src_reads=4 src_wait=1219ms src_max=304ms stalls=4 queue_underrun=6 display_gap_max=506ms gaps>100/500/1000ms=0/0/0
+I (15338) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=106527 PSRAM=2895812
+I (15738) masko_http: job class=frame bytes=522513 queue=990ms total=2085ms ttfb=38ms body=2047ms body_Mbit_s=2.04 connects=0 retry=0 err=ESP_OK heap_int=106527 psram=2895812
+E (16208) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (16208) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (16213) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (16220) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (16231) kylo_stream: player error
+E (16333) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (16333) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (16338) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (16345) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (16356) kylo_stream: player error
+I (16459) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 262144/1904796B fps=13.6 frames=15 src_reads=19 src_wait=506ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=2055ms gaps>100/500/1000ms=1/1/1
+I (16468) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=522513/0 req_avg=2090ms queue_avg=990ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=28151us push=18856us push_qwait=809ms max=200ms heap_int=68123 PSRAM=2895812
+E (16708) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (16709) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (16714) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (16720) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (16729) kylo_stream: player error
+I (16731) masko_http: job class=cache bytes=262144 queue=2088ms total=988ms ttfb=78ms body=909ms body_Mbit_s=2.31 connects=0 retry=0 err=ESP_OK heap_int=97411 psram=2895812
+I (17552) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 524288/1904796B fps=8.5 frames=9 src_reads=11 src_wait=610ms src_max=304ms stalls=2 queue_underrun=3 display_gap_max=2055ms gaps>100/500/1000ms=0/0/0
+I (17564) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1002ms queue_avg=2088ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=23503us push=18798us push_qwait=806ms max=200ms heap_int=77599 PSRAM=2895812
+I (18652) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 524288/1904796B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=304ms stalls=3 queue_underrun=6 display_gap_max=2055ms gaps>100/500/1000ms=0/0/0
+I (18660) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=79891 PSRAM=2895812
+I (18668) masko_http: job class=frame bytes=524174 queue=1000ms total=1923ms ttfb=80ms body=1843ms body_Mbit_s=2.28 connects=0 retry=0 err=ESP_OK heap_int=79891 psram=2895812
+E (18953) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (18953) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (18958) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (18965) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (18971) kylo_stream: player error
+E (19453) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (19453) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (19458) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (19465) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (19472) kylo_stream: player error
+I (19648) masko_http: job class=cache bytes=262144 queue=1947ms total=953ms ttfb=95ms body=857ms body_Mbit_s=2.45 connects=0 retry=0 err=ESP_OK heap_int=70979 psram=2895812
+E (19661) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (19662) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (19668) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (19675) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (19682) kylo_stream: player error
+I (19784) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 786432/1904796B fps=21.2 frames=23 src_reads=28 src_wait=341E (19786) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+ms src_max=304ms stalls=1 queue_underrun=0 display_gap_max=2055ms gaps>100/500/1000ms=1/1/1
+E (19794) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (19808) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (19815) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (19826) kylo_stream: diag_net req_frame/cache=1/1 bytes_frame/cache=524174/262144 req_avg=1453ms queue_avg=1474ms delayed>100/500ms=2/2 slow>250/1000/3000ms=2/1/0 decoder=26580us push=18877us push_qwait=620ms max=200ms heap_int=104223 PSRAM=2895812
+E (19843) kylo_stream: player error
+I (20728) masko_http: job class=frame bytes=280732 queue=955ms total=1076ms ttfb=106ms body=969ms body_Mbit_s=2.32 connects=0 retry=0 err=ESP_OK heap_int=106527 psram=2895812
+I (20921) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 786432/1904796B fps=3.7 frames=4 src_reads=8 src_wait=933ms src_max=304ms stalls=3 queue_underrun=4 display_gap_max=2055ms gaps>100/500/1000ms=1/1/0
+I (20929) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=280732/0 req_avg=1080ms queue_avg=955ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=35546us push=19302us push_qwait=1032ms max=200ms heap_int=70979 PSRAM=2895812
+E (21074) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (21074) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (21079) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (21086) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (21097) kylo_stream: player error
+E (21199) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (21200) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (21205) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (21211) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (21219) kylo_stream: player error
+I (21697) masko_http: job class=cache bytes=262144 queue=1078ms total=963ms ttfb=64ms body=898ms body_Mbit_s=2.33 connects=0 retry=0 err=ESP_OK heap_int=79899 psram=2895812
+I (22001) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1048576/1904796B fps=7.6 frames=8 src_reads=11 src_wait=614ms src_max=304ms stalls=2 queue_underrun=3 display_gap_max=2055ms gaps>100/500/1000ms=0/0/0
+I (22009) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=967ms queue_avg=1078ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=26849us push=18761us push_qwait=806ms max=200ms heap_int=79903 PSRAM=2895812
+I (23101) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1048576/1904796B fps=0.0 frames=0 src_reads=3 src_wait=914ms src_max=304ms stalls=3 queue_underrun=6 display_gap_max=2055ms gaps>100/500/1000ms=0/0/0
+I (23112) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=79903 PSRAM=2895812
+I (23522) masko_http: job class=frame bytes=518479 queue=966ms total=1821ms ttfb=92ms body=1728ms body_Mbit_s=2.40 connects=0 retry=0 err=ESP_OK heap_int=79903 psram=2895812
+E (24037) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (24037) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (24042) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (24048) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (24055) kylo_stream: player error
+I (24158) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1048576/1904796B fps=13.6 frames=14 src_reads=18 src_wait=714ms src_max=304ms stalls=2 queue_underrun=2 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+I (24166) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=518479/0 req_avg=1825ms queue_avg=966ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=25446us push=18989us push_qwait=753ms max=200ms heap_int=68119 PSRAM=2895812
+E (24286) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (24287) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (24292) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (24298) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (24307) kylo_stream: player error
+E (24453) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (24453) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (24458) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (24465) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (24476) kylo_stream: player error
+I (24491) masko_http: job class=cache bytes=262144 queue=1823ms total=964ms ttfb=80ms body=883ms body_Mbit_s=2.37 connects=0 retry=0 err=ESP_OK heap_int=97595 psram=2895812
+I (25197) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=8.9 frames=9 src_reads=11 src_wait=310ms src_max=304ms stalls=1 queue_underrun=3 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (25205) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=968ms queue_avg=1823ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=29010us push=18710us push_qwait=853ms max=200ms heap_int=79703 PSRAM=2895812
+I (26297) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=0.0 frames=0 src_reads=4 src_wait=1214ms src_max=304ms stalls=4 queue_underrun=5 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (26309) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=999ms max=200ms heap_int=77607 PSRAM=2895812
+I (26381) masko_http: job class=frame bytes=523881 queue=965ms total=1885ms ttfb=77ms body=1806ms body_Mbit_s=2.32 connects=0 retry=0 err=ESP_OK heap_int=79899 psram=2895812
+E (26643) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (26643) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (26648) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (26654) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (26661) kylo_stream: player error
+E (27267) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (27267) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (27272) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (27278) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (27285) kylo_stream: player error
+I (27388) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=20.7 frames=22 src_reads=25 src_wait=285ms src_max=304ms stalls=0 queue_underrun=1 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+I (27390) masko_http: job class=cache bytes=262144 queue=1887ms total=1005ms ttfb=68ms body=936ms body_Mbit_s=2.24 connects=0 retry=0 err=ESP_OK heap_int=70967 psram=2895812
+I (27416) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=523881/0 req_avg=1889ms queue_avg=965ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=25571us push=18834us push_qwait=720ms max=200ms heap_int=69415 PSRAM=2895640
+I (28493) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1572864/1904796B fps=2.8 frames=3 src_reads=5 src_wait=915ms src_max=304ms stalls=3 queue_underrun=5 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (28501) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1029ms queue_avg=1887ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=23722us push=18555us push_qwait=1068ms max=200ms heap_int=79899 PSRAM=2895812
+I (29539) masko_http: job class=frame bytes=522615 queue=1027ms total=2124ms ttfb=80ms body=2043ms body_Mbit_s=2.05 connects=0 retry=0 err=ESP_OK heap_int=79899 psram=2895812
+I (29593) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1572864/1904796B fps=0.9 frames=1 src_reads=5 src_wait=1142mE (29598) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+s src_max=304ms stalls=3 queue_underrun=5 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+E (29605) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (29617) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (29624) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (29634) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=522615/0 req_avg=2129ms queue_avg=1027ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=23358us push=20340us push_qwait=1079ms max=200ms heap_int=88235 PSRAM=2895812
+E (29651) kylo_stream: player error
+E (29846) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (29847) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (29852) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (29858) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (29868) kylo_stream: player error
+E (30388) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (30388) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (30393) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (30400) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (30411) kylo_stream: player error
+I (30486) masko_http: job class=cache bytes=262144 queue=2127ms total=943ms ttfb=92ms body=850ms body_Mbit_s=2.47 connects=0 retry=0 err=ESP_OK heap_int=68119 psram=2895812
+E (30513) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (30513) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (30518) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (30525) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (30532) kylo_stream: player error
+I (30734) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=20.3 frames=22 src_reads=25 src_wait=14ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (30742) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=947ms queue_avg=2127ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/0/0 decoder=27863us push=18776us push_qwait=563ms max=200ms heap_int=79507 PSRAM=2895812
+I (31780) masko_http: job class=frame bytes=339100 queue=941ms total=1289ms ttfb=81ms body=1207ms body_Mbit_s=2.25 connects=0 retry=0 err=ESP_OK heap_int=79899 psram=2895812
+I (31856) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1835008/1904796B fps=1.8 frames=2 src_reads=6 src_wait=1133ms src_max=304ms stalls=3 queue_underrun=5 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+I (31868) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=339100/0 req_avg=1293ms queue_avg=941ms delayed>100/500ms=1/1 slow>250/1000/3000ms=1/1/0 decoder=23523us push=19645us push_qwait=1158ms max=200ms heap_int=70979 PSRAM=2895812
+I (32032) masko_http: job class=cache bytes=69788 queue=1291ms total=248ms ttfb=73ms body=174ms body_Mbit_s=3.20 connects=0 retry=0 err=ESP_OK heap_int=70975 psram=2895812
+E (32044) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (32045) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (32053) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (32060) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (32067) kylo_stream: player error
+E (32460) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (32461) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (32465) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (32472) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (32479) kylo_stream: player error
+I (32978) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1904796/1904796B fps=11.9 frames=13 src_reads=15 src_wait=312ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (32986) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/69788 req_avg=252ms queue_avg=1291ms delayed>100/500ms=1/1 slow>250/1000/3000ms=0/0/0 decoder=27612us push=18722us push_qwait=739ms max=200ms heap_int=106531 PSRAM=2895812
+I (34078) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1904796/1904796B fps=0.0 frames=0 src_reads=4 src_wait=1215ms src_max=304ms stalls=4 queue_underrun=6 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (34089) masko_http: job class=frame bytes=518479 queue=249ms total=2051ms ttfb=72ms body=1979ms body_Mbit_s=2.10 connects=0 retry=0 err=ESP_OK heap_int=106531 psram=2895812
+I (34101) masko_http: full clip cache ready: 1904796 bytes PSRAM, 97 frames, 22071 ms
+I (34109) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=97599 PSRAM=3944396
+E (34234) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34235) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34240) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34246) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34278) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34278) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34283) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34290) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34319) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34320) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34325) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34331) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34361) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34361) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34366) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34373) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34403) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34403) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34408) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34414) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34444) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34444) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34449) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34456) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34486) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34486) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34491) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34498) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34528) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34528) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34533) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34540) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34569) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34570) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34575) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34581) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34611) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34611) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34616) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34623) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34653) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34653) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34658) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34665) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34694) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34695) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34700) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34706) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34736) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34736) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34741) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34748) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34778) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34778) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34783) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34790) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34819) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34820) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34825) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34831) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34861) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34861) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34866) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34873) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34903) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34903) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34908) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34914) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34944) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34944) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34949) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34956) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (34986) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (34986) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (34991) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (34998) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (35028) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (35028) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (35033) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (35039) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (35069) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (35069) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (35074) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (35080) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (35110) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (35110) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (35115) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (35122) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (35151) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (35151) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (35156) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (35163) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (35193) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (35193) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (35198) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (35205) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (35235) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (35235) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (35240) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (35247) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (35261) masko_http: opened remote pack: 97 frames, 1757945 bytes, max JPEG 18264
+I (35263) masko_http: full clip cache started: 1756921 bytes PSRAM, 97 frames
+I (35267) kylo_stream: prefetching next touch loop: specimen-notes
+I (35273) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=2.6 frames=3 src_reads=29 src_wait=127ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+I (35299) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=518479/0 req_avg=2064ms queue_avg=249ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/1/0 decoder=223883us push=18843us push_qwait=665ms max=200ms heap_int=70255 PSRAM=2186164
+I (35317) kylo_stream: diag_prefetch state=specimen-notes cache=fill 0/1756921B
+E (35321) kylo_stream: player error
+E (35325) kylo_stream: player error
+E (35327) kylo_stream: player error
+E (35335) kylo_stream: player error
+E (35335) kylo_stream: player error
+E (35337) kylo_stream: player error
+E (35340) kylo_stream: player error
+E (35343) kylo_stream: player error
+E (35350) kylo_stream: player error
+E (35350) kylo_stream: player error
+E (35353) kylo_stream: player error
+E (35356) kylo_stream: player error
+E (35360) kylo_stream: player error
+E (35362) kylo_stream: player error
+E (35366) kylo_stream: player error
+E (35369) kylo_stream: player error
+E (35381) kylo_stream: player error
+E (35382) kylo_stream: player error
+E (35382) kylo_stream: player error
+E (35382) kylo_stream: player error
+E (35385) kylo_stream: player error
+E (35388) kylo_stream: player error
+E (35395) kylo_stream: player error
+E (35395) kylo_stream: player error
+E (35398) kylo_stream: player error
+E (36194) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (36194) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (36199) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (36206) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (36217) kylo_stream: player error
+I (36400) masko_http: job class=cache bytes=262144 queue=0ms total=1137ms ttfb=30ms body=1107ms body_Mbit_s=1.89 connects=0 retry=0 err=ESP_OK heap_int=70067 psram=2186336
+I (36418) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=23.7 frames=26 src_reads=27 src_wait=14ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (36426) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1142ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=25788us push=18847us push_qwait=640ms max=200ms heap_int=68695 PSRAM=2186164
+I (36452) kylo_stream: diag_prefetch state=specimen-notes cache=fill 262144/1756921B
+E (36694) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (36694) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (36699) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (36705) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (36717) kylo_stream: player error
+I (37485) masko_http: job class=cache bytes=262144 queue=0ms total=1080ms ttfb=26ms body=1054ms body_Mbit_s=1.99 connects=0 retry=0 err=ESP_OK heap_int=70063 psram=2186336
+I (37528) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.2 frames=26 src_reads=27 src_wait=13ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (37539) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1085ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=24941us push=18931us push_qwait=614ms max=200ms heap_int=67011 PSRAM=2186336
+I (37557) kylo_stream: diag_prefetch state=specimen-notes cache=fill 524288/1756921B
+E (38444) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (38444) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (38449) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (38456) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (38469) kylo_stream: player error
+I (38561) masko_http: job class=cache bytes=262144 queue=0ms total=1071ms ttfb=24ms body=1046ms body_Mbit_s=2.00 connects=0 retry=0 err=ESP_OK heap_int=70255 psram=2186336
+I (38569) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.0 frames=24 src_reads=25 src_wait=16ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (38585) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1075ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=24407us push=19038us push_qwait=543ms max=200ms heap_int=65839 PSRAM=2186164
+E (38612) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+I (38610) kylo_stream: diag_prefetch state=specimen-notes cache=fill 786432/1756921B
+E (38619) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (38629) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (38636) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (38646) kylo_stream: player error
+E (38778) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (38778) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (38783) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (38790) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (38801) kylo_stream: player error
+E (39444) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (39444) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (39449) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (39455) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (39462) kylo_stream: player error
+E (39528) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (39528) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (39533) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (39540) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (39552) kylo_stream: player error
+I (39596) masko_http: job class=cache bytes=262144 queue=0ms total=1030ms ttfb=25ms body=1005ms body_Mbit_s=2.09 connects=0 retry=0 err=ESP_OK heap_int=70059 psram=2186336
+E (39610) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (39610) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (39616) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (39623) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (39630) kylo_stream: player error
+E (39693) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (39693) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (39698) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (39705) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (39713) kylo_stream: player error
+I (39716) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=20.6 frames=22 src_reads=28 src_wait=16ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (39734) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1034ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=30744us push=18953us push_qwait=626ms max=200ms heap_int=96883 PSRAM=2186336
+I (39755) kylo_stream: diag_prefetch state=specimen-notes cache=fill 1048576/1756921B
+E (39943) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (39943) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (39948) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (39955) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (39963) kylo_stream: player error
+I (40764) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.0 frames=24 src_reads=25 src_wait=13ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (40774) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=24143us push=18710us push_qwait=574ms max=200ms heap_int=69863 PSRAM=2186336
+I (40794) kylo_stream: diag_prefetch state=specimen-notes cache=fill 1048576/1756921B
+I (40838) masko_http: job class=cache bytes=262144 queue=0ms total=1237ms ttfb=114ms body=1123ms body_Mbit_s=1.87 connects=0 retry=0 err=ESP_OK heap_int=70255 psram=2186336
+E (41735) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (41735) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (41740) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (41747) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (41755) kylo_stream: player error
+I (41844) masko_http: job class=cache bytes=262144 queue=0ms total=1001ms ttfb=88ms body=912ms body_Mbit_s=2.30 connects=0 retry=0 err=ESP_OK heap_int=70251 psram=2186336
+I (41857) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=23.7 frames=25 src_reads=26 src_wait=13ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (41867) kylo_stream: diag_net req_frame/cache=0/2 bytes_frame/cache=0/524288 req_avg=1123ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/2/0 decoder=24550us push=18828us push_qwait=594ms max=200ms heap_int=65839 PSRAM=2186164
+I (41888) kylo_stream: diag_prefetch state=specimen-notes cache=fill 1572864/1756921B
+I (42096) kylo_stream: 30s: 10.9 fps, shown=327, dropped=59, underrun=68, stream stalls=42, wait=14315 ms, HTTP bytes=7805781, requests=28, failures=0, cache hits=388, misses=52, peak request=2124 ms, decode=28102/25823 us avg/max, push=18884/20563 us avg/max, render ceiling=35.6 fps, heap internal=70051 (low 13548) PSRAM=2186336 (low 2185500)
+I (42524) masko_http: job class=cache bytes=184057 queue=0ms total=676ms ttfb=82ms body=593ms body_Mbit_s=2.48 connects=0 retry=0 err=ESP_OK heap_int=70247 psram=2186336
+I (42528) masko_http: full clip cache ready: 1756921 bytes PSRAM, 97 frames, 7266 ms
+I (42958) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.5 frames=26 src_reads=26 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (42966) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/184057 req_avg=680ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=24334us push=18665us push_qwait=619ms max=200ms heap_int=73691 PSRAM=2186336
+I (42988) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (44095) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (44103) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21684us push=18238us push_qwait=632ms max=200ms heap_int=73683 PSRAM=2186336
+I (44124) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (45231) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (45239) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22443us push=18249us push_qwait=632ms max=200ms heap_int=70831 PSRAM=2186336
+I (45260) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (46293) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.4 frames=25 src_reads=25 src_wait=11ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (46301) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23608us push=18243us push_qwait=609ms max=200ms heap_int=73679 PSRAM=2186336
+I (46322) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (47430) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (47438) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21850us push=18242us push_qwait=631ms max=200ms heap_int=73683 PSRAM=2186336
+I (47459) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (48566) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (48574) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22422us push=18252us push_qwait=631ms max=200ms heap_int=70831 PSRAM=2186336
+I (48595) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (49702) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (49710) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23333us push=18242us push_qwait=656ms max=200ms heap_int=82611 PSRAM=2186336
+I (49730) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (50835) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (50844) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22785us push=18248us push_qwait=632ms max=200ms heap_int=73683 PSRAM=2186336
+I (50864) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (51872) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.0 frames=25 src_reads=25 src_wait=11ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (51880) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22543us push=18240us push_qwait=585ms max=200ms heap_int=73687 PSRAM=2186336
+I (51901) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (53008) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (53016) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21616us push=18240us push_qwait=632ms max=200ms heap_int=73691 PSRAM=2186336
+I (53037) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (54145) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.5 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (54153) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22627us push=18257us push_qwait=632ms max=200ms heap_int=70831 PSRAM=2186336
+I (54174) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (55276) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.7 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (55284) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23554us push=18241us push_qwait=655ms max=200ms heap_int=70831 PSRAM=2186336
+I (55305) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (56412) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=24.6 frames=27 src_reads=27 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (56420) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22455us push=18242us push_qwait=632ms max=200ms heap_int=73691 PSRAM=2186336
+I (56440) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (57548) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=25.5 frames=28 src_reads=28 src_wait=12ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (57556) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21675us push=18244us push_qwait=632ms max=200ms heap_int=73695 PSRAM=2186336
+I (57577) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (58438) kylo_stream: touch requested specimen-notes
+E (58442) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58443) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58448) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58455) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58485) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58485) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58490) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58497) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58528) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58528) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58533) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58539) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58569) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58569) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58574) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58581) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58611) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58611) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58616) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58622) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58652) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58652) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58657) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58664) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58694) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58694) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58699) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58706) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58736) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58736) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58741) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58747) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58777) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58778) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58782) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58789) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58819) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58819) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58824) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58831) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58861) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58861) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58866) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58873) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58902) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58903) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58908) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58914) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58944) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58944) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58949) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58956) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (58986) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (58986) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (58991) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (58998) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59027) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59028) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59033) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59039) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59069) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59069) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59074) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59081) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59111) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59111) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59116) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59122) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59152) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59152) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59157) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59164) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59194) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59194) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59199) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59206) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59235) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59236) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59241) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59247) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59277) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59277) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59282) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59289) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59318) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59318) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59323) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59330) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59359) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59359) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59364) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59371) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59401) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59401) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59406) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59413) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59442) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59443) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59447) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59454) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59484) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59484) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59489) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59496) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (59526) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59527) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59532) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59538) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (59550) masko_http: opened remote pack: 97 frames, 1741251 bytes, max JPEG 19183
+E (59693) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (59693) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (59698) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (59705) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (59869) masko_http: job class=frame bytes=57642 queue=25ms total=292ms ttfb=67ms body=224ms body_Mbit_s=2.05 connects=0 retry=0 err=ESP_OK heap_int=70123 psram=1136916
+I (59901) kylo_stream: prepared jar-gazing -> specimen-notes (transition) in 1463 ms; reverse=0
+I (59902) kylo_stream: diag state=jar-gazing->jar-gazing cache=ready 1904796/1904796B fps=12.1 frames=28 src_reads=56 src_wait=35ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (59919) masko_player: switched clip: 97 frames, 24.0 fps
+I (59919) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=57642/0 req_avg=296ms queue_avg=25ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=46933us push=18368us push_qwait=1312ms max=200ms heap_int=70123 PSRAM=1136916
+I (59945) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+E (59952) kylo_stream: player error
+E (59955) kylo_stream: player error
+E (59959) kylo_stream: player error
+E (59962) kylo_stream: player error
+E (59965) kylo_stream: player error
+E (59968) kylo_stream: player error
+E (59971) kylo_stream: player error
+E (59976) kylo_stream: player error
+E (59978) kylo_stream: player error
+E (59981) kylo_stream: player error
+E (59984) kylo_stream: player error
+E (59988) kylo_stream: player error
+E (59991) kylo_stream: player error
+E (59994) kylo_stream: player error
+E (60004) kylo_stream: player error
+E (60004) kylo_stream: player error
+E (60004) kylo_stream: player error
+E (60007) kylo_stream: player error
+E (60010) kylo_stream: player error
+E (60014) kylo_stream: player error
+E (60016) kylo_stream: player error
+E (60020) kylo_stream: player error
+E (60023) kylo_stream: player error
+E (60026) kylo_stream: player error
+E (60029) kylo_stream: player error
+E (60032) kylo_stream: player error
+E (60036) kylo_stream: player error
+E (60040) kylo_stream: player error
+I (60042) kylo_stream: clip started: jar-gazing -> specimen-notes
+I (60048) kylo_stream: first pixel: jar-gazing -> specimen-notes, preparation-to-display=1503 ms, input-to-display=1503 ms
+I (61003) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=2.9 frames=3 src_reads=4 src_wait=910ms src_max=304ms stalls=3 queue_underrun=5 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (61011) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=16247us push=18229us push_qwait=1069ms max=200ms heap_int=82183 PSRAM=3044472
+I (61033) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (61829) masko_http: job class=frame bytes=515357 queue=99ms total=1855ms ttfb=25ms body=1829ms body_Mbit_s=2.25 connects=0 retry=0 err=ESP_OK heap_int=82183 psram=3044472
+I (62103) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=5.6 frames=6 src_reads=10 src_wait=929ms src_max=304ms stalls=3 queue_underrun=4 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+I (62111) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=515357/0 req_avg=1859ms queue_avg=99ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=26801us push=18861us push_qwait=977ms max=200ms heap_int=61455 PSRAM=3044472
+E (62136) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+I (62132) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+E (62141) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (62156) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (62162) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (62174) kylo_stream: player error
+I (63202) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=6.8 frames=7 src_reads=9 src_wait=609ms src_max=304ms stalls=2 queue_underrun=4 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (63210) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=23354us push=18693us push_qwait=945ms max=200ms heap_int=81779 PSRAM=3044472
+I (63231) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (64089) masko_http: job class=frame bytes=513607 queue=94ms total=2156ms ttfb=21ms body=2134ms body_Mbit_s=1.92 connects=0 retry=0 err=ESP_OK heap_int=81975 psram=3044472
+I (64302) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=4.7 frames=5 src_reads=9 src_wait=1093ms src_max=304ms stalls=3 queue_underrun=4 display_gap_max=2271ms gaps>100/500/1000ms=1/1/1
+I (64310) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=513607/0 req_avg=2160ms queue_avg=94ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=21712us push=18812us push_qwait=990ms max=200ms heap_int=70391 PSRAM=3044472
+I (64332) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+E (64393) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (64393) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (64398) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (64404) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (64413) kylo_stream: player error
+I (65403) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=8.5 frames=9 src_reads=11 src_wait=614ms src_max=305ms stalls=2 queue_underrun=3 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (65411) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=24807us push=18692us push_qwait=829ms max=200ms heap_int=82171 PSRAM=3044472
+I (65431) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+I (66487) masko_http: job class=frame bytes=523570 queue=96ms total=2292ms ttfb=85ms body=2207ms body_Mbit_s=1.90 connects=0 retry=0 err=ESP_OK heap_int=82171 psram=3044472
+I (66503) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=0.0 frames=0 src_reads=4 src_wait=1180ms src_max=305ms stalls=3 queue_underrun=6 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (66511) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=523570/0 req_avg=2297ms queue_avg=96ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=0us push=0us push_qwait=1199ms max=200ms heap_int=73247 PSRAM=3044472
+I (66531) kylo_stream: diag_prefetch state=specimen-notes cache=ready 1756921/1756921B
+E (66749) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (66749) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (66754) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (66761) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (66774) kylo_stream: player error
+E (66832) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (66833) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (66837) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (66844) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (66855) kylo_stream: player error
+E (66958) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (66958) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (66963) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (66969) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (66982) kylo_stream: player error
+I (67192) masko_http: job class=frame bytes=128963 queue=96ms total=601ms ttfb=22ms body=579ms body_Mbit_s=1.78 connects=0 retry=0 err=ESP_OK heap_int=82171 psram=3044472
+I (67328) kylo_stream: using prefetched loop: specimen-notes
+I (67355) kylo_stream: prepared specimen-notes -> specimen-notes (loop) in 27 ms; reverse=0
+I (67356) masko_player: switched clip: 97 frames, 24.0 fps
+I (67359) kylo_stream: clip started: specimen-notes -> specimen-notes
+E (67422) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67422) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67427) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67433) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67464) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67464) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67469) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67476) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67506) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67506) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67511) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67517) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67547) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67547) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67552) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67559) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67589) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67589) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67594) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67601) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67631) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67631) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67636) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67642) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67672) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67672) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67677) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67684) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67714) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67714) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67719) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67726) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67756) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67756) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67761) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67767) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67797) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67797) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67802) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67809) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67839) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67839) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67844) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67851) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67881) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67881) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67886) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67893) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67922) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67923) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67928) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67934) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (67964) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (67964) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (67969) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (67976) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68006) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68006) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68011) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68017) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68047) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68048) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68052) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68059) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68089) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68089) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68094) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68101) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68131) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68131) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68136) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68142) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68172) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68173) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68178) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68184) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68213) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68213) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68218) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68225) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68255) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68255) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68260) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68267) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68296) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68296) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68301) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68308) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68337) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68338) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68342) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68349) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68380) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68380) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68385) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68392) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (68402) masko_http: opened remote pack: 97 frames, 2079131 bytes, max JPEG 22178
+I (68408) masko_http: full clip cache started: 2078107 bytes PSRAM, 97 frames
+I (68412) kylo_stream: prefetching next touch loop: excited-wave
+I (68418) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=8.5 frames=16 src_reads=42 src_wait=169ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=2/1/1
+I (68439) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=128963/0 req_avg=605ms queue_avg=96ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=60851us push=18796us push_qwait=1104ms max=200ms heap_int=66755 PSRAM=2012084
+E (68464) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+I (68459) kylo_stream: diag_prefetch state=excited-wave cache=fill 0/2078107B
+E (68472) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68482) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68489) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (68501) kylo_stream: first pixel: specimen-notes -> specimen-notes, preparation-to-display=48 ms, input-to-display=8938 ms
+E (68506) kylo_stream: player error
+E (68509) kylo_stream: player error
+E (68520) kylo_stream: player error
+E (68520) kylo_stream: player error
+E (68520) kylo_stream: player error
+E (68522) kylo_stream: player error
+E (68525) kylo_stream: player error
+E (68528) kylo_stream: player error
+E (68532) kylo_stream: player error
+E (68535) kylo_stream: player error
+E (68543) kylo_stream: player error
+E (68544) kylo_stream: player error
+E (68545) kylo_stream: player error
+E (68548) kylo_stream: player error
+E (68551) kylo_stream: player error
+E (68554) kylo_stream: player error
+E (68561) kylo_stream: player error
+E (68561) kylo_stream: player error
+E (68564) kylo_stream: player error
+E (68567) kylo_stream: player error
+E (68570) kylo_stream: player error
+E (68576) kylo_stream: player error
+E (68577) kylo_stream: player error
+E (68580) kylo_stream: player error
+E (68585) kylo_stream: player error
+E (68881) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68881) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68886) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68893) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68904) kylo_stream: player error
+E (68963) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (68963) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (68968) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (68975) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (68988) kylo_stream: player error
+E (69130) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (69130) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (69135) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (69142) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (69155) kylo_stream: player error
+E (69379) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (69380) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (69385) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (69391) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (69404) kylo_stream: player error
+I (69505) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=20.9 frames=21 src_reads=26 src_wait=14ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (69514) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=29092us push=18874us push_qwait=583ms max=200ms heap_int=66755 PSRAM=2012256
+I (69519) masko_http: job class=cache bytes=262144 queue=0ms total=1113ms ttfb=44ms body=1068ms body_Mbit_s=1.96 connects=0 retry=0 err=ESP_OK heap_int=66363 psram=2012256
+I (69553) kylo_stream: diag_prefetch state=excited-wave cache=fill 262144/2078107B
+E (69631) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (69631) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (69636) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (69643) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (69653) kylo_stream: player error
+E (69714) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (69714) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (69719) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (69725) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (69738) kylo_stream: player error
+E (69839) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (69839) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (69844) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (69851) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (69862) kylo_stream: player error
+E (70004) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (70005) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (70010) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (70016) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (70030) kylo_stream: player error
+E (70214) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (70214) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (70219) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (70226) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (70237) kylo_stream: player error
+E (70380) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (70380) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (70385) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (70392) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (70401) kylo_stream: player error
+E (70463) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (70464) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (70469) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (70475) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (70487) kylo_stream: player error
+I (70587) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=18.4 frames=19 src_reads=26 src_wait=14ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (70597) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1144ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=31935us push=18881us push_qwait=597ms max=200ms heap_int=66755 PSRAM=2012256
+I (70618) kylo_stream: diag_prefetch state=excited-wave cache=fill 262144/2078107B
+I (70661) masko_http: job class=cache bytes=262144 queue=0ms total=1110ms ttfb=26ms body=1084ms body_Mbit_s=1.93 connects=0 retry=0 err=ESP_OK heap_int=69603 psram=2012256
+E (70672) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (70673) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (70681) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (70688) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (70694) kylo_stream: player error
+E (70921) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (70921) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (70926) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (70933) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (70945) kylo_stream: player error
+E (71213) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (71214) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (71219) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (71225) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (71236) kylo_stream: player error
+E (71339) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (71339) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (71344) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (71351) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (71363) kylo_stream: player error
+E (71422) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (71423) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (71428) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (71434) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (71447) kylo_stream: player error
+E (71548) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (71548) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (71553) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (71560) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (71568) kylo_stream: player error
+I (71670) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=19.2 frames=20 src_reads=26 src_wait=15ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (71681) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1115ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=30449us push=18845us push_qwait=592ms max=200ms heap_int=66755 PSRAM=2012256
+I (71703) kylo_stream: diag_prefetch state=excited-wave cache=fill 524288/2078107B
+E (71755) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (71755) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (71760) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (71767) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (71780) kylo_stream: player error
+I (71875) masko_http: job class=cache bytes=262144 queue=0ms total=1210ms ttfb=45ms body=1164ms body_Mbit_s=1.80 connects=0 retry=0 err=ESP_OK heap_int=69603 psram=2012256
+E (71921) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (71921) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (71926) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (71933) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (71943) kylo_stream: player error
+I (72143) kylo_stream: 30s: 17.1 fps, shown=514, dropped=77, underrun=26, stream stalls=16, wait=5761 ms, HTTP bytes=2711308, requests=13, failures=0, cache hits=591, misses=21, peak request=2292 ms, decode=26234/25823 us avg/max, push=18392/20563 us avg/max, render ceiling=38.1 fps, heap internal=66751 (low 7912) PSRAM=2012256 (low 1136080)
+E (72173) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (72173) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (72178) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (72185) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (72196) kylo_stream: player error
+E (72422) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (72422) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (72427) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (72433) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (72442) kylo_stream: player error
+E (72546) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (72546) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (72551) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (72558) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (72571) kylo_stream: player error
+I (72771) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=19.8 frames=21 src_reads=26 src_wait=14ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (72782) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1214ms queue_avg=0ms delayed>100/500ms=0/E (72798) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+0 slow>250/1000/3000ms=1/1/0 decoder=30088us push=18845us push_qwait=617ms max=200ms heap_int=69603 PSRAM=2012256
+E (72800) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (72817) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (72824) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+I (72836) kylo_stream: diag_prefetch state=excited-wave cache=fill 786432/2078107B
+E (72837) kylo_stream: player error
+I (73045) masko_http: job class=cache bytes=262144 queue=0ms total=1165ms ttfb=39ms body=1125ms body_Mbit_s=1.86 connects=0 retry=0 err=ESP_OK heap_int=69403 psram=2012256
+E (73546) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (73546) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (73551) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (73558) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (73567) kylo_stream: player error
+E (73754) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (73754) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (73759) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (73766) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (73774) kylo_stream: player error
+I (73876) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=23.1 frames=24 src_reads=27 src_wait=16ms src_max=305ms stalls=0 queue_underrun=0 display_gap_max=2271ms gaps>100/500/1000ms=0/0/0
+I (73885) kylo_stream: diag_net req_frame/cache=0/1 bytes_frame/cache=0/262144 req_avg=1170ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=24699us push=18792us push_qwait=582ms max=200ms heap_int=66543 PSRAM=2012256
+I (73906) kylo_stream: diag_prefetch state=excited-wave cache=fill 1048576/2078107B
+E (73922) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (73922) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (73929) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (73936) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (73945) kylo_stream: player error
+E (74046) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (74046) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (74051) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (74058) masko_display: band at y=40 (384x50) failed: ESP_ERR_NO_MEM
+E (74065) kylo_stream: player error
+I (74212) masko_http: job class=cache bytes=262144 queue=0ms total=1162ms ttfb=74ms body=1087ms body_Mbit_s=1.93 connects=0 retry=0 err=ESP_OK heap_int=69587 psram=2012256

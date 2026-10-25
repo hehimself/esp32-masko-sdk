@@ -105,7 +105,7 @@ I (917) wifi_init: WiFi IRAM OP enabled
 I (921) wifi_init: WiFi RX IRAM OP enabled
 W (925) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (933) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (975) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (975) wifi:mode : sta ([redacted MAC])
 I (975) wifi:enable tsf
 I (976) wifi:Set ps type: 0, coexist: 0
 
@@ -113,22 +113,22 @@ I (1026) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:
 I (1026) wifi:state: init -> auth (0xb0)
 I (1066) wifi:state: auth -> assoc (0x0)
 I (1084) wifi:state: assoc -> run (0x10)
-I (6207) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
+I (6207) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
 I (11085) wifi:state: run -> init (0xcc00)
 I (11086) wifi:<ba-del>idx:0, tid:0
 W (11087) kylo_stream: Wi-Fi disconnected, reason=204
 I (13375) wifi:state: init -> auth (0xb0)
 I (13391) wifi:state: auth -> assoc (0x0)
 I (13399) wifi:state: assoc -> run (0x10)
-I (13474) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (13474) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (13474) wifi:security: WPA2-PSK, phy: bgn, rssi: -74, cipher(pairwise:0x3, group:0x3), pmf:0
 I (13481) wifi:pm start, type: 0
 
 I (13483) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (13491) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (13517) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (13550) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
-I (14557) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (13550) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
+I (14557) esp_netif_handlers: sta ip: [redacted IP], mask: [redacted IP], gw: [redacted IP]
 I (14557) kylo_stream: Wi-Fi connected; RSSI -74 dBm, channel 6
 I (14559) kylo_stream: heap after Wi-Fi: internal=190939, PSRAM=7263740
 
@@ -250,7 +250,7 @@ I (916) wifi_init: WiFi IRAM OP enabled
 I (920) wifi_init: WiFi RX IRAM OP enabled
 W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (973) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (973) wifi:mode : sta ([redacted MAC])
 I (974) wifi:enable tsf
 I (975) wifi:Set ps type: 0, coexist: 0
 
@@ -258,17 +258,17 @@ I (981) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0
 I (982) wifi:state: init -> auth (0xb0)
 I (988) wifi:state: auth -> assoc (0x0)
 I (995) wifi:state: assoc -> run (0x10)
-I (1060) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1060) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (1060) wifi:security: WPA2-PSK, phy: bgn, rssi: -77, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1067) wifi:pm start, type: 0
 
 I (1069) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1077) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (1127) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (2146) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (2146) esp_netif_handlers: sta ip: [redacted IP], mask: [redacted IP], gw: [redacted IP]
 I (2146) kylo_stream: Wi-Fi connected; RSSI -75 dBm, channel 6
 I (2148) kylo_stream: heap after Wi-Fi: internal=191023, PSRAM=7263740
-I (2182) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
+I (2182) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
 
 ***ERROR*** A stack overflow in task main has been detected.
 
@@ -388,7 +388,7 @@ I (916) wifi_init: WiFi IRAM OP enabled
 I (920) wifi_init: WiFi RX IRAM OP enabled
 W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (973) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (973) wifi:mode : sta ([redacted MAC])
 I (973) wifi:enable tsf
 I (974) wifi:Set ps type: 0, coexist: 0
 
@@ -396,17 +396,17 @@ I (982) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0
 I (982) wifi:state: init -> auth (0xb0)
 I (1028) wifi:state: auth -> assoc (0x0)
 I (1033) wifi:state: assoc -> run (0x10)
-I (1133) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1133) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (1133) wifi:security: WPA2-PSK, phy: bgn, rssi: -76, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1140) wifi:pm start, type: 0
 
 I (1142) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1150) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (1224) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (2389) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (2389) esp_netif_handlers: sta ip: [redacted IP], mask: [redacted IP], gw: [redacted IP]
 I (2389) kylo_stream: Wi-Fi connected; RSSI -72 dBm, channel 6
 I (2391) kylo_stream: heap after Wi-Fi: internal=191023, PSRAM=7263740
-I (2403) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
+I (2403) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
 Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
 
 Core  0 register dump:
@@ -533,7 +533,7 @@ I (916) wifi_init: WiFi IRAM OP enabled
 I (920) wifi_init: WiFi RX IRAM OP enabled
 W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (973) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (973) wifi:mode : sta ([redacted MAC])
 I (974) wifi:enable tsf
 I (975) wifi:Set ps type: 0, coexist: 0
 
@@ -541,17 +541,17 @@ I (981) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0
 I (982) wifi:state: init -> auth (0xb0)
 I (988) wifi:state: auth -> assoc (0x0)
 I (992) wifi:state: assoc -> run (0x10)
-I (1081) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1081) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (1081) wifi:security: WPA2-PSK, phy: bgn, rssi: -75, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1088) wifi:pm start, type: 0
 
 I (1090) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1098) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (1171) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (2189) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (2189) esp_netif_handlers: sta ip: [redacted IP], mask: [redacted IP], gw: [redacted IP]
 I (2189) kylo_stream: Wi-Fi connected; RSSI -73 dBm, channel 6
 I (2191) kylo_stream: heap after Wi-Fi: internal=191023, PSRAM=7263740
-I (2275) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
+I (2275) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
 
 ***ERROR*** A stack overflow in task main has been detected.
 
@@ -671,7 +671,7 @@ I (916) wifi_init: WiFi IRAM OP enabled
 I (920) wifi_init: WiFi RX IRAM OP enabled
 W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (975) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (975) wifi:mode : sta ([redacted MAC])
 I (975) wifi:enable tsf
 I (976) wifi:Set ps type: 0, coexist: 0
 
@@ -679,15 +679,15 @@ I (983) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0
 I (984) wifi:state: init -> auth (0xb0)
 I (1050) wifi:state: auth -> assoc (0x0)
 I (1107) wifi:state: assoc -> run (0x10)
-I (1296) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1296) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (1297) wifi:security: WPA2-PSK, phy: bgn, rssi: -75, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1303) wifi:pm start, type: 0
 
 I (1305) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1313) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (1322) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (2065) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
-I (2393) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (2065) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
+I (2393) esp_netif_handlers: sta ip: [redacted IP], mask: [redacted IP], gw: [redacted IP]
 I (2393) kylo_stream: Wi-Fi connected; RSSI -71 dBm, channel 6
 I (2395) kylo_stream: heap after Wi-Fi: internal=190943, PSRAM=7263740
 
@@ -809,7 +809,7 @@ I (916) wifi_init: WiFi IRAM OP enabled
 I (920) wifi_init: WiFi RX IRAM OP enabled
 W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (973) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (973) wifi:mode : sta ([redacted MAC])
 I (973) wifi:enable tsf
 I (974) wifi:Set ps type: 0, coexist: 0
 
@@ -817,15 +817,15 @@ I (984) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0
 I (985) wifi:state: init -> auth (0xb0)
 I (1043) wifi:state: auth -> assoc (0x0)
 I (1048) wifi:state: assoc -> run (0x10)
-I (1091) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1091) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (1091) wifi:security: WPA2-PSK, phy: bgn, rssi: -74, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1098) wifi:pm start, type: 0
 
 I (1100) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1108) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
 I (1188) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (1344) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
-I (2132) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (1344) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
+I (2132) esp_netif_handlers: sta ip: [redacted IP], mask: [redacted IP], gw: [redacted IP]
 I (2132) kylo_stream: Wi-Fi connected; RSSI -74 dBm, channel 6
 I (2134) kylo_stream: heap after Wi-Fi: internal=190947, PSRAM=7263740
 
@@ -947,7 +947,7 @@ I (916) wifi_init: WiFi IRAM OP enabled
 I (920) wifi_init: WiFi RX IRAM OP enabled
 W (924) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
 I (932) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (974) wifi:mode : sta (7c:0c:5f:42:2e:34)
+I (974) wifi:mode : sta ([redacted MAC])
 I (974) wifi:enable tsf
 I (975) wifi:Set ps type: 0, coexist: 0
 
@@ -955,11 +955,11 @@ I (982) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0
 I (983) wifi:state: init -> auth (0xb0)
 I (992) wifi:state: auth -> assoc (0x0)
 I (1036) wifi:state: assoc -> run (0x10)
-I (1267) wifi:connected with Marvins Iphone, aid = 1, channel 6, BW20, bssid = [REDACTED]
+I (1267) wifi:connected with [redacted SSID], aid = 1, channel 6, BW20, bssid = [REDACTED]
 I (1268) wifi:security: WPA2-PSK, phy: bgn, rssi: -70, cipher(pairwise:0x3, group:0x3), pmf:0
 I (1274) wifi:pm start, type: 0
 
 I (1276) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1284) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
-I (1305) wifi:<ba-add>idx:0 (ifx:0, 42:2d:f9:51:4d:1f), tid:0, ssn:2, winSize:64
+I (1305) wifi:<ba-add>idx:0 (ifx:0, [redacted MAC]), tid:0, ssn:2, winSize:64
 I (1336) wifi:AP's beacon interval = 102400 us, DTIM period = 1

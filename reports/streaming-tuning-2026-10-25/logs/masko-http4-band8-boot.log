@@ -1,0 +1,294 @@
+--- esp-idf-monitor 1.10.0 on /dev/cu.usbmodem101 115200
+--- Standard input is not a TTY, running in non-interactive mode. Reading commands from stdin: reset, flash, flash-all, app-flash, output, log, timestamps, bootloader, send <text>, sleep <seconds>, expect [--timeout <seconds>] <regex>, exit | Quit: 'exit' command, EOF or Ctrl+C
+--- No commands on standard input, watching serial output only...
+Executing action: monitor
+Running idf_monitor in directory /Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175
+Executing "/Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python /Users/marvin/.espressif/v6.1/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem101 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175/build/masko_amoled_175.elf /Users/marvin/Documents/masko-esp/examples/waveshare_amoled_175/build/bootloader/bootloader.elf -m '/Users/marvin/.espressif/python_env/idf6.1_py3.11_env/bin/python' '/Users/marvin/.espressif/v6.1/esp-idf/tools/idf.py' '-p' '/dev/cu.usbmodem101'"...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40383d8a
+--- 0x40383d8a: esp_cpu_wait_for_intr at /Users/marvin/.espressif/v6.1/esp-idf/components/esp_hw_support/cpu.c:64
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x1664
+load:0x403c8700,len:0xf7c
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x31ec
+entry 0x403c892c
+--- 0x403c892c: call_start_cpu0 at /Users/marvin/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+I (24) boot: ESP-IDF v6.1 2nd stage bootloader
+I (24) boot: compile time Oct 25 2026 11:01:01
+I (25) boot: Multicore bootloader
+I (25) boot: chip revision: v0.2
+I (27) boot: efuse block revision: v1.4
+I (31) qio_mode: Enabling default flash chip QIO
+I (35) boot.esp32s3: Boot SPI Speed : 80MHz
+I (39) boot.esp32s3: SPI Mode       : QIO
+I (43) boot.esp32s3: SPI Flash Size : 16MB
+I (47) boot: Enabling RNG early entropy source...
+I (51) boot: Partition Table:
+I (54) boot: ## Label            Usage          Type ST Offset   Length
+I (60) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (67) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (73) boot:  2 factory          factory app      00 00 00010000 00400000
+I (80) boot:  3 masko            Unknown data     01 40 00410000 00a00000
+I (86) boot: End of partition table
+I (90) esp_image: segment 0: paddr=00010020 vaddr=3c0d0020 size=3cda0h (249248) map
+I (136) esp_image: segment 1: paddr=0004cdc8 vaddr=3fca6800 size=03250h ( 12880) load
+I (138) esp_image: segment 2: paddr=00050020 vaddr=42000020 size=c7074h (815220) map
+I (265) esp_image: segment 3: paddr=0011709c vaddr=3fca9a50 size=026e4h (  9956) load
+I (268) esp_image: segment 4: paddr=00119788 vaddr=40378000 size=1e744h (124740) load
+I (294) esp_image: segment 5: paddr=00137ed4 vaddr=50000000 size=00024h (    36) load
+I (307) boot: Loaded app from partition at offset 0x10000
+I (307) boot: Disabling RNG early entropy source...
+I (317) octal_psram: vendor id    : 0x0d (AP)
+I (317) octal_psram: dev id       : 0x02 (generation 3)
+I (318) octal_psram: density      : 0x03 (64 Mbit)
+I (320) octal_psram: good-die     : 0x01 (Pass)
+I (324) octal_psram: Latency      : 0x01 (Fixed)
+I (328) octal_psram: VCC          : 0x01 (3V)
+I (332) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (337) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (342) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (347) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (352) octal_psram: DriveStrength: 0x00 (1/1)
+I (356) MSPI Timing: Enter psram timing tuning
+I (361) esp_psram: Found 8MB PSRAM device
+I (364) esp_psram: Speed: 80MHz
+I (382) mmu_psram: Read only data copied and mapped to SPIRAM
+I (439) mmu_psram: Instructions copied and mapped to SPIRAM
+I (439) cpu_start: Multicore app
+I (686) esp_psram: SPI SRAM memory test OK
+I (695) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (695) cpu_start: Pro cpu start user code
+I (695) cpu_start: cpu freq: 240000000 Hz
+I (697) app_init: Application information:
+I (701) app_init: Project name:     masko_amoled_175
+I (705) app_init: App version:      7d8f689-dirty
+I (710) app_init: Compile time:     Oct 25 2026 11:28:02
+I (715) app_init: ELF file SHA256:  ac8c7aef5...
+I (719) app_init: ESP-IDF:          v6.1
+I (723) efuse_init: Min chip rev:     v0.0
+I (727) efuse_init: Max chip rev:     v0.99
+I (731) efuse_init: Chip rev:         v0.2
+I (735) heap_init: Initializing. RAM available for dynamic allocation:
+I (741) heap_init: At 3FCB0FB0 len 00038760 (225 KiB): RAM
+I (746) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (751) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (756) esp_psram: Adding pool of 7104K of PSRAM memory to heap allocator
+I (763) esp_psram: Adding pool of 12K of PSRAM memory gap generated due to end address alignment of drom to the heap allocator
+I (774) spi_flash: detected chip: generic
+I (778) spi_flash: flash io: qio
+I (781) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (787) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (794) main_task: Started on CPU0
+I (797) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (805) main_task: Calling app_main()
+I (826) kylo_stream: Kylo manifest: 11 states, 42 edges
+I (832) pp: pp rom version: e7ae62f
+I (832) net80211: net80211 rom version: e7ae62f
+I (834) wifi:wifi driver task: 3fced858, prio:23, stack:6656, core=0
+I (839) wifi:wifi firmware version: e12a754
+I (839) wifi:wifi certification version: v7.0
+I (843) wifi:config NVS flash: enabled
+I (846) wifi:config nano formatting: disabled
+I (850) wifi:Init data frame dynamic rx buffer num: 64
+I (855) wifi:Init static rx mgmt buffer num: 5
+I (859) wifi:Init management short buffer num: 32
+I (864) wifi:Init dynamic tx buffer num: 64
+I (868) wifi:Init static tx FG buffer num: 2
+I (872) wifi:Init static rx buffer size: 1600
+I (876) wifi:Init static rx buffer num: 16
+I (879) wifi:Init dynamic rx buffer num: 64
+I (884) wifi_init: rx ba win: 32
+I (886) wifi_init: accept mbox: 6
+I (889) wifi_init: tcpip mbox: 64
+I (892) wifi_init: udp mbox: 6
+I (895) wifi_init: tcp mbox: 64
+I (898) wifi_init: tcp tx win: 65535
+I (901) wifi_init: tcp rx win: 65535
+I (905) wifi_init: tcp mss: 1440
+I (908) wifi_init: WiFi IRAM OP enabled
+I (911) wifi_init: WiFi RX IRAM OP enabled
+I (915) wifi_init: LWIP IRAM OP enabled
+W (919) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (927) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (960) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
+I (984) wifi:mode : sta (<mac>)
+I (984) wifi:enable tsf
+I (985) wifi:Set ps type: 0, coexist: 0
+
+I (992) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (992) wifi:state: init -> auth (0xb0)
+I (997) wifi:state: auth -> assoc (0x0)
+I (1010) wifi:state: assoc -> run (0x10)
+I (1040) wifi:connected with <redacted>, aid = 24, channel 6, BW20, bssid = <mac>
+I (1040) wifi:security: WPA2-PSK, phy: bgn, rssi: -51, cipher(pairwise:0x3, group:0x3), pmf:0
+I (1047) wifi:pm start, type: 0
+
+I (1049) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1057) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (1090) wifi:<ba-add>idx:0 (ifx:0, <mac>), tid:0, ssn:1, winSize:64
+I (1102) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (2094) esp_netif_handlers: sta ip: <ip>, mask: <ip>, gw: <ip>
+I (2094) kylo_stream: Wi-Fi connected; RSSI -50 dBm, channel 6, BW40
+I (2097) kylo_stream: heap after Wi-Fi: internal=156435, DMA_largest=81920, PSRAM=7259820
+I (2135) wifi:<ba-add>idx:1 (ifx:0, <mac>), tid:3, ssn:1, winSize:64
+I (3609) masko_http: probe cold bytes=262144 total=1905820 total_ms=1503 ttfb_ms=580 body_ms=923 body_Mbit_s=2.27 connects=1 err=ESP_OK heap_int=139647 psram=6968100
+I (5540) masko_http: probe reused bytes=1048576 total=1905820 total_ms=1927 ttfb_ms=566 body_ms=1361 body_Mbit_s=6.16 connects=0 err=ESP_OK heap_int=145159 psram=6968100
+I (6713) masko_http: probe new_connection bytes=262144 total=1905820 total_ms=1167 ttfb_ms=566 body_ms=600 body_Mbit_s=3.49 connects=1 err=ESP_OK heap_int=144531 psram=6968100
+I (7293) masko_http: opened remote pack: 97 frames, 1905820 bytes, max JPEG 20285
+I (7922) masko_http: job class=frame bytes=61019 queue=25ms total=602ms ttfb=549ms body=53ms body_Mbit_s=9.10 connects=1 retry=0 err=ESP_OK heap_int=136503 psram=6160424
+I (7927) ESP32-S3-Touch-AMOLED-1.75: Initialize SPI bus
+I (7931) co5300: version: 2.2.0
+I (7934) co5300_spi: LCD panel create success, version: 2.2.0
+W (8102) co5300_spi: The 3Ah command has been used and will be overwritten by external initialization sequence
+I (8668) masko_http: job class=frame bytes=515449 queue=98ms total=642ms ttfb=27ms body=615ms body_Mbit_s=6.70 connects=0 retry=0 err=ESP_OK heap_int=134939 psram=6180908
+I (9439) CST9217: Checkcode: 0x204ECACA
+I (9441) CST9217: Resolution X: 466, Y: 466
+I (9443) CST9217: Chip Type: 0x9217, ProjectID: 0x5734
+I (9443) masko_display: 466x466, 8-row bands = 7456 B per transfer (internal DMA budget 280000)
+I (9478) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (9478) masko_codec: decoder ready: 384x384 (destination buffer supplied per frame)
+I (9482) masko_player: pack: 97 frames, bbox 384x384+40+40, 24.0 fps, 0.0 ms decode (measured)
+I (9491) masko_http: full clip cache started: 1904796 bytes PSRAM, 97 frames
+I (9498) kylo_stream: streaming; touch/BOOT cycles all 11 Kylo states
+I (9870) masko_http: job class=cache bytes=262144 queue=0ms total=378ms ttfb=29ms body=349ms body_Mbit_s=6.00 connects=0 retry=0 err=ESP_OK heap_int=101339 psram=2863828
+I (9715) kylo_stream: first pixel: jar-gazing -> jar-gazing, preparation-to-display=53 ms, input-to-display=-1 ms
+I (10673) masko_http: job class=frame bytes=522513 queue=216ms total=798ms ttfb=24ms body=773ms body_Mbit_s=5.40 connects=0 retry=0 err=ESP_OK heap_int=101339 psram=2863828
+I (10680) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 262144/1904796B fps=22.8 frames=27 src_reads=28 src_wait=17ms src_max=0ms stalls=0 queue_underrun=0 display_gap_max=85ms gaps>100/500/1000ms=0/0/0
+I (10696) kylo_stream: diag_net req_frame/cache=3/1 bytes_frame/cache=1098981/262144 req_avg=609ms queue_avg=85ms delayed>100/500ms=1/0 slow>250/1000/3000ms=4/0/0 decoder=25083us push=27661us push_qwait=430ms max=57ms heap_int=108707 DMA_largest=63488 PSRAM=2863656
+I (11195) masko_http: job class=cache bytes=262144 queue=800ms total=517ms ttfb=38ms body=478ms body_Mbit_s=4.39 connects=0 retry=0 err=ESP_OK heap_int=109679 psram=2863828
+I (11533) kylo_stream: BOOT requested specimen-notes
+I (11755) masko_http: job class=frame bytes=524174 queue=458ms total=555ms ttfb=51ms body=503ms body_Mbit_s=8.33 connects=0 retry=0 err=ESP_OK heap_int=90759 psram=2863680
+I (11991) masko_http: job class=cache bytes=262144 queue=555ms total=231ms ttfb=38ms body=192ms body_Mbit_s=10.88 connects=0 retry=0 err=ESP_OK heap_int=95819 psram=2837764
+I (12489) masko_http: job class=frame bytes=280732 queue=129ms total=493ms ttfb=44ms body=448ms body_Mbit_s=5.01 connects=0 retry=0 err=ESP_OK heap_int=99343 psram=2832192
+I (12958) masko_http: job class=cache bytes=262144 queue=493ms total=464ms ttfb=81ms body=383ms body_Mbit_s=5.47 connects=0 retry=0 err=ESP_OK heap_int=90423 psram=2831868
+I (13600) masko_http: job class=cache bytes=262144 queue=0ms total=637ms ttfb=43ms body=593ms body_Mbit_s=3.53 connects=0 retry=0 err=ESP_OK heap_int=98115 psram=2833512
+I (13614) masko_http: opened remote pack: 97 frames, 1741251 bytes, max JPEG 19183
+I (14548) masko_http: job class=frame bytes=518479 queue=612ms total=944ms ttfb=59ms body=884ms body_Mbit_s=4.69 connects=0 retry=0 err=ESP_OK heap_int=109343 psram=1814456
+I (14683) kylo_stream: prepared jar-gazing -> specimen-notes (transition) in 3149 ms; reverse=0
+I (14684) kylo_stream: diag state=jar-gazing->jar-gazing cache=fill 1310720/1904796B fps=19.2 frames=73 src_reads=76 src_wait=1025ms src_max=304ms stalls=3 queue_underrun=4 display_gap_max=1020ms gaps>100/500/1000ms=1/1/1
+I (14700) kylo_stream: diag_net req_frame/cache=4/4 bytes_frame/cache=1381027/1048576 req_avg=495ms queue_avg=498ms delayed>100/500ms=7/4 slow>250/1000/3000ms=6/0/0 decoder=24680us push=27429us push_qwait=2002ms max=199ms heap_int=109347 DMA_largest=63488 PSRAM=1814456
+I (14704) masko_player: switched clip: 97 frames, 24.0 fps
+I (15302) masko_http: job class=frame bytes=523881 queue=87ms total=660ms ttfb=91ms body=568ms body_Mbit_s=7.37 connects=0 retry=0 err=ESP_OK heap_int=109323 psram=1814456
+I (16028) masko_http: job class=frame bytes=515357 queue=661ms total=721ms ttfb=49ms body=671ms body_Mbit_s=6.14 connects=0 retry=0 err=ESP_OK heap_int=107939 psram=1814456
+I (16367) masko_http: job class=cache bytes=262144 queue=2427ms total=334ms ttfb=52ms body=281ms body_Mbit_s=7.44 connects=0 retry=0 err=ESP_OK heap_int=100391 psram=1814456
+I (16373) kylo_stream: clip started: jar-gazing -> specimen-notes
+I (16377) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=6.7 frames=11 src_reads=14 src_wait=1256ms src_max=304ms stalls=4 queue_underrun=6 display_gap_max=1289ms gaps>100/500/1000ms=1/1/1
+I (16396) kylo_stream: diag_net req_frame/cache=2/1 bytes_frame/cache=1039238/262144 req_avg=576ms queue_avg=1058ms delayed>100/500ms=2/2 slow>250/1000/3000ms=3/0/0 decoder=24253us push=27533us push_qwait=1399ms max=199ms heap_int=102339 DMA_largest=63488 PSRAM=4770424
+I (16420) kylo_stream: first pixel: jar-gazing -> specimen-notes, preparation-to-display=3222 ms, input-to-display=3222 ms
+I (17393) masko_http: job class=frame bytes=513607 queue=333ms total=1021ms ttfb=84ms body=936ms body_Mbit_s=4.39 connects=0 retry=0 err=ESP_OK heap_int=113243 psram=4770596
+I (17510) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=7.3 frames=8 src_reads=11 src_wait=804ms src_max=304ms stalls=2 queue_underrun=4 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (17518) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=513607/0 req_avg=1026ms queue_avg=333ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/1/0 decoder=22799us push=26840us push_qwait=897ms max=199ms heap_int=102743 DMA_largest=63488 PSRAM=4770424
+I (18331) masko_http: job class=frame bytes=523570 queue=93ms total=834ms ttfb=31ms body=802ms body_Mbit_s=5.22 connects=0 retry=0 err=ESP_OK heap_int=113039 psram=4770596
+I (18592) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=18.1 frames=19 src_reads=19 src_wait=340ms src_max=304ms stalls=1 queue_underrun=1 display_gap_max=1289ms gaps>100/500/1000ms=1/0/0
+I (18600) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=523570/0 req_avg=838ms queue_avg=93ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=22194us push=27201us push_qwait=573ms max=199ms heap_int=110675 DMA_largest=63488 PSRAM=4770596
+I (19626) masko_http: opened remote pack: 97 frames, 1757945 bytes, max JPEG 18264
+I (19800) kylo_stream: prepared specimen-notes -> specimen-notes (loop) in 750 ms; reverse=0
+I (19800) kylo_stream: diag state=jar-gazing->specimen-notes cache=off 0/1740227B fps=10.6 frames=12 src_reads=11 src_wait=5ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1289ms gaps>100/500/1000ms=0/0/0
+I (19801) masko_player: switched clip: 97 frames, 24.0 fps
+I (19816) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=184091/0 req_avg=171ms queue_avg=70ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=22310us push=26064us push_qwait=783ms max=200ms heap_int=112547 DMA_largest=63488 PSRAM=3721176
+I (19848) masko_http: full clip cache started: 1756921 bytes PSRAM, 97 frames
+I (19851) kylo_stream: clip started: specimen-notes -> specimen-notes
+I (19857) kylo_stream: first pixel: specimen-notes -> specimen-notes, preparation-to-display=796 ms, input-to-display=8313 ms
+I (20222) masko_http: job class=cache bytes=262144 queue=0ms total=377ms ttfb=38ms body=339ms body_Mbit_s=6.18 connects=0 retry=0 err=ESP_OK heap_int=109391 psram=3013336
+I (21038) masko_http: job class=frame bytes=511169 queue=449ms total=811ms ttfb=33ms body=777ms body_Mbit_s=5.26 connects=0 retry=0 err=ESP_OK heap_int=109391 psram=3013336
+I (21044) kylo_stream: diag state=specimen-notes->specimen-notes cache=fill 262144/1756921B fps=2.5 frames=3 src_reads=5 src_wait=915ms src_max=304ms stalls=3 queue_underrun=5 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (21062) kylo_stream: diag_net req_frame/cache=1/1 bytes_frame/cache=511169/262144 req_avg=598ms queue_avg=224ms delayed>100/500ms=1/0 slow>250/1000/3000ms=2/0/0 decoder=16132us push=26362us push_qwait=1181ms max=200ms heap_int=99103 DMA_largest=63488 PSRAM=3013164
+I (21457) masko_http: job class=cache bytes=262144 queue=813ms total=415ms ttfb=41ms body=373ms body_Mbit_s=5.62 connects=0 retry=0 err=ESP_OK heap_int=100463 psram=3013336
+I (21472) kylo_stream: BOOT requested excited-wave
+I (22040) masko_http: job class=frame bytes=520004 queue=420ms total=572ms ttfb=66ms body=505ms body_Mbit_s=8.23 connects=0 retry=0 err=ESP_OK heap_int=84987 psram=2974584
+I (22281) masko_http: job class=cache bytes=262144 queue=574ms total=236ms ttfb=40ms body=196ms body_Mbit_s=10.69 connects=0 retry=0 err=ESP_OK heap_int=85203 psram=2974584
+I (22748) masko_http: job class=frame bytes=522275 queue=89ms total=462ms ttfb=43ms body=417ms body_Mbit_s=10.00 connects=0 retry=0 err=ESP_OK heap_int=87999 psram=2978512
+I (22980) masko_http: job class=cache bytes=262144 queue=462ms total=227ms ttfb=39ms body=188ms body_Mbit_s=11.12 connects=0 retry=0 err=ESP_OK heap_int=98679 psram=2981728
+I (23257) masko_http: job class=cache bytes=262144 queue=0ms total=272ms ttfb=79ms body=192ms body_Mbit_s=10.87 connects=0 retry=0 err=ESP_OK heap_int=89759 psram=2981728
+I (23500) masko_http: job class=cache bytes=262144 queue=0ms total=238ms ttfb=35ms body=202ms body_Mbit_s=10.36 connects=0 retry=0 err=ESP_OK heap_int=89767 psram=2981728
+I (23839) masko_http: job class=cache bytes=184057 queue=142ms total=190ms ttfb=58ms body=132ms body_Mbit_s=11.15 connects=0 retry=0 err=ESP_OK heap_int=89759 psram=2981728
+I (23844) masko_http: full clip cache ready: 1756921 bytes PSRAM, 97 frames, 3999 ms
+I (24240) masko_http: opened remote pack: 97 frames, 1736069 bytes, max JPEG 19333
+I (24377) kylo_stream: prepared specimen-notes -> jar-gazing (transition) in 2904 ms; reverse=0
+I (24377) kylo_stream: diag state=specimen-notes->specimen-notes cache=ready 1756921/1756921B fps=27.5 frames=80 src_reads=81 src_wait=253ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1289ms gaps>100/500/1000ms=1/1/1
+I (24394) kylo_stream: diag_net req_frame/cache=4/6 bytes_frame/cache=1244300/1494777 req_avg=289ms queue_avg=260ms delayed>100/500ms=6/2 slow>250/1000/3000ms=4/0/0 decoder=24410us push=27806us push_qwait=1208ms max=200ms heap_int=112319 DMA_largest=63488 PSRAM=3012548
+I (24404) masko_player: switched clip: 97 frames, 24.0 fps
+I (24423) kylo_stream: clip started: specimen-notes -> jar-gazing
+I (24448) kylo_stream: first pixel: specimen-notes -> jar-gazing, preparation-to-display=2975 ms, input-to-display=2976 ms
+I (24972) masko_http: job class=frame bytes=511787 queue=98ms total=532ms ttfb=45ms body=487ms body_Mbit_s=8.41 connects=0 retry=0 err=ESP_OK heap_int=112647 psram=4770596
+I (25457) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=13.5 frames=14 src_reads=14 src_wait=497ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (25465) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=511787/0 req_avg=536ms queue_avg=98ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=22927us push=27162us push_qwait=687ms max=200ms heap_int=103903 DMA_largest=63488 PSRAM=4770596
+I (25842) kylo_stream: touch requested jar-present
+I (25910) masko_http: job class=frame bytes=517809 queue=98ms total=833ms ttfb=43ms body=790ms body_Mbit_s=5.24 connects=0 retry=0 err=ESP_OK heap_int=112831 psram=4770596
+I (26484) masko_http: job class=frame bytes=513471 queue=95ms total=469ms ttfb=69ms body=399ms body_Mbit_s=10.27 connects=0 retry=0 err=ESP_OK heap_int=112831 psram=4770596
+I (26591) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=18.3 frames=20 src_reads=21 src_wait=356ms src_max=304ms stalls=1 queue_underrun=1 display_gap_max=1289ms gaps>100/500/1000ms=1/0/0
+I (26600) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=1031280/0 req_avg=655ms queue_avg=97ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=23643us push=27446us push_qwait=599ms max=200ms heap_int=111267 DMA_largest=63488 PSRAM=4770424
+I (27758) masko_http: opened remote pack: 97 frames, 2200463 bytes, max JPEG 24975
+I (27870) kylo_stream: prepared jar-gazing -> jar-present (transition) in 657 ms; reverse=0
+I (27871) kylo_stream: diag state=specimen-notes->jar-gazing cache=off 0/1735045B fps=12.9 frames=16 src_reads=15 src_wait=7ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1289ms gaps>100/500/1000ms=0/0/0
+I (27871) masko_player: switched clip: 97 frames, 24.0 fps
+I (27887) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=197013/0 req_avg=129ms queue_avg=51ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21221us push=26261us push_qwait=830ms max=200ms heap_int=112147 DMA_largest=63488 PSRAM=3721176
+I (27914) kylo_stream: clip started: jar-gazing -> jar-present
+I (27920) kylo_stream: first pixel: jar-gazing -> jar-present, preparation-to-display=704 ms, input-to-display=2075 ms
+I (28512) masko_http: job class=frame bytes=509141 queue=98ms total=566ms ttfb=28ms body=538ms body_Mbit_s=7.57 connects=0 retry=0 err=ESP_OK heap_int=112439 psram=4770548
+I (28973) kylo_stream: diag state=jar-gazing->jar-present cache=off 0/2199439B fps=12.3 frames=13 src_reads=14 src_wait=573ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=1289ms gaps>100/500/1000ms=2/2/0
+I (28988) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=509141/0 req_avg=570ms queue_avg=98ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=22544us push=27123us push_qwait=777ms max=200ms heap_int=109867 DMA_largest=63488 PSRAM=4770548
+I (29506) masko_http: job class=frame bytes=504301 queue=95ms total=890ms ttfb=45ms body=845ms body_Mbit_s=4.77 connects=0 retry=0 err=ESP_OK heap_int=112427 psram=4770548
+I (30097) kylo_stream: diag state=jar-gazing->jar-present cache=off 0/2199439B fps=12.0 frames=13 src_reads=13 src_wait=518ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (30105) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=504301/0 req_avg=894ms queue_avg=95ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/0/0 decoder=25345us push=27408us push_qwait=680ms max=200ms heap_int=112623 DMA_largest=63488 PSRAM=4770548
+I (30132) masko_http: job class=frame bytes=500434 queue=98ms total=521ms ttfb=61ms body=459ms body_Mbit_s=8.72 connects=0 retry=0 err=ESP_OK heap_int=111839 psram=4770548
+I (30691) masko_http: job class=frame bytes=523078 queue=97ms total=449ms ttfb=53ms body=395ms body_Mbit_s=10.57 connects=0 retry=0 err=ESP_OK heap_int=110459 psram=4770548
+I (31813) masko_http: opened remote pack: 97 frames, 2236277 bytes, max JPEG 23542
+I (32002) kylo_stream: prepared jar-present -> jar-present (loop) in 793 ms; reverse=0
+I (32002) kylo_stream: diag state=jar-gazing->jar-present cache=off 0/2199439B fps=12.4 frames=23 src_reads=23 src_wait=322ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1289ms gaps>100/500/1000ms=2/0/0
+I (32002) masko_player: switched clip: 97 frames, 24.0 fps
+I (32017) kylo_stream: diag_net req_frame/cache=4/0 bytes_frame/cache=1170821/0 req_avg=316ms queue_avg=93ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=25825us push=26936us push_qwait=1206ms max=200ms heap_int=111959 DMA_largest=63488 PSRAM=3721176
+I (32049) masko_http: full clip cache started: 2235253 bytes PSRAM, 97 frames
+I (32052) kylo_stream: clip started: jar-present -> jar-present
+I (32058) kylo_stream: first pixel: jar-present -> jar-present, preparation-to-display=840 ms, input-to-display=6206 ms
+I (32450) masko_http: job class=cache bytes=262144 queue=0ms total=404ms ttfb=31ms body=372ms body_Mbit_s=5.63 connects=0 retry=0 err=ESP_OK heap_int=108775 psram=2534144
+I (32593) kylo_stream: BOOT requested deep-study
+I (33190) masko_http: job class=frame bytes=507928 queue=478ms total=735ms ttfb=51ms body=683ms body_Mbit_s=5.94 connects=0 retry=0 err=ESP_OK heap_int=93091 psram=2495072
+I (33607) masko_http: job class=cache bytes=262144 queue=738ms total=412ms ttfb=30ms body=380ms body_Mbit_s=5.51 connects=0 retry=0 err=ESP_OK heap_int=88931 psram=2503244
+E (33901) spi_common: spicommon_dma_setup_priv_buffer(460): Failed to allocate priv TX buffer
+E (33901) lcd_panel.io.spi: panel_io_spi_tx_color(406): spi transmit (queue) color failed
+E (33906) co5300_spi: panel_co5300_draw_bitmap(313): send color data failed
+E (33913) masko_display: band at y=352 (384x8) failed: ESP_ERR_NO_MEM
+I (34191) masko_http: job class=frame bytes=523566 queue=414ms total=579ms ttfb=50ms body=529ms body_Mbit_s=7.91 connects=0 retry=0 err=ESP_OK heap_int=97075 psram=2502516
+I (34534) masko_http: job class=cache bytes=262144 queue=581ms total=338ms ttfb=69ms body=269ms body_Mbit_s=7.77 connects=0 retry=0 err=ESP_OK heap_int=89131 psram=2502212
+I (35154) masko_http: job class=frame bytes=506354 queue=339ms total=616ms ttfb=39ms body=576ms body_Mbit_s=7.03 connects=0 retry=0 err=ESP_OK heap_int=96287 psram=2503400
+I (35481) masko_http: opened remote pack: 97 frames, 2200463 bytes, max JPEG 24975
+I (35562) masko_http: job class=cache bytes=262144 queue=618ms total=403ms ttfb=56ms body=346ms body_Mbit_s=6.06 connects=0 retry=0 err=ESP_OK heap_int=108267 psram=1484724
+I (36258) masko_http: job class=frame bytes=508023 queue=403ms total=691ms ttfb=52ms body=638ms body_Mbit_s=6.36 connects=0 retry=0 err=ESP_OK heap_int=105123 psram=1484724
+I (36499) kylo_stream: prepared jar-present -> jar-gazing (transition) in 3905 ms; reverse=1
+I (36500) kylo_stream: diag state=jar-present->jar-present cache=fill 1048576/2235253B fps=16.4 frames=73 src_reads=77 src_wait=1491ms src_max=304ms stalls=3 queue_underrun=6 display_gap_max=1289ms gaps>100/500/1000ms=4/2/1
+I (36501) masko_player: switched clip: 97 frames, 24.0 fps
+I (36516) kylo_stream: diag_net req_frame/cache=5/4 bytes_frame/cache=2095934/1048576 req_avg=484ms queue_avg=483ms delayed>100/500ms=8/4 slow>250/1000/3000ms=8/0/0 decoder=26613us push=27759us push_qwait=2584ms max=200ms heap_int=107675 DMA_largest=63488 PSRAM=1484724
+E (36561) kylo_stream: player error
+I (37285) masko_http: job class=frame bytes=524155 queue=170ms total=700ms ttfb=49ms body=651ms body_Mbit_s=6.44 connects=0 retry=0 err=ESP_OK heap_int=108055 psram=1484724
+I (37639) masko_http: job class=cache bytes=262144 queue=1718ms total=349ms ttfb=46ms body=302ms body_Mbit_s=6.94 connects=0 retry=0 err=ESP_OK heap_int=99107 psram=1484724
+I (37647) kylo_stream: clip started: jar-present -> jar-gazing
+I (37649) kylo_stream: diag state=jar-present->jar-gazing cache=off 0/2199439B fps=9.2 frames=10 src_reads=11 src_wait=757ms src_max=304ms stalls=2 queue_underrun=3 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (37667) kylo_stream: diag_net req_frame/cache=2/1 bytes_frame/cache=665328/262144 req_avg=411ms queue_avg=677ms delayed>100/500ms=3/1 slow>250/1000/3000ms=2/0/0 decoder=24399us push=27799us push_qwait=873ms max=200ms heap_int=101703 DMA_largest=63488 PSRAM=4770376
+I (37731) kylo_stream: first pixel: jar-present -> jar-gazing, preparation-to-display=3955 ms, input-to-display=3955 ms
+I (38382) masko_http: job class=frame bytes=502536 queue=350ms total=739ms ttfb=44ms body=694ms body_Mbit_s=5.79 connects=0 retry=0 err=ESP_OK heap_int=111811 psram=4770548
+I (38766) kylo_stream: diag state=jar-present->jar-gazing cache=off 0/2199439B fps=11.6 frames=12 src_reads=14 src_wait=665ms src_max=304ms stalls=2 queue_underrun=3 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (38774) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=502536/0 req_avg=743ms queue_avg=350ms delayed>100/500ms=1/0 slow>250/1000/3000ms=1/0/0 decoder=23856us push=27355us push_qwait=796ms max=200ms heap_int=100503 DMA_largest=63488 PSRAM=4770548
+I (39131) masko_http: job class=frame bytes=511021 queue=95ms total=644ms ttfb=50ms body=593ms body_Mbit_s=6.88 connects=0 retry=0 err=ESP_OK heap_int=112203 psram=4770548
+I (39580) kylo_stream: 30s: 14.6 fps, shown=438, dropped=1, underrun=40, stream stalls=25, wait=10164 ms, HTTP bytes=18841530, requests=70, failures=0, cache hits=442, misses=51, peak request=2730 ms, decode=24536/29349 us avg/max, push=27428/31166 us avg/max, render ceiling=36.5 fps, heap internal=103099 (low 6032) DMA_largest=63488 PSRAM=4770548 (low 1483856)
+I (39748) masko_http: job class=frame bytes=508544 queue=97ms total=513ms ttfb=80ms body=432ms body_Mbit_s=9.40 connects=0 retry=0 err=ESP_OK heap_int=111627 psram=4770548
+I (39867) kylo_stream: diag state=jar-present->jar-gazing cache=off 0/2199439B fps=14.5 frames=15 src_reads=17 src_wait=491ms src_max=304ms stalls=1 queue_underrun=1 display_gap_max=1289ms gaps>100/500/1000ms=2/0/0
+I (39875) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=1019565/0 req_avg=583ms queue_avg=96ms delayed>100/500ms=0/0 slow>250/1000/3000ms=2/0/0 decoder=26713us push=27411us push_qwait=668ms max=200ms heap_int=101739 DMA_largest=63488 PSRAM=4770376
+I (40951) masko_http: opened remote pack: 97 frames, 1922795 bytes, max JPEG 20715
+I (41128) kylo_stream: prepared jar-gazing -> deep-study (transition) in 783 ms; reverse=0
+I (41128) masko_player: switched clip: 97 frames, 24.0 fps
+I (41128) kylo_stream: diag state=jar-present->jar-gazing cache=off 0/2199439B fps=10.6 frames=13 src_reads=11 src_wait=6ms src_max=304ms stalls=0 queue_underrun=0 display_gap_max=1289ms gaps>100/500/1000ms=0/0/0
+I (41149) kylo_stream: diag_net req_frame/cache=2/0 bytes_frame/cache=159625/0 req_avg=126ms queue_avg=81ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=21855us push=26359us push_qwait=782ms max=200ms heap_int=111507 DMA_largest=63488 PSRAM=3721176
+I (41171) kylo_stream: clip started: jar-gazing -> deep-study
+I (41177) kylo_stream: first pixel: jar-gazing -> deep-study, preparation-to-display=811 ms, input-to-display=8562 ms
+I (42219) kylo_stream: diag state=jar-gazing->deep-study cache=off 0/1921771B fps=1.9 frames=2 src_reads=4 src_wait=915ms src_max=304ms stalls=3 queue_underrun=5 display_gap_max=1289ms gaps>100/500/1000ms=1/1/0
+I (42226) kylo_stream: diag_net req_frame/cache=0/0 bytes_frame/cache=0/0 req_avg=0ms queue_avg=0ms delayed>100/500ms=0/0 slow>250/1000/3000ms=0/0/0 decoder=11723us push=25327us push_qwait=1198ms max=200ms heap_int=106447 DMA_largest=63488 PSRAM=4770596
+I (42597) masko_http: job class=frame bytes=517708 queue=99ms total=1393ms ttfb=29ms body=1363ms body_Mbit_s=3.04 connects=0 retry=0 err=ESP_OK heap_int=106263 psram=4770596
+I (43263) kylo_stream: diag state=jar-gazing->deep-study cache=off 0/1921771B fps=13.8 frames=14 src_reads=15 src_wait=483ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=1431ms gaps>100/500/1000ms=1/1/1
+I (43273) kylo_stream: diag_net req_frame/cache=1/0 bytes_frame/cache=517708/0 req_avg=1397ms queue_avg=99ms delayed>100/500ms=0/0 slow>250/1000/3000ms=1/1/0 decoder=23743us push=27178us push_qwait=577ms max=200ms heap_int=109791 DMA_largest=63488 PSRAM=4770596
+I (43540) masko_http: job class=frame bytes=521301 queue=98ms total=839ms ttfb=60ms body=778ms body_Mbit_s=5.35 connects=0 retry=0 err=ESP_OK heap_int=111979 psram=4770596
+I (44307) kylo_stream: diag state=jar-gazing->deep-study cache=off 0/1921771B fps=12.8 frames=13 src_reads=14 src_wait=388ms src_max=304ms stalls=1 queue_underrun=2 display_gap_max=1431ms gaps>100/500/1000ms=1/0/0
